@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danh mục pháp luật</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#EEF1F2; --surface:#FFFFFF; --surface-2:#F7F9F9;
+  --ink:#111A1F; --ink-2:#3D4E58; --muted:#66787F;
+  --rule:#D8E0E3; --rule-soft:#E6ECEE;
+  --accent:#125E6E; --accent-soft:#DCEBEE; --accent-ink:#0C4653;
+  --sev4:#5F7480; --sev4-bg:#E7ECEF;
+  --sev5:#9A6208; --sev5-bg:#F6ECD9;
+  --sev6:#9B2C1B; --sev6-bg:#F7E1DD;
+  --ok:#1B6B4A; --ok-bg:#DCEFE5; --loi:#9B2C1B; --loi-bg:#F7E1DD;
+  --shadow:0 1px 2px rgba(17,26,31,.05),0 8px 24px -18px rgba(17,26,31,.35);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1417; --surface:#171E22; --surface-2:#1C2429;
+    --ink:#E7EDEF; --ink-2:#B9C7CD; --muted:#8D9DA5;
+    --rule:#2A353B; --rule-soft:#222C31;
+    --accent:#5FB3C7; --accent-soft:#14343C; --accent-ink:#9FD4E0;
+    --sev4:#9FB1B9; --sev4-bg:#242E33;
+    --sev5:#E0A63F; --sev5-bg:#33280F;
+    --sev6:#E8705B; --sev6-bg:#3A1E18;
+    --ok:#6FCFA3; --ok-bg:#12301F; --loi:#E8705B; --loi-bg:#3A1E18;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1417; --surface:#171E22; --surface-2:#1C2429;
+  --ink:#E7EDEF; --ink-2:#B9C7CD; --muted:#8D9DA5;
+  --rule:#2A353B; --rule-soft:#222C31;
+  --accent:#5FB3C7; --accent-soft:#14343C; --accent-ink:#9FD4E0;
+  --sev4:#9FB1B9; --sev4-bg:#242E33;
+  --sev5:#E0A63F; --sev5-bg:#33280F;
+  --sev6:#E8705B; --sev6-bg:#3A1E18;
+  --ok:#6FCFA3; --ok-bg:#12301F; --loi:#E8705B; --loi-bg:#3A1E18;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -18px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+html,body{margin:0; height:100%}
+/* Bố cục toàn màn hình: TRANG không cuộn, chỉ hộp bảng cuộn. Nếu để cả trang
+   lẫn hộp bảng cùng cuộn thì thanh lọc sticky và thead sticky nằm ở hai vùng
+   cuộn khác nhau, cuộn trang là header bảng chui xuống dưới thanh lọc. */
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  display:flex; flex-direction:column; height:100vh; overflow:hidden;
+}
+.wrap{flex:1; min-height:0; width:100%; max-width:1400px; margin:0 auto;
+  padding:0 20px 14px; display:flex; flex-direction:column}
+#khung{flex:1; min-height:0; display:flex; flex-direction:column}
+
+header{flex:none; border-bottom:1px solid var(--rule); background:var(--surface)}
+.head-in{max-width:1400px; margin:0 auto; padding:26px 20px 22px;
+  display:flex; flex-wrap:wrap; gap:18px; align-items:flex-end}
+.head-txt{flex:1 1 420px}
+.eyebrow{margin:0; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); font-weight:600}
+h1{font-family:Bitter,Georgia,serif; font-weight:600; font-size:clamp(24px,3.4vw,33px);
+  line-height:1.15; margin:4px 0 6px; letter-spacing:-.01em}
+.sub{margin:0; color:var(--ink-2); font-size:14.5px; max-width:66ch}
+.trangthai{display:flex; align-items:center; gap:8px; padding:8px 13px;
+  border:1px solid var(--rule); border-radius:3px; background:var(--surface-2);
+  font-size:12.5px; font-family:"IBM Plex Mono",ui-monospace,monospace}
+.cham{width:8px; height:8px; border-radius:50%; background:var(--muted); flex:none}
+.trangthai.on .cham{background:var(--ok)} .trangthai.off .cham{background:var(--loi)}
+
+.controls{flex:none; background:var(--ground);
+  border-bottom:1px solid var(--rule); padding:12px 0}
+.controls-in{max-width:1400px; margin:0 auto; padding:0 20px;
+  display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+label.nho{font-size:11px; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--muted); font-weight:600; margin-right:2px}
+input[type="search"],input[type="text"]{flex:1 1 240px; min-width:0; padding:9px 12px;
+  font:inherit; font-size:14px; color:var(--ink); background:var(--surface);
+  border:1px solid var(--rule); border-radius:3px}
+input::placeholder{color:var(--muted)}
+select{padding:9px 10px; font:inherit; font-size:13.5px; color:var(--ink);
+  background:var(--surface); border:1px solid var(--rule); border-radius:3px;
+  max-width:270px}
+.seg{display:flex; border:1px solid var(--rule); border-radius:3px; overflow:hidden;
+  background:var(--surface)}
+.seg button{appearance:none; border:0; border-right:1px solid var(--rule);
+  background:transparent; font:inherit; font-size:13px; font-weight:500;
+  color:var(--ink-2); padding:9px 13px; cursor:pointer; display:flex; gap:7px;
+  align-items:center; white-space:nowrap}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--surface-2)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft); color:var(--accent-ink);
+  font-weight:600}
+.seg .n{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px;
+  font-variant-numeric:tabular-nums; opacity:.75}
+button.phu{appearance:none; font:inherit; font-size:13px; padding:9px 13px;
+  border:1px solid var(--rule); border-radius:3px; background:var(--surface);
+  color:var(--ink-2); cursor:pointer}
+button.phu:hover{background:var(--surface-2)}
+:where(button,input,select,a,tr):focus-visible{outline:2px solid var(--accent);
+  outline-offset:2px}
+.dem{margin-left:auto; font-size:13px; color:var(--muted);
+  font-variant-numeric:tabular-nums; white-space:nowrap}
+.dem b{color:var(--ink); font-weight:600}
+
+/* Hộp bảng là scroll container CỦA RIÊNG NÓ (cuộn cả ngang lẫn dọc), nên
+   thead ghim ở top:0 của hộp. Nếu chỉ để overflow-x:auto thì sticky vẫn tính
+   theo hộp này chứ không theo trang -> header bị đẩy xuống, đè lên các dòng. */
+.bang-boc{flex:1; min-height:0; margin-top:18px; background:var(--surface);
+  border:1px solid var(--rule); border-radius:4px; box-shadow:var(--shadow);
+  overflow:auto; scrollbar-gutter:stable}
+table{border-collapse:separate; border-spacing:0; width:100%; font-size:14px}
+thead th{position:sticky; top:0; z-index:10; background:var(--surface-2);
+  text-align:left; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); font-weight:600; padding:10px 12px;
+  box-shadow:inset 0 -1px 0 var(--rule); white-space:nowrap}
+tbody td{padding:10px 12px; border-bottom:1px solid var(--rule-soft);
+  vertical-align:top}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr.mo{background:var(--accent-soft)}
+td.stt,td.ma{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12.5px;
+  font-variant-numeric:tabular-nums; white-space:nowrap}
+td.ten{font-weight:500; min-width:220px}
+td.mo-ta{color:var(--muted); font-size:13px; min-width:280px}
+td.nho2{font-size:12.5px; color:var(--ink-2); min-width:130px}
+.chip{display:inline-block; font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px; font-weight:600; padding:1px 6px; border-radius:2px;
+  white-space:nowrap}
+.c4{color:var(--sev4); background:var(--sev4-bg)}
+.c5{color:var(--sev5); background:var(--sev5-bg)}
+.c6{color:var(--sev6); background:var(--sev6-bg)}
+.cdm{color:var(--accent-ink); background:var(--accent-soft)}
+td.vb{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px;
+  white-space:nowrap}
+/* Bấm vào tên văn bản là mở nguồn, KHÔNG mở ô chi tiết của hàng
+   (onclick trong ô đã stopPropagation) */
+a.vb-link{color:var(--accent-ink); text-decoration:none;
+  border-bottom:1px dotted currentColor}
+a.vb-link:hover{background:var(--accent-soft); border-bottom-style:solid}
+.cloai{color:#475569; background:#f1f5f9}
+mark{background:var(--sev5-bg); color:var(--sev5); border-radius:2px; padding:0 1px}
+tr.chitiet td{background:var(--surface-2); border-bottom:1px solid var(--rule)}
+.kv{display:grid; grid-template-columns:auto 1fr; gap:4px 14px; font-size:13px;
+  max-width:900px}
+.kv dt{font-weight:600; color:var(--ink-2); white-space:nowrap}
+.kv dd{margin:0; color:var(--ink)}
+.kv dd.mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12.5px}
+.trong{flex:1; display:grid; place-content:center; padding:52px 20px;
+  text-align:center; color:var(--muted)}
+.loi{margin-top:22px; padding:18px 20px; border:1px solid var(--loi);
+  border-left-width:3px; border-radius:4px; background:var(--loi-bg); color:var(--ink)}
+.loi code{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12.5px;
+  display:block; margin-top:8px; padding:9px 11px; background:var(--surface);
+  border:1px solid var(--rule); border-radius:3px; overflow-x:auto}
+.them{flex:none; display:flex; justify-content:center; padding:12px 0 2px}
+footer{flex:none; margin-top:10px; font-size:12px; color:var(--muted);
+  max-width:110ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+@media (max-width:760px){
+  .dem{margin-left:0; width:100%}
+  /* màn hẹp: trả về cuộn trang bình thường cho đỡ bí bách */
+  body{height:auto; min-height:100vh; overflow:auto}
+  .wrap{flex:none}
+  #khung{flex:none}
+  .bang-boc{flex:none; max-height:70vh}
+  footer{white-space:normal}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-in">
+    <div class="head-txt">
+      <p class="eyebrow">Bảng <code>danh_muc</code> · DB questions</p>
+      <h1>Danh mục pháp luật</h1>
+      <p class="sub">Đọc trực tiếp từ PostgreSQL. Lọc theo mã danh mục, văn bản
+        ban hành và phần mục; tìm được cả tiếng Việt không dấu và mã CAS.</p>
+    </div>
+    <div class="trangthai" id="trangthai"><span class="cham"></span>
+      <span id="trangthai-txt">đang kết nối…</span></div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="controls-in">
+    <label class="nho" for="q">Tìm</label>
+    <input type="search" id="q" autocomplete="off"
+           placeholder="tên nghề, tên chất, mã CAS… (gõ không dấu cũng được)">
+    <div class="seg" id="seg-dm" role="group" aria-label="Lọc theo mã danh mục"></div>
+    <select id="vb" aria-label="Lọc theo văn bản"></select>
+    <select id="pm" aria-label="Lọc theo phần mục"></select>
+    <button class="phu" id="xoa-loc" type="button">Bỏ lọc</button>
+    <p class="dem" id="dem"></p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="khung"></div>
+  <footer id="chan"></footer>
+</div>
+
+<script>
+const API = '/api/danh-muc';
+const $ = s => document.querySelector(s);
+const el = (t, c) => { const e = document.createElement(t); if (c) e.className = c; return e; };
+const esc = s => String(s ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const fold = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+const so = n => n.toLocaleString('vi-VN');
+
+const BUOC = 200;                 // số dòng vẽ mỗi lần, tránh dựng 3.268 hàng cùng lúc
+let boLoc = null, duLieu = [], locHienThi = [], daVe = 0, dangMo = null;
+let maDM = '', soHieu = '', phanMuc = '', tuKhoa = '';
+
+// ---------------------------------------------------------------- gọi API
+async function goi(duong) {
+  const r = await fetch(duong);
+  const j = await r.json().catch(() => null);
+  if (!r.ok) throw new Error(j?.detail || `HTTP ${r.status}`);
+  return j;
+}
+
+function bao(ok, txt) {
+  const t = $('#trangthai');
+  t.className = 'trangthai ' + (ok ? 'on' : 'off');
+  $('#trangthai-txt').textContent = txt;
+}
+
+function loi(e) {
+  $('#khung').innerHTML =
+    `<div class="loi"><b>Không đọc được bảng <code>danh_muc</code></b><br>${esc(e.message)}
+     <code>venv\\Scripts\\python.exe nap_danh_muc_postgres.py --load --schema-file schema_danh_muc.sql</code></div>`;
+  bao(false, 'lỗi');
+}
+
+// ------------------------------------------------------------- bộ lọc UI
+function dungSegDanhMuc() {
+  const seg = $('#seg-dm');
+  seg.innerHTML = '';
+  const muc = [{ ma: '', ten: 'Tất cả', n: boLoc.tong }, ...boLoc.danh_muc.map(
+    d => ({ ma: d.ma, ten: d.ma, n: d.n }))];
+  for (const m of muc) {
+    const b = el('button');
+    b.type = 'button';
+    b.dataset.ma = m.ma;
+    b.setAttribute('aria-pressed', String(m.ma === maDM));
+    b.innerHTML = `${esc(m.ten)} <span class="n">${so(m.n)}</span>`;
+    b.title = boLoc.danh_muc.find(d => d.ma === m.ma)?.ten || 'Toàn bộ danh mục';
+    b.onclick = () => { maDM = m.ma; soHieu = ''; phanMuc = ''; dungSelect(); nap(); };
+    seg.append(b);
+  }
+}
+
+function dungSelect() {
+  const vb = $('#vb'), pm = $('#pm');
+  const locTheoDM = x => !maDM || x.ma_danh_muc === maDM;
+
+  vb.innerHTML = '';
+  vb.append(new Option('Mọi văn bản', ''));
+  for (const v of boLoc.van_ban.filter(locTheoDM))
+    vb.append(new Option(`${v.so_hieu} (${so(v.n)})`, v.so_hieu));
+  vb.value = soHieu;
+
+  pm.innerHTML = '';
+  pm.append(new Option('Mọi phần mục', ''));
+  for (const p of boLoc.phan_muc.filter(locTheoDM)) {
+    const nhan = p.phan_muc.length > 46 ? p.phan_muc.slice(0, 46) + '…' : p.phan_muc;
+    pm.append(new Option(`${nhan} (${so(p.n)})`, p.phan_muc));
+  }
+  pm.value = phanMuc;
+
+  for (const b of $('#seg-dm').children)
+    b.setAttribute('aria-pressed', String(b.dataset.ma === maDM));
+}
+
+// --------------------------------------------------------------- nạp dữ liệu
+async function nap() {
+  const p = new URLSearchParams();
+  if (maDM) p.set('ma_danh_muc', maDM);
+  if (soHieu) p.set('so_hieu', soHieu);
+  if (phanMuc) p.set('phan_muc', phanMuc);
+  $('#khung').innerHTML = '<p class="trong">Đang đọc từ PostgreSQL…</p>';
+  try {
+    duLieu = await goi(`${API}?${p}`);
+    duLieu.forEach(r => {
+      r._tim = fold([r.ten, r.ten_khac, r.mo_ta, r.ma_cas, r.cong_thuc_hoa_hoc,
+                     (r.duong_dan || []).join(' ')].join(' '));
+    });
+    bao(true, `DB questions · ${so(duLieu.length)} / ${so(boLoc.tong)} mục`);
+    ve();
+  } catch (e) { loi(e); }
+}
+
+// ------------------------------------------------------------------- bảng
+// Nhãn cột do BẢNG danh_muc khai báo, vì cùng một cột mang nghĩa khác nhau tùy
+// danh mục: `nhom` với nghề là "Điều kiện lao động", với hóa chất là "Nhóm".
+// Khi chọn "Tất cả" thì không có nhãn riêng nào đúng, dùng nhãn trung tính.
+// Nhãn TỪNG TẦNG của duong_dan nằm ở bảng danh_muc: nhan_cap[i] ứng với
+// duong_dan[i]. Nghề 2 tầng {Lĩnh vực, Điều kiện lao động}, hóa chất 4 tầng
+// {Phụ lục, Mục, Nhóm, Nhóm con}. Chọn "Tất cả" thì không nhãn nào đúng cho cả
+// hai, dùng nhãn trung tính.
+const NHAN_CHUNG = { ten: 'Tên', ten_khac: 'Tên khác', ma_cas: 'Mã CAS' };
+// hai cột chỉ hóa chất có; nhãn cố định vì lấy nguyên tiêu đề cột văn bản
+const NHAN_HOA_CHAT = { cong_thuc_hoa_hoc: 'Công thức hóa học',
+                        nguong_khoi_luong_kg: 'Ngưỡng khối lượng (kg)' };
+
+function dmHienTai() {
+  return maDM ? boLoc.danh_muc.find(d => d.ma === maDM) : null;
+}
+function nhan(khoa) {
+  return dmHienTai()?.nhan?.[khoa] || NHAN_CHUNG[khoa];
+}
+function nhanCap(i) {          // i tính từ 0
+  return dmHienTai()?.nhan_cap?.[i] || `Cấp ${i + 1}`;
+}
+function soCapToiDa(rows) {
+  return rows.reduce((m, r) => Math.max(m, (r.duong_dan || []).length), 0);
+}
+
+function cotHienThi(rows) {
+  const co = k => rows.some(r => String(r[k] ?? '').trim() !== '');
+  const c = [];
+  if (!maDM) c.push(['ma_danh_muc', 'Danh mục']);
+  c.push(['stt', 'STT']);
+  // Nhãn cột `ten` có thể khác nhau GIỮA CÁC DÒNG (Bảng B của Phụ lục IV là
+  // 'Nhóm hóa chất', không phải 'Tên chất'). Nếu tập kết quả chỉ có một nhãn
+  // thì dùng luôn nhãn đó; lẫn nhiều nhãn thì để nhãn của danh mục, còn nhãn
+  // đúng của từng dòng nằm ở ô chi tiết.
+  const nhanRieng = [...new Set(rows.map(r => r.nhan_ten).filter(Boolean))];
+  c.push(['ten', nhanRieng.length === 1 ? nhanRieng[0] : nhan('ten')]);
+  if (co('ten_khac')) c.push(['ten_khac', nhan('ten_khac')]);
+  if (co('ma_cas')) c.push(['ma_cas', nhan('ma_cas')]);
+  for (const k in NHAN_HOA_CHAT) if (co(k)) c.push([k, NHAN_HOA_CHAT[k]]);
+  // Văn bản ban hành mục này. Đứng ngay trước các cột cấp vì cùng họ "mục này
+  // nằm ở đâu": Văn bản > Phụ lục > Mục > Nhóm > Nhóm con.
+  if (co('van_ban')) c.push(['van_ban', 'Văn bản']);
+  if (maDM) {
+    // mỗi tầng một cột, chỉ khi có danh mục cụ thể để biết nhãn
+    for (let i = 0; i < soCapToiDa(rows); i++) c.push(['cap' + i, nhanCap(i)]);
+  } else {
+    c.push(['duong_dan', 'Vị trí trong văn bản']);
+  }
+  if (co('mo_ta')) c.push(['mo_ta', nhan('mo_ta') || 'Mô tả']);
+  // chỉ thêm cột "Loại dòng" khi có dòng KHÔNG phải mục thật, khỏi thêm một
+  // cột toàn chữ 'mục' cho 1.892 nghề
+  if (rows.some(r => r.loai_muc && r.loai_muc !== 'muc'))
+    c.push(['loai_muc', 'Loại dòng']);
+  return c;
+}
+
+// Tên văn bản -> liên kết mở nguồn chính thức. `link` lấy từ bảng `van_ban`
+// qua khóa ngoại van_ban_id, nên chỉ mở được văn bản nào bảng đó có link.
+// Không có link thì hiện chữ trần, đừng dựng thẻ <a> rỗng.
+function lienKetVanBan(r) {
+  const ten = esc(r.van_ban || '');
+  if (!ten) return '';
+  if (!r.link) return ten;
+  // title = tên đầy đủ trong bảng van_ban, để hover thấy được đủ tên
+  return `<a class="vb-link" href="${esc(r.link)}" target="_blank"`
+    + ` rel="noopener" title="${esc(r.ten_van_ban || r.van_ban)} — mở nguồn"`
+    + ` onclick="event.stopPropagation()">${ten}</a>`;
+}
+
+// Loại dòng — bản gốc trộn mục thật với dòng nhóm / ghi chú / nối tiếp
+const TEN_LOAI = { muc: 'mục', nhom: 'nhóm', ghi_chu: 'ghi chú',
+                   tiep_noi: 'nối tiếp dòng trên' };
+function chipLoai(v) {
+  if (!v || v === 'muc') return '';
+  return `<span class="chip cloai">${esc(TEN_LOAI[v] || v)}</span>`;
+}
+
+function chipNhom(v) {
+  const m = /^Loại (IV|V|VI)$/.exec(v || '');
+  if (!m) return esc(v || '');
+  return `<span class="chip c${{ IV: 4, V: 5, VI: 6 }[m[1]]}">${m[0]}</span>`;
+}
+
+function toDam(text, needle) {
+  const s = esc(text ?? '');
+  if (!needle) return s;
+  const f = fold(text), vt = [];
+  let i = f.indexOf(needle);
+  while (i !== -1) { vt.push([i, i + needle.length]); i = f.indexOf(needle, i + needle.length); }
+  if (!vt.length) return s;
+  let out = '', last = 0;
+  for (const [a, b] of vt) {
+    out += esc(String(text).slice(last, a)) + '<mark>' + esc(String(text).slice(a, b)) + '</mark>';
+    last = b;
+  }
+  return out + esc(String(text).slice(last));
+}
+
+function o(r, khoa) {
+  if (khoa === 'duong_dan')
+    return `<td class="nho2">${toDam((r.duong_dan || []).join(' › '), tuKhoa)}</td>`;
+  if (khoa.startsWith('cap'))
+    return `<td class="nho2">${chipNhom((r.duong_dan || [])[+khoa.slice(3)] || '')}</td>`;
+  if (khoa === 'ma_cas') return `<td class="ma">${toDam(r.ma_cas, tuKhoa)}</td>`;
+  if (khoa in NHAN_HOA_CHAT) return `<td class="ma">${esc(r[khoa])}</td>`;
+  if (khoa === 'stt') return `<td class="stt">${esc(r.stt)}</td>`;
+  if (khoa === 'ten') return `<td class="ten">${toDam(r.ten, tuKhoa)}</td>`;
+  if (khoa === 'ten_khac') return `<td class="nho2">${toDam(r.ten_khac, tuKhoa)}</td>`;
+  if (khoa === 'mo_ta') return `<td class="mo-ta">${toDam(r.mo_ta, tuKhoa)}</td>`;
+  if (khoa === 'van_ban') return `<td class="vb">${lienKetVanBan(r)}</td>`;
+  if (khoa === 'loai_muc') return `<td class="nho2">${chipLoai(r.loai_muc)}</td>`;
+  if (khoa === 'ma_danh_muc') return `<td class="nho2"><span class="chip cdm">${esc(r.ma_danh_muc)}</span></td>`;
+  return `<td class="nho2">${esc(r[khoa])}</td>`;
+}
+
+function ve() {
+  tuKhoa = fold($('#q').value.trim());
+  locHienThi = tuKhoa ? duLieu.filter(r => r._tim.includes(tuKhoa)) : duLieu;
+  daVe = 0; dangMo = null;
+
+  $('#dem').innerHTML = `<b>${so(locHienThi.length)}</b> / ${so(boLoc.tong)} mục`;
+  const k = $('#khung');
+  k.innerHTML = '';
+  if (!locHienThi.length) {
+    k.innerHTML = '<p class="trong">Không có mục nào khớp bộ lọc.</p>';
+    return;
+  }
+  const cot = cotHienThi(locHienThi);
+  const boc = el('div', 'bang-boc');
+  const tb = el('table');
+  tb.innerHTML = '<thead><tr>' + cot.map(c => `<th>${c[1]}</th>`).join('') +
+    '</tr></thead><tbody></tbody>';
+  boc.append(tb);
+  k.append(boc);
+  const nut = el('div', 'them');
+  k.append(nut);
+  veThem(tb.tBodies[0], cot, nut);
+}
+
+function veThem(tbody, cot, nut) {
+  const phan = locHienThi.slice(daVe, daVe + BUOC);
+  tbody.insertAdjacentHTML('beforeend', phan.map((r, i) =>
+    `<tr data-i="${daVe + i}" tabindex="0">${cot.map(c => o(r, c[0])).join('')}</tr>`
+  ).join(''));
+  daVe += phan.length;
+
+  nut.innerHTML = '';
+  if (daVe < locHienThi.length) {
+    const b = el('button', 'phu');
+    b.type = 'button';
+    b.textContent = `Xem thêm ${so(Math.min(BUOC, locHienThi.length - daVe))} mục `
+      + `(còn ${so(locHienThi.length - daVe)})`;
+    b.onclick = () => veThem(tbody, cot, nut);
+    nut.append(b);
+  }
+}
+
+// bấm vào hàng -> xem đầy đủ bản ghi, mọi cột kể cả cột đang bị ẩn
+document.addEventListener('click', ev => {
+  const tr = ev.target.closest('tbody tr[data-i]');
+  if (!tr) return;
+  moChiTiet(tr);
+});
+document.addEventListener('keydown', ev => {
+  if (ev.key !== 'Enter') return;
+  const tr = ev.target.closest?.('tbody tr[data-i]');
+  if (tr) { ev.preventDefault(); moChiTiet(tr); }
+});
+
+function moChiTiet(tr) {
+  const cu = tr.parentElement.querySelector('tr.chitiet');
+  const dangLa = cu && cu.previousElementSibling === tr;
+  if (cu) { cu.previousElementSibling.classList.remove('mo'); cu.remove(); }
+  if (dangLa) return;
+
+  const r = locHienThi[+tr.dataset.i];
+  const dm = boLoc.danh_muc.find(d => d.ma === r.ma_danh_muc);
+  const nh = k => dm?.nhan?.[k] || NHAN_CHUNG[k];
+  const muc = [
+    ['muc_id', r.muc_id, true], ['Danh mục', r.ten_danh_muc],
+    ['Văn bản', r.ten_van_ban || r.van_ban],
+    ['Nguồn', r.link, false, 'link'],
+    // từng tầng của đường dẫn, kèm đúng nhãn của tầng đó
+    ...(r.duong_dan || []).map((v, i) => [dm?.nhan_cap?.[i] || `Cấp ${i + 1}`, v]),
+    ['Loại dòng', r.loai_muc && r.loai_muc !== 'muc'
+                  ? TEN_LOAI[r.loai_muc] || r.loai_muc : ''],
+    ['STT', r.stt, true],
+    // nhãn của CHÍNH DÒNG NÀY, do API tính theo loai_muc
+    [r.nhan_ten || nh('ten'), r.ten], [nh('ten_khac'), r.ten_khac],
+    [nh('ma_cas'), r.ma_cas, true],
+    ...Object.entries(NHAN_HOA_CHAT).map(([k, l]) => [l, r[k], true]),
+    [nh('mo_ta') || 'Mô tả', r.mo_ta],
+  ].filter(m => m[0] && m[1] !== null && m[1] !== undefined
+                && String(m[1]).trim() !== '');
+
+  const td = el('tr', 'chitiet');
+  td.innerHTML = `<td colspan="${tr.children.length}"><dl class="kv">` +
+    muc.map(m => {
+      // m[3]==='link' -> mở nguồn nguyên văn (lấy từ bảng van_ban qua van_ban_id)
+      const gt = m[3] === 'link'
+        ? `<a href="${esc(m[1])}" target="_blank" rel="noopener">${esc(m[1])}</a>`
+        : esc(m[1]);
+      return `<dt>${esc(m[0])}</dt><dd${m[2] ? ' class="mono"' : ''}>${gt}</dd>`;
+    }).join('') + '</dl></td>';
+  tr.classList.add('mo');
+  tr.after(td);
+}
+
+// ------------------------------------------------------------------ khởi động
+let hen;
+$('#q').addEventListener('input', () => { clearTimeout(hen); hen = setTimeout(ve, 130); });
+$('#vb').addEventListener('change', e => { soHieu = e.target.value; nap(); });
+$('#pm').addEventListener('change', e => { phanMuc = e.target.value; nap(); });
+$('#xoa-loc').addEventListener('click', () => {
+  maDM = soHieu = phanMuc = ''; $('#q').value = ''; dungSelect(); nap();
+});
+
+(async function () {
+  try {
+    boLoc = await goi(API + '/bo-loc');
+    dungSegDanhMuc();
+    dungSelect();
+    $('#chan').innerHTML =
+      `Nguồn: bảng <code>danh_muc</code> trong DB <code>questions</code> — ` +
+      boLoc.danh_muc.map(d => `<b>${esc(d.ma)}</b> ${so(d.n)} dòng`
+        + (d.n_muc && d.n_muc !== d.n
+           ? ` (${so(d.n_muc)} mục thật + ${so(d.n - d.n_muc)} dòng nhóm/ghi chú)`
+           : '') + ` — ${esc(d.ten)}`)
+        .join(' · ') + `. Bấm vào một hàng để xem đầy đủ bản ghi, kể cả ` +
+      `những cột đang bị ẩn vì danh mục đang xem không dùng.`;
+    await nap();
+  } catch (e) { loi(e); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1604 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hỏi đáp chính sách — trình xem &amp; căn cứ pháp lý</title>
+<style>
+:root{
+  --bg:#f5f6f8; --panel:#ffffff; --panel-2:#fafbfc; --ink:#1b2230; --muted:#6b7280;
+  --line:#e4e7ec; --brand:#1d4ed8; --brand-weak:#eaf0ff; --brand-ink:#1e40af;
+  --ok:#0f766e; --ok-weak:#e6f5f2; --accent:#7c3aed; --accent-weak:#f1eaff;
+  --chip:#eef1f5; --mark:#fff3bf; --shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.05);
+  --radius:12px;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0e1116; --panel:#161a20; --panel-2:#1b2027; --ink:#e6e9ef; --muted:#98a2b3;
+  --line:#282e37; --brand:#6ea8fe; --brand-weak:#16243f; --brand-ink:#9bc0ff;
+  --ok:#5eead4; --ok-weak:#0f2e2b; --accent:#c4a7fb; --accent-weak:#241a3a;
+  --chip:#20262e; --mark:#4d4223; --shadow:none;
+}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;min-height:0;
+  font:15px/1.55 system-ui,"Segoe UI",Roboto,Arial,"Noto Sans",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--brand)}
+button{font-family:inherit}
+
+/* ---------- Header ---------- */
+header{position:sticky;top:0;z-index:30;background:var(--panel);border-bottom:1px solid var(--line);
+  padding:11px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:2px;min-width:0}
+.brand h1{margin:0;font-size:16.5px;font-weight:700;letter-spacing:.1px}
+.brand .sub{color:var(--muted);font-size:12px}
+.hstats{display:flex;gap:14px;margin-left:auto;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;line-height:1.15}
+.stat b{font-size:16px}
+.stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.btn{padding:8px 14px;border:1px solid var(--line);border-radius:9px;background:var(--panel);
+  color:var(--ink);cursor:pointer;font-size:13.5px;font-weight:600;transition:.12s}
+.btn:hover{border-color:var(--brand);color:var(--brand)}
+.btn.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+.btn.primary:hover{filter:brightness(1.06);color:#fff}
+
+/* ---------- Layout ---------- */
+.app{flex:1;min-height:0;overflow:hidden}
+.main{display:grid;grid-template-columns:minmax(320px,40%) 1fr;min-width:0;height:100%;overflow:hidden}
+.listwrap{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0;min-height:0}
+.toolbar{padding:11px 14px;border-bottom:1px solid var(--line);display:flex;gap:9px;align-items:center;background:var(--panel)}
+.search{flex:1;display:flex;align-items:center;gap:8px;background:var(--panel-2);border:1px solid var(--line);
+  border-radius:9px;padding:7px 11px}
+.search input{border:0;background:transparent;color:var(--ink);font-size:13.8px;width:100%;outline:none}
+.search svg{flex:0 0 auto;opacity:.55}
+.sortsel{border:1px solid var(--line);background:var(--panel-2);color:var(--ink);border-radius:9px;padding:7px 8px;font-size:13px;max-width:200px}
+#fieldSel{max-width:230px;flex:0 1 auto}
+
+.list{overflow:auto;flex:1;min-height:0;padding:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-bottom:8px;
+  cursor:pointer;box-shadow:var(--shadow);transition:.1s;display:flex;gap:10px;align-items:flex-start}
+.card:hover{border-color:var(--brand)}
+.card .idcol{flex:0 0 auto;align-self:flex-start;min-width:38px;text-align:center;margin-top:1px;
+  font:600 12px/1.5 ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;
+  color:var(--brand-ink);background:var(--brand-weak);border:1px solid var(--line);border-radius:7px;padding:2px 6px;cursor:copy}
+.card .idcol:hover{border-color:var(--brand)}
+.card .cbody{flex:1;min-width:0}
+.del-btn{flex:0 0 auto;align-self:flex-start;border:1px solid var(--line);background:var(--panel);color:var(--muted);
+  border-radius:7px;padding:3px 8px;font-size:14px;line-height:1;cursor:pointer;transition:.12s}
+.del-btn:hover{border-color:#dc2626;color:#dc2626;background:#fef2f2}
+.del-btn:disabled{opacity:.35;cursor:not-allowed}
+@media (prefers-color-scheme:dark){.del-btn:hover{background:#3a1a1a;color:#f87171;border-color:#f87171}}
+.card.sel{border-color:var(--brand);background:var(--brand-weak)}
+.card .ttl{font-weight:600;font-size:14.3px;margin:0 0 6px;line-height:1.4}
+.card .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:11.8px;color:var(--muted)}
+.tag{display:inline-flex;align-items:center;gap:6px;background:var(--chip);border-radius:20px;padding:2px 9px;font-size:11.5px}
+.tag .dot{width:8px;height:8px;border-radius:50%}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:2px 8px;font-size:11.5px;font-weight:600;
+  background:var(--accent-weak);color:var(--accent)}
+.loadmore{padding:16px;text-align:center}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+
+/* ---------- Detail ---------- */
+.detail{overflow:auto;min-height:0;padding:22px 26px}
+/* minmax(0,1fr) chứ KHÔNG phải 1fr. Ô con của grid mặc định min-width:auto,
+   nghĩa là không bao giờ hẹp hơn nội dung rộng nhất bên trong. Cột phải có
+   bảng văn bản + ô dán chữ đều rộng, nên nó nong track của mình ra và bóp cột
+   trái còn một hai từ mỗi dòng ("Điều 321" / "Bộ luật" / "Hình sự"...).
+   minmax(0,...) + min-width:0 cho phép co lại, phần thừa cuộn trong chính nó. */
+.twocol{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:16px;align-items:start}
+.twocol>*{min-width:0}
+@media (max-width:1100px){.twocol{grid-template-columns:minmax(0,1fr)}}
+.twocol .block{margin-bottom:14px}
+/* Hai bên cùng một trần chiều cao để đọc đối chiếu, mỗi bên tự cuộn. Trước
+   đây chỉ cột trái bị giới hạn nên hai cột lệch nhau rất xa. */
+.atext.scrollbox{max-height:52vh;overflow:auto;padding-right:6px}
+.ai-ta{max-height:52vh}
+/* Chuỗi dài không có khoảng trắng (URL, số hiệu ghép) đừng nong cột ra */
+.atext,.qtext,.cv,.cg,.vb-ten,.simtab .d{overflow-wrap:anywhere}
+.detail.empty-state{display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted)}
+.d-head h2{margin:0 0 8px;font-size:20px;line-height:1.35}
+.d-meta{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}
+.block{border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--panel)}
+.block > .bh{padding:9px 14px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.block .bb{padding:14px 16px}
+.bh.q{color:var(--brand-ink);background:var(--brand-weak)}
+.bh.a{color:var(--ok);background:var(--ok-weak)}
+.bh.c{color:var(--accent);background:var(--accent-weak)}
+.qtext{white-space:pre-wrap}
+.atext{white-space:pre-wrap;line-height:1.65}
+.edit-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.edit-ta{width:100%;border:1px solid var(--brand);border-radius:9px;padding:10px 12px;
+  font:14px/1.6 inherit;background:var(--panel-2);color:var(--ink);outline:none;resize:vertical;min-height:96px}
+.edit-ta.tall{min-height:230px}
+.editflag{font-weight:600;color:var(--brand)}
+
+/* citations */
+.docs{list-style:none;margin:0 0 4px;padding:0;display:flex;flex-direction:column;gap:7px}
+.doc{display:flex;align-items:center;gap:9px;padding:8px 11px;background:var(--panel-2);border:1px solid var(--line);border-radius:9px}
+.doc .nm{flex:1;font-weight:600;font-size:13.6px}
+.doc .sh{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;background:var(--chip);border-radius:6px;padding:1px 7px}
+.doc a.open{font-size:12.5px;font-weight:600;white-space:nowrap;text-decoration:none;border:1px solid var(--brand);
+  color:var(--brand);border-radius:7px;padding:4px 10px}
+.doc a.open:hover{background:var(--brand);color:#fff}
+
+.cites{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.cite{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:9px;padding:10px 12px;background:var(--panel)}
+.cite .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.badge{font-size:12px;font-weight:700;border-radius:7px;padding:2px 9px;background:var(--accent-weak);color:var(--accent)}
+.badge.dieu{background:var(--brand-weak);color:var(--brand-ink)}
+.cite .cv{font-size:13.6px;font-weight:600;margin-bottom:3px}
+.cite .cg{font-size:12.6px;color:var(--muted);font-style:italic}
+.cite a.open{font-size:12px;font-weight:600;text-decoration:none;color:var(--brand)}
+.cite a.open:hover{text-decoration:underline}
+.nocite{color:var(--muted);font-size:13.5px;padding:2px}
+
+/* ---- AI trả lời & đối chiếu ---- */
+.bh.ai{color:#b45309;background:#fdf1df}
+@media (prefers-color-scheme:dark){.bh.ai{color:#fbbf24;background:#3a2c12}}
+.ai-ta{width:100%;min-height:200px;resize:vertical;border:1px solid var(--line);border-radius:9px;
+  padding:10px 12px;font:13.5px/1.55 inherit;background:var(--panel-2);color:var(--ink);outline:none}
+.ai-ta:focus{border-color:var(--brand)}
+.ai-bar{display:flex;gap:8px;align-items:center;margin-top:9px;flex-wrap:wrap}
+.ai-hint{color:var(--muted);font-size:12px}
+/* Lưu hỏng thì phải thấy được — im lặng ở đây là mất bài người dùng vừa dán */
+.ai-hint.ai-err{color:#b91c1c;font-weight:600}
+/* Lưới tự xếp: 6 ô hẹp thì thành 2-3 hàng đều nhau, KHÔNG bóp thành một hàng
+   tràn ngang rồi cắt mất ô cuối như bản dùng flex:1. */
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));
+  gap:9px;margin:12px 0 8px}
+.score .s{text-align:center;border:1px solid var(--line);border-radius:10px;
+  padding:9px 6px;background:var(--panel-2);min-width:0}
+.score .s b{display:block;font-size:19px;line-height:1.2;font-variant-numeric:tabular-nums}
+.score .s span{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.2px;line-height:1.3;margin-top:2px;overflow-wrap:anywhere}
+.s.ok b{color:var(--ok)} .s.miss b{color:var(--bad,#b91c1c)} .s.extra b{color:#b45309}
+.cmp{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+/* ---- độ tương đồng lời văn ---- */
+.simbox,.vbbox{margin-top:14px}
+.simbox .grp-h,.vbbox .grp-h{font-size:12px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.sim-ok{color:var(--ok)} .sim-extra{color:#b45309} .sim-miss{color:var(--bad,#b91c1c)}
+.simtab{width:100%;border-collapse:collapse;font-size:12.8px;
+  border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--panel)}
+.simtab td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.simtab tr:last-child td{border-bottom:0}
+.simtab .k{white-space:nowrap;font-weight:600;width:1%}
+.simtab .v{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums;
+  font-weight:700;font-size:14px;width:1%}
+.simtab .d{color:var(--muted);font-size:12.2px}
+/* Cảnh báo phải đọc được, không phải chú thích mờ: người dùng dễ tưởng đây là
+   điểm chấm đúng/sai, trong khi nó chỉ đo trùng lặp từ ngữ. */
+/* ---- soi câu trả lời: tô từng đoạn ---- */
+.dn-vb{white-space:pre-wrap;line-height:1.85;font-size:13.4px;padding:11px 13px;
+  border:1px solid var(--line);border-radius:9px;background:var(--panel);
+  max-height:42vh;overflow:auto;overflow-wrap:anywhere}
+/* Dùng nền nhạt + gạch chân dày ở dưới, KHÔNG dùng màu chữ: chữ pháp lý đọc
+   liên tục, đổi màu chữ làm rối hơn là chỉ ra được lỗi ở đâu. */
+mark.dn{background:transparent;color:inherit;padding:1px 0 2px;
+  border-bottom:2.5px solid currentColor;border-radius:0}
+mark.dn .dn-so{font-size:9.5px;font-weight:800;vertical-align:super;
+  margin-left:2px;opacity:.85}
+mark.dn.d-dung{color:var(--ok);background:color-mix(in srgb,var(--ok) 9%,transparent)}
+mark.dn.d-sai{color:#b91c1c;background:#fee2e2}
+mark.dn.d-cc{color:#b45309;background:#fef3c7}
+mark.dn.d-kc{color:var(--muted);background:var(--panel-2)}
+.dn-chu{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.dn-ct{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;
+  line-height:1.5;padding:6px 9px;border-radius:8px;background:var(--panel-2);
+  border:1px solid var(--line);border-left-width:3px}
+.dn-ct.d-dung{border-left-color:var(--ok)}
+.dn-ct.d-sai{border-left-color:#b91c1c}
+.dn-ct.d-cc{border-left-color:#b45309}
+.dn-ct.d-kc{border-left-color:var(--muted)}
+.dn-ct-so{flex:none;width:18px;height:18px;border-radius:50%;font-size:10.5px;
+  font-weight:800;display:flex;align-items:center;justify-content:center;
+  background:var(--chip);color:var(--ink)}
+/* Lập luận đánh giá RIÊNG với kết luận: có bài đúng kết quả mà suy luận sai */
+.cham-ll{display:inline-block;font-size:12px;font-weight:700;border-radius:7px;
+  padding:3px 10px;margin-bottom:8px}
+.ll-chat_che{color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.ll-co_lo_hong{color:#b45309;background:#fef3c7}
+.ll-sai_logic{color:#b91c1c;background:#fee2e2}
+.ll-khong_co_lap_luan{color:var(--muted);background:var(--panel-2)}
+/* ---- khối chấm bằng mô hình ---- */
+.cham-bar{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.chambox{margin-top:10px}
+.chambox .grp-h{font-size:12px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.4px;margin:10px 0 6px}
+/* Điểm chấm là số 0-100, không phải %, nên để cỡ lớn hơn hàng điểm trùng lặp */
+.chambox .score .s b{font-size:22px}
+.cham-nx{margin:2px 0 6px;padding:9px 11px;border-radius:8px;line-height:1.55;
+  font-size:13px;background:var(--panel-2);border:1px solid var(--line)}
+/* Cờ đỏ: kiểu sai mà điểm trùng lặp KHÔNG bắt được, phải nổi hơn mọi thứ khác */
+.canh-bao-do{margin:0 0 9px;padding:9px 11px;border-radius:8px;line-height:1.55;
+  background:#fef2f2;border:1px solid #fecaca;color:#991b1b;font-size:12.8px}
+tr.hang-canh-bao td{background:#fffbeb}
+.so-lech{margin-top:5px;font-size:12.2px;color:var(--ink)}
+.so-lech code{background:var(--chip);border-radius:5px;padding:1px 6px;
+  font-variant-numeric:tabular-nums;margin-right:2px}
+.sim-canh-bao{margin-top:8px;padding:8px 10px;border-radius:8px;
+  background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;line-height:1.5}
+
+/* ---- bảng văn bản pháp lý ---- */
+.vbwrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px}
+.vbtab{width:100%;border-collapse:collapse;font-size:12.8px;background:var(--panel)}
+.vbtab th{position:sticky;top:0;background:var(--panel-2);text-align:left;
+  font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);
+  padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.vbtab td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.vbtab tr:last-child td{border-bottom:0}
+.vbtab .vb-loai{white-space:nowrap;color:var(--muted);font-size:12.2px}
+.vbtab .vb-ten{min-width:180px}
+.vbtab .vb-sh,.vbtab .vb-nam{white-space:nowrap;font-variant-numeric:tabular-nums;
+  font-size:12.2px}
+.vbtab .vb-dk{min-width:150px;line-height:2}
+.vbtab .vb-doi{white-space:nowrap}
+.vb-alias{color:var(--muted);font-size:11.6px;font-weight:400;margin-top:3px}
+.vbtab .thieu{color:var(--muted);font-style:italic;font-size:12px}
+.tick{font-size:12px;font-weight:700} .tick.ok{color:var(--ok)} .tick.extra{color:#b45309}
+tr.vb-co{background:color-mix(in srgb,var(--ok) 5%,transparent)}
+.cmp .grp-h{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-top:6px}
+.crow{display:flex;align-items:flex-start;gap:9px;border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--panel)}
+.crow.ok{border-left:3px solid var(--ok)}
+.crow.miss{border-left:3px solid var(--bad,#b91c1c);background:var(--bad-weak,#fdeaea)}
+.crow.extra{border-left:3px solid #b45309;background:var(--warn-weak,#fdf1df)}
+.crow .ic{font-size:15px;line-height:1.4;flex:0 0 auto}
+.crow .cbody{flex:1;min-width:0}
+.crow .cv{font-size:13.4px;font-weight:600}
+.crow .badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+
+/* ---------- Import / drop ---------- */
+.importview{position:absolute;inset:60px 0 0 0;display:flex;align-items:center;justify-content:center;padding:24px}
+.dropbox{max-width:560px;width:100%;border:2px dashed var(--line);border-radius:18px;background:var(--panel);
+  padding:44px 34px;text-align:center;box-shadow:var(--shadow)}
+.dropbox.drag{border-color:var(--brand);background:var(--brand-weak)}
+.dropbox .ic{font-size:44px;margin-bottom:10px}
+.dropbox h2{margin:0 0 8px;font-size:19px}
+.dropbox p{color:var(--muted);margin:0 0 18px;font-size:14px}
+.dropbox code{background:var(--chip);padding:2px 7px;border-radius:6px;font-size:12.5px}
+.hint{font-size:12px;color:var(--muted);margin-top:14px}
+#dropOverlay{position:fixed;inset:0;z-index:60;background:rgba(29,78,216,.10);backdrop-filter:blur(2px);
+  display:none;align-items:center;justify-content:center}
+#dropOverlay.show{display:flex}
+#dropOverlay .msg{background:var(--panel);border:2px dashed var(--brand);border-radius:16px;padding:34px 46px;
+  font-size:17px;font-weight:700;color:var(--brand)}
+.hidden{display:none!important}
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+
+/* ---- Tabs ---- */
+.tabbar{display:flex;gap:6px;margin-left:6px}
+.tabbtn{padding:7px 14px;border:1px solid var(--line);background:var(--panel);color:var(--muted);
+  border-radius:9px;cursor:pointer;font-size:13.5px;font-weight:600}
+.tabbtn.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+/* ---- Mode: Nhập & sửa ---- */
+.editapp{height:calc(100vh - 60px);display:flex;flex-direction:column}
+.etoolbar{display:flex;gap:10px;align-items:center;padding:11px 18px;border-bottom:1px solid var(--line);
+  background:var(--panel);flex-wrap:wrap}
+.echk{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink);cursor:pointer;user-select:none}
+.echk input{width:16px;height:16px}
+.emain{flex:1;display:grid;grid-template-columns:minmax(320px,40%) 1fr;min-height:0}
+.elist{overflow:auto;border-right:1px solid var(--line);padding:8px}
+.ecard{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;
+  cursor:pointer;display:flex;gap:10px;align-items:flex-start}
+.ecard:hover{border-color:var(--brand)}
+.ecard.sel{border-color:var(--brand);background:var(--brand-weak)}
+.ecard.cbsel{border-color:var(--bad,#b91c1c);background:var(--bad-weak,#fdeaea)}
+.ecard .ecb{width:17px;height:17px;flex:0 0 auto;margin-top:2px;cursor:pointer}
+.ecard .ecb-body{flex:1;min-width:0}
+.ecard .ttl{font-weight:600;font-size:14px;margin-bottom:5px;line-height:1.4}
+.ecard .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);align-items:center}
+.miss{background:var(--bad-weak,#fdeaea);color:var(--bad,#b91c1c);border-radius:20px;padding:1px 8px;font-weight:700;font-size:11px}
+.hascite{background:var(--ok-weak);color:var(--ok);border-radius:20px;padding:1px 8px;font-size:11px}
+.eedit{display:flex;flex-direction:column;min-width:0;padding:14px 16px;gap:10px}
+.ehead{font-size:13px;color:var(--muted)}
+.ejson{flex:1 1 0;min-height:150px;width:100%;resize:none;border:1px solid var(--line);border-radius:10px;padding:12px;
+  font:12.5px/1.5 ui-monospace,Consolas,"Courier New",monospace;background:var(--panel-2);color:var(--ink);
+  outline:none;white-space:pre;overflow:auto;tab-size:2}
+.ejson:focus{border-color:var(--brand)}
+.ebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ehint{font-size:12.5px;color:var(--muted)}
+.ehint.ok{color:var(--ok)} .ehint.err{color:var(--bad,#b91c1c)}
+.btn.danger{border-color:var(--bad,#b91c1c);color:var(--bad,#b91c1c)}
+.btn.danger:hover{background:var(--bad,#b91c1c);color:#fff}
+/* ô xem đáp án dễ đọc (xuống dòng thật) */
+.epreview{flex:1 1 0;min-height:150px;overflow:auto;border:1px solid var(--line);border-radius:10px;
+  background:var(--panel);padding:12px 14px}
+.epreview .pv-h{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:0 0 6px}
+.epreview .pv-h.a{color:var(--ok)}
+.epreview .pv-q{white-space:pre-wrap;font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding-left:10px;margin-bottom:14px}
+.epreview .pv-a{white-space:pre-wrap;font-size:13.8px;line-height:1.7}
+@media(max-width:900px){.emain{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>Hỏi đáp chính sách — Trình xem &amp; căn cứ pháp lý</h1>
+    <div class="sub" id="srcSub">Chưa nạp dữ liệu</div>
+  </div>
+  <div class="tabbar">
+    <button class="tabbtn on" data-mode="view">Xem &amp; căn cứ</button>
+    <button class="tabbtn" data-mode="edit">Nhập &amp; sửa</button>
+  </div>
+  <div class="hstats" id="hstats"></div>
+  <input type="file" id="fileInput" accept=".json,application/json" class="hidden">
+  <button class="btn primary" id="importBtn">Nạp file JSON…</button>
+</header>
+
+<!-- Empty / import screen -->
+<div class="importview" id="importView">
+  <div class="dropbox" id="dropbox">
+    <div class="ic">📂</div>
+    <h2>Nạp dữ liệu hỏi đáp</h2>
+    <p>Kéo &amp; thả hoặc chọn file <code>chinhsachonline_dataset.json</code> (định dạng vừa crawl).</p>
+    <button class="btn primary" id="importBtn2">Chọn file JSON</button>
+    <div class="hint">Dữ liệu chỉ xử lý ngay trên trình duyệt của bạn — không gửi đi đâu cả.</div>
+  </div>
+</div>
+
+<!-- App -->
+<div class="app hidden" id="app">
+  <div class="main">
+    <div class="listwrap">
+      <div class="toolbar">
+        <select class="sortsel" id="fieldSel" title="Lĩnh vực"></select>
+        <div class="search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="search" id="q" placeholder="Tìm tiêu đề, nội dung, số hiệu…">
+        </div>
+        <select class="sortsel" id="sort" title="Sắp xếp">
+          <option value="new">Mới nhất</option>
+          <option value="old">Cũ nhất</option>
+          <option value="idasc">ID tăng dần</option>
+          <option value="iddesc">ID giảm dần</option>
+          <option value="cite">Nhiều căn cứ</option>
+        </select>
+      </div>
+      <div class="list" id="list"></div>
+    </div>
+    <div class="detail empty-state" id="detail">
+      <div>Chọn một câu hỏi bên trái để xem chi tiết &amp; căn cứ pháp lý.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Mode: Nhập & sửa -->
+<div class="editapp hidden" id="editApp">
+  <div class="etoolbar">
+    <input type="file" id="eFileInput" accept=".json,application/json" multiple class="hidden">
+    <button class="btn primary" id="eImportBtn">Nhập file JSON…</button>
+    <button class="btn" id="eLoadDB">Nạp từ DB</button>
+    <select class="sortsel" id="eFileSel" title="File đang sửa"></select>
+    <label class="echk"><input type="checkbox" id="eOnlyMissing"> Chỉ câu CHƯA có căn cứ</label>
+    <label class="echk"><input type="checkbox" id="eSelAll"> Chọn tất cả (đang hiện)</label>
+    <button class="btn danger" id="eDelSel" disabled>Xóa đã chọn (0)</button>
+    <span class="count" id="eCount"></span>
+    <span style="flex:1"></span>
+    <button class="btn" id="eDownload">Tải file đã sửa ↓</button>
+  </div>
+  <div class="emain">
+    <div class="elist" id="eList"><div class="empty">Nhập một hoặc nhiều file JSON để bắt đầu…</div></div>
+    <div class="eedit">
+      <div class="ehead" id="eSelInfo">Chọn 1 câu bên trái để sửa JSON.</div>
+      <textarea class="ejson" id="eJson" spellcheck="false" placeholder="JSON của câu hỏi sẽ hiện ở đây để bạn chỉnh sửa…"></textarea>
+      <div class="ebar">
+        <button class="btn primary" id="eApply">Áp dụng thay đổi</button>
+        <button class="btn primary" id="eSaveDB">Lưu vào DB</button>
+        <button class="btn danger" id="eDeleteDB">Xóa khỏi DB</button>
+        <button class="btn" id="eFormat">Định dạng JSON</button>
+        <span class="ehint" id="eStatus"></span>
+      </div>
+      <div class="epreview" id="ePreview">
+        <div class="pv-h">Câu hỏi</div>
+        <div class="pv-q" id="ePvQ"></div>
+        <div class="pv-h a">Đáp án</div>
+        <div class="pv-a" id="ePvA">Chọn 1 câu để xem đáp án dạng dễ đọc.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dropOverlay"><div class="msg">Thả file JSON vào đây để nạp</div></div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => (s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+let DATA = [];          // normalized records (with _i, _hay, _ts)
+let FIELDS = [];        // [{name,count,color,idxs}]
+const state = { field:null, query:"", sort:"new", sel:null, limit:60 };
+
+/* ---- màu ổn định cho từng lĩnh vực ---- */
+function colorFor(name){
+  let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))>>>0;
+  return `hsl(${h%360} 62% 52%)`;
+}
+/* ---- parse "dd/mm/yyyy hh:mm" -> timestamp để sắp xếp ---- */
+function toTs(s){
+  const m=/(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2}))?/.exec(s||"");
+  if(!m) return 0;
+  return new Date(+m[3],+m[2]-1,+m[1],+(m[4]||0),+(m[5]||0)).getTime();
+}
+
+function normalize(raw){
+  if(!Array.isArray(raw)) throw new Error("File JSON phải là một MẢNG các câu hỏi.");
+  return raw.map((r,i)=>{
+    const vb=Array.isArray(r.van_ban_dan_chieu)?r.van_ban_dan_chieu:[];
+    const td=Array.isArray(r.trich_dan)?r.trich_dan:[];
+    const hay=[r.tieu_de,r.cau_hoi,r.dap_an,
+               vb.map(v=>v.ten+" "+v.so_hieu).join(" "),
+               td.map(t=>t.trich_dan_goc).join(" ")].join(" ").toLowerCase();
+    return {
+      _i:i, cau_hoi_id:(r.cau_hoi_id!=null?r.cau_hoi_id:null),
+      ai_tra_loi:(r.ai_tra_loi||""),   // câu trả lời AI đã lưu trong DB
+      ai_cham:(r.ai_cham||null),       // kết quả chấm bằng LLM đã lưu
+      linh_vuc:(r.linh_vuc||"Khác").trim()||"Khác", nguon:r.nguon||"",
+      chuyen_muc:r.chuyen_muc||"", ngay:r.ngay||"", tieu_de:r.tieu_de||"(không tiêu đề)",
+      cau_hoi:r.cau_hoi||"", dap_an:r.dap_an||"",
+      van_ban_dan_chieu:vb, trich_dan:td,
+      _hay:hay, _ts:toTs(r.ngay)
+    };
+  });
+}
+
+function renderStats(){
+  const totalCites=DATA.reduce((s,r)=>s+r.trich_dan.length,0);
+  const totalDocs=DATA.reduce((s,r)=>s+r.van_ban_dan_chieu.length,0);
+  $("#srcSub").textContent=`${DATA.length.toLocaleString("vi")} câu · ${new Set(DATA.map(r=>r.nguon)).size} nguồn · ${FIELDS.length} chủ đề`;
+  $("#hstats").innerHTML=[
+    ["Câu hỏi",DATA.length],["Lĩnh vực",FIELDS.length],
+    ["Trích dẫn",totalCites],["Văn bản dẫn chiếu",totalDocs]
+  ].map(([k,v])=>`<div class="stat"><b>${v.toLocaleString("vi")}</b><span>${k}</span></div>`).join("");
+}
+
+function buildFields(){
+  const map=new Map();
+  DATA.forEach(r=>{ if(!map.has(r.linh_vuc)) map.set(r.linh_vuc,[]); map.get(r.linh_vuc).push(r._i); });
+  FIELDS=[...map.entries()].map(([name,idxs])=>({name,count:idxs.length,idxs,color:colorFor(name)}))
+        .sort((a,b)=>b.count-a.count);
+}
+
+function load(raw){
+  DATA=normalize(raw);
+  buildFields();
+  state.field=null; state.query=""; state.sort="new"; state.sel=null; state.limit=60;
+  $("#q").value="";
+  renderStats();
+  $("#importView").classList.add("hidden");
+  $("#app").classList.remove("hidden");
+  renderFields(); renderList();
+  $("#detail").className="detail empty-state";
+  $("#detail").innerHTML="<div>Chọn một câu hỏi bên trái để xem chi tiết &amp; căn cứ pháp lý.</div>";
+}
+
+function renderFields(){
+  const opts=[`<option value="">Tất cả lĩnh vực (${DATA.length.toLocaleString("vi")})</option>`]
+    .concat(FIELDS.map(f=>`<option value="${esc(f.name)}">${esc(f.name)} (${f.count.toLocaleString("vi")})</option>`));
+  const sel=$("#fieldSel");
+  sel.innerHTML=opts.join("");
+  sel.value = state.field==null ? "" : state.field;
+}
+
+function currentSet(){
+  let arr = state.field===null ? DATA : FIELDS.find(f=>f.name===state.field).idxs.map(i=>DATA[i]);
+  if(state.query){ const q=state.query.toLowerCase(); arr=arr.filter(r=>r._hay.includes(q)); }
+  arr=arr.slice();
+  if(state.sort==="new") arr.sort((a,b)=>b._ts-a._ts);
+  else if(state.sort==="old") arr.sort((a,b)=>a._ts-b._ts);
+  else if(state.sort==="idasc") arr.sort((a,b)=>(a.cau_hoi_id??Infinity)-(b.cau_hoi_id??Infinity));
+  else if(state.sort==="iddesc") arr.sort((a,b)=>(b.cau_hoi_id??-Infinity)-(a.cau_hoi_id??-Infinity));
+  else if(state.sort==="cite") arr.sort((a,b)=>b.trich_dan.length-a.trich_dan.length || b._ts-a._ts);
+  return arr;
+}
+
+function renderList(){
+  const arr=currentSet();
+  const list=$("#list");
+  if(!arr.length){ list.innerHTML=`<div class="empty">Không có câu hỏi nào khớp bộ lọc.</div>`; return; }
+  const shown=arr.slice(0,state.limit);
+  list.innerHTML = shown.map(r=>{
+    const f=FIELDS.find(x=>x.name===r.linh_vuc);
+    const nc=r.trich_dan.length;
+    return `<div class="card ${state.sel===r._i?'sel':''}" data-i="${r._i}">
+      <span class="idcol" title="cau_hoi_id trong DB — nhấn để copy" data-id="${r.cau_hoi_id==null?'':r.cau_hoi_id}">${r.cau_hoi_id==null?'—':r.cau_hoi_id}</span>
+      <div class="cbody">
+        <p class="ttl">${esc(r.tieu_de)}</p>
+        <div class="meta">
+          <span class="tag"><span class="dot" style="background:${f?f.color:'#888'}"></span>${esc(r.linh_vuc)}</span>
+          <span>🕒 ${esc(r.ngay)}</span>
+          ${nc?`<span class="pill">§ ${nc} căn cứ</span>`:''}
+        </div>
+      </div>
+      <button class="del-btn" data-del="${r.cau_hoi_id==null?'':r.cau_hoi_id}" ${r.cau_hoi_id==null?'disabled title="Không có id (nạp từ file JSON)"':`title="Xóa câu hỏi #${r.cau_hoi_id} khỏi DB"`}>🗑</button>
+    </div>`;
+  }).join("") + (arr.length>state.limit
+      ? `<div class="loadmore"><button class="btn" id="more">Xem thêm (${(arr.length-state.limit).toLocaleString("vi")} câu còn lại)</button></div>`
+      : `<div class="loadmore" style="color:var(--muted);font-size:12.5px">Đã hiển thị hết ${arr.length.toLocaleString("vi")} câu</div>`);
+}
+
+function citeBadges(c){
+  const b=[];
+  if(c.dieu) b.push(`<span class="badge dieu">Điều ${esc(c.dieu)}</span>`);
+  if(c.khoan) b.push(`<span class="badge">Khoản ${esc(c.khoan)}</span>`);
+  if(c.diem) b.push(`<span class="badge">Điểm ${esc(c.diem)}</span>`);
+  return b.join("");
+}
+
+/* ============================================================
+   BỘ TÁCH TRÍCH DẪN PHÁP LÝ (port từ collect_chinhsachonline.py sang JS)
+   — nhận diện văn bản (Bộ luật/Luật/Nghị định/Thông tư…) + điều/khoản/điểm.
+   ============================================================ */
+let curRec = null;
+let editing = false;   // đang ở chế độ sửa câu hỏi/đáp án?
+const _VN_UP = "A-ZĐÀÁẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÈÉẺẼẸÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÙÚỦŨỤƯỨỪỬỮỰỲÝỶỸỴ";
+const _VN_LO = "a-zàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ";
+const _YEAR = "(?:19|20)\\d{2}";
+/* Có "Công văn|Chỉ thị|Thông báo|Công điện" vì đáp án gốc trong DB dẫn chúng
+   (câu #3860 dẫn Công văn 250, 163, 01/TANDTC-PC). Thiếu ở đây thì AI dẫn
+   đúng Công văn vẫn bị coi là không dẫn gì -> so khớp lệch. Các loại này đều
+   bắt buộc có số ngay sau nên không sợ bắt nhầm văn xuôi. */
+/* Phần SỐ trước đây là \d+[/-]?\d*(?:[/-][A-ZĐ]...)* — buộc phải có cụm
+   số thứ hai, nên "Công văn số 163/TANDTC-PC" chỉ bắt được "163/" rồi bỏ
+   dở "TANDTC-PC". Sửa thành <số>(/<số>)*(/<CƠ QUAN>)*: nhận cả
+   100/2015/QH13 lẫn 163/TANDTC-PC. Ngày 10/9/2024 không lọt vì phía
+   trước phải là tên loại văn bản. */
+const _DOC_NUM = "(?:Bộ luật|Luật|Nghị định|Thông tư liên tịch|Thông tư|Nghị quyết|Quyết định|Pháp lệnh|Văn bản hợp nhất|Công văn|Chỉ thị|Thông báo|Công điện)\\s+(?:số\\s+)?\\d+(?:[/-]\\d+)*(?:[/-][A-ZĐ][A-ZĐ0-9\\-]*)*(?:\\s+\\d{4})?";
+const _NAME_BODY = "["+_VN_UP+"](?:[^,.;:\\n0-9]|,(?=\\s+["+_VN_LO+"])){2,90}?";
+/* HẾT TỪ: KHÔNG dùng \b được. \b trong JS dựa trên \w = [A-Za-z0-9_], mà chữ
+   Việt có dấu không thuộc \w -> giữa "về" và dấu cách KHÔNG có ranh giới, nên \b luôn
+   thất bại. Hậu quả: mọi từ dừng CÓ DẤU (về, thì, là, gồm, tại, được, quy định,
+   hiện hành, hướng dẫn, áp dụng...) chưa bao giờ cắt được tên văn bản, regex
+   nuốt luôn mệnh đề phía sau:
+     "Điều 318 Bộ luật Hình sự về Tội gây rối trật tự công cộng, và xử phạt hành
+      chính" -> tên = "Hình sự về Tội gây rối ... hành chính" (SAI)
+   Chỉ mấy từ ASCII (khi, do, cho, theo, như sau, bổ sung) là còn chạy.
+   Thay \b bằng lookahead "không phải chữ/số" có kể chữ Việt. */
+const _HET_TU = "(?![" + _VN_UP + _VN_LO + "0-9_])";
+const _TU_DUNG_VB = "(?:quy định|sửa đổi|bổ sung|bao gồm|hiện hành|thì|là|gồm|nêu|về|khi|do|cho|tại|theo|được|cụ thể|như sau|hướng dẫn|áp dụng|và|hoặc|nhưng|còn|cùng|của|sẽ|đã|cũng)";
+const _DOC_NAME_STOP = "(?:Bộ luật|Luật|Pháp lệnh)\\s+"+_NAME_BODY+"(?:\\s+(?:năm\\s+)?"+_YEAR+")?(?=\\s+"+_TU_DUNG_VB+_HET_TU+"|\\s*[.;:\\n]|\\s+,|,\\s+["+_VN_UP+"]|$)";
+const _DOC_NAME_YEAR = "(?:Bộ luật|Luật|Pháp lệnh)\\s+"+_NAME_BODY+"\\s+(?:năm\\s+)?"+_YEAR+"\\b";
+const _DOC_NAME_NUM = "(?:Bộ luật|Luật|Pháp lệnh)\\s+"+_NAME_BODY+"\\s+số\\s+\\d+[/-]\\d+(?:[/-][A-ZĐ][A-ZĐ0-9\\-]*)?";
+const _DOC = "(?:"+_DOC_NUM+"|"+_DOC_NAME_NUM+"|"+_DOC_NAME_STOP+"|"+_DOC_NAME_YEAR+"|Hiến pháp(?:\\s+(?:năm\\s+)?"+_YEAR+")?)";
+const reDoc = new RegExp(_DOC, "g");
+const reArt = new RegExp("(?:điểm\\s+(["+"a-zđ"+"])\\s*[,)]?\\s+)?(?:khoản\\s+(\\d+)\\s*[,)]?\\s+)?[Đđ]iều\\s+(\\d+[a-zđ]?)", "gi");
+/* Hai dạng số hiệu:
+     100/2015/QH13, 168/2024/NĐ-CP   <số>/<năm>/<CƠ QUAN>
+     163/TANDTC-PC, 01/TANDTC-PC     <số>/<CƠ QUAN>   (công văn)
+   Dạng thứ hai trước đây không bắt được, nên Công văn mà đáp án gốc
+   dẫn thì bên AI coi như "chưa nêu số hiệu" và không gộp/đối chiếu được.
+   Ngày tháng (10/9/2024) không lọt vì phải có CHỮ HOA ngay sau dấu "/". */
+const reSoHieu = /\d+[/-]\d{2,4}[/-][A-ZĐ][A-ZĐ0-9-]*|\d+[/-][A-ZĐ][A-ZĐ0-9-]{2,}/;
+
+function cleanCite(s){
+  s=(s||"").replace(/\s+/g," ").replace(/^[\s.,;:]+/,"").replace(/[\s.,;:]+$/,"");
+  return s.replace(/\s+(?:và|hoặc|cùng|của)$/,"");
+}
+function soHieu(d){ const m=(d||"").match(reSoHieu); return m?m[0]:""; }
+
+function dominantDoc(t){
+  const counts={}, order={}; let i=0,m; reDoc.lastIndex=0;
+  while((m=reDoc.exec(t))!==null){ if(m.index===reDoc.lastIndex) reDoc.lastIndex++;
+    const d=cleanCite(m[0]); if(!d) continue; counts[d]=(counts[d]||0)+1; if(!(d in order)) order[d]=i; i++; }
+  const keys=Object.keys(counts); if(!keys.length) return "";
+  keys.sort((a,b)=>{ if(counts[b]!==counts[a]) return counts[b]-counts[a];
+    const ha=reSoHieu.test(a)?1:0, hb=reSoHieu.test(b)?1:0; if(ha!==hb) return hb-ha; return order[a]-order[b]; });
+  return keys[0];
+}
+
+function extractCites(text){
+  const t=(text||"").replace(/\s+/g," ").trim();
+  const docPos=[], docs=[], seenDoc=new Set(); let m;
+  reDoc.lastIndex=0;
+  while((m=reDoc.exec(t))!==null){ if(m.index===reDoc.lastIndex) reDoc.lastIndex++;
+    const d=cleanCite(m[0]); if(!d) continue;
+    docPos.push([m.index, m.index+m[0].length, d]);
+    if(!seenDoc.has(d)){ seenDoc.add(d); docs.push({ten:d, so_hieu:soHieu(d), link:""}); } }
+  const dom=dominantDoc(t);
+  const cites=[], seen=new Set();
+  reArt.lastIndex=0;
+  while((m=reArt.exec(t))!==null){ if(m.index===reArt.lastIndex) reArt.lastIndex++;
+    const diem=(m[1]||"").toLowerCase(), khoan=m[2]||"", dieu=(m[3]||"").toLowerCase();
+    const aS=m.index, aE=m.index+m[0].length;
+    let doc="";
+    const adj=docPos.filter(d=>(d[0]-aE)>=0 && (d[0]-aE)<=3);
+    if(adj.length) doc=adj[0][2];
+    else if(docPos.length){ let best="",bd=1e9;
+      for(const d of docPos){ const dist=Math.min(Math.abs(d[0]-aS),Math.abs(d[0]-aE)); if(dist<bd){bd=dist;best=d[2];} }
+      if(bd<=150) doc=best; }
+    if(!doc) doc=dom;
+    const key=doc+"|"+dieu+"|"+khoan+"|"+diem;
+    if(seen.has(key)) continue; seen.add(key);
+    let raw=m[0].trim(); if(doc && raw.toLowerCase().indexOf(doc.toLowerCase())<0) raw=raw+" "+doc;
+    cites.push({van_ban:doc, so_hieu:soHieu(doc), dieu, khoan, diem, trich_dan_goc:cleanCite(raw), link:""}); }
+  return {docs, cites};
+}
+
+/* ============================================================
+   ĐỘ TƯƠNG ĐỒNG giữa câu trả lời AI và đáp án gốc
+   ------------------------------------------------------------
+   ĐÂY LÀ ĐO TRÙNG LẶP TỪ NGỮ, KHÔNG PHẢI CHẤM ĐÚNG/SAI.
+   Đã đo trên các ca đối kháng, giới hạn là thật và không vá được bằng
+   thống kê từ:
+     * Trả lời ĐÚNG nhưng diễn đạt khác hẳn  -> chỉ 20%  (báo động giả)
+     * Trả lời ĐÚNG mà ngắn gọn              -> chỉ 28%
+   Vì vậy điểm thấp KHÔNG có nghĩa là AI sai; chỉ có nghĩa là dùng từ khác.
+   Ngược lại, hai cái bẫy nguy hiểm hơn (điểm CAO mà nội dung SAI) thì đã
+   xử lý bằng hai phép kiểm riêng bên dưới: đối chiếu SỐ LIỆU và dò
+   PHỦ ĐỊNH ở phần kết luận.
+   ============================================================ */
+
+/* Từ nối / từ chức năng. CỐ Ý GIỮ LẠI "không, chưa, được, phải, bị, nếu, trừ":
+   trong văn bản pháp luật chúng mang nghĩa (được phép / phải làm / bị phạt /
+   không thuộc trường hợp). Bản trước bỏ chúng đi, hậu quả là câu trả lời chép
+   nguyên đáp án rồi kết luận NGƯỢC vẫn ra 99% y hệt câu kết luận đúng. */
+const TU_DUNG = new Set(("và hoặc của cho với từ đến trong ngoài trên dưới khi thì là các những một này đó "
+  + "do bởi tại theo về như sau đây cũng còn đã sẽ đang rằng mà nhưng tuy song nữa rất quá lắm "
+  + "chỉ ngay cả mọi từng nhiều ít anh chị ông bà bạn tôi họ mình ạ nhé vậy ai gì sao đâu "
+  + "kính thưa xin ah vâng").split(/\s+/));
+
+/* Chuẩn hoá SỐ trước khi tách từ. Bản trước để nguyên, nên "50.000.000" bị băm
+   thành ba token "50" "000" "000": ngưỡng 50 triệu và 500 triệu chỉ lệch đúng
+   MỘT token trên hơn trăm token -> ra 100% "rất giống" dù sai hẳn ngưỡng luật.
+   Đồng thời "50 triệu" và "50.000.000" trước đây không khớp nhau. */
+const NHAN_SO = {nghìn:1e3, nghin:1e3, ngàn:1e3, ngan:1e3, triệu:1e6, trieu:1e6, tỷ:1e9, ty:1e9, tỉ:1e9};
+function chuanHoaSo(s){
+  return (s||"")
+    // 50.000.000 / 50,000,000 -> 50000000
+    .replace(/\d{1,3}(?:[.,]\d{3})+/g, m => m.replace(/[.,]/g, ""))
+    // 50 triệu / 2 tỷ / 500 nghìn -> số nguyên
+    .replace(/(\d+)\s*(nghìn|nghin|ngàn|ngan|triệu|trieu|tỷ|ty|tỉ)\b/giu,
+             (m, n, dv) => String(+n * (NHAN_SO[dv.toLowerCase()] || 1)))
+    // 03 năm -> 3 năm (bản gốc luật hay viết 0 đứng đầu)
+    .replace(/\b0+(\d)/g, "$1");
+}
+
+function tuCoNghia(s){
+  return chuanHoaSo(s).toLowerCase()
+    .replace(/[^\p{L}\p{N}\s/-]+/gu, " ")
+    .split(/\s+/)
+    .filter(t => t && t.length > 1 && !TU_DUNG.has(t));
+}
+function demTu(ds){ const m=new Map(); for(const t of ds) m.set(t,(m.get(t)||0)+1); return m; }
+function nGram(ds,n){ const r=[]; for(let i=0;i+n<=ds.length;i++) r.push(ds.slice(i,i+n).join(" ")); return r; }
+
+/* Cosine trên log(1+tf) chứ không phải tf trần: một từ lặp 20 lần không được
+   lấn át 20 từ khác nhau, nhất là khi đáp án gốc trích luật dài. */
+function cosin(a,b){
+  const A=demTu(a), B=demTu(b);
+  const w=x=>1+Math.log(x);
+  let tich=0, na=0, nb=0;
+  for(const [t,x] of A){ const wx=w(x); na+=wx*wx; const y=B.get(t); if(y) tich+=wx*w(y); }
+  for(const [,y] of B){ const wy=w(y); nb+=wy*wy; }
+  return (na&&nb) ? tich/Math.sqrt(na*nb) : 0;
+}
+function doPhu(goc, ai, n){
+  const G=n>1?nGram(goc,n):goc, A=new Set(n>1?nGram(ai,n):ai);
+  if(!G.length) return null;
+  let trung=0; for(const g of G) if(A.has(g)) trung++;
+  return trung/G.length;
+}
+
+/* ---- phép kiểm 1: SỐ LIỆU ----------------------------------------------
+   Ngưỡng tiền, số năm tù, tỷ lệ %, mốc thời gian — sai một con số là sai cả
+   câu trả lời, mà cosine gần như không nhận ra. Tách riêng để đối chiếu thẳng.
+   Bỏ qua số của điều/khoản/điểm vì đã có bảng căn cứ lo. */
+function soLieu(s){
+  const t=chuanHoaSo(s||"");
+  const bo=new Set();
+  // bỏ "Điều 321", "khoản 2", "điểm a" khỏi phần đếm số liệu
+  const sach=t.replace(/(?:điều|khoản|điểm|mục|chương)\s*\d+[a-zđ]?/giu," ");
+  for(const m of sach.matchAll(/\d+(?:[.,]\d+)?%?/g)){
+    const v=m[0];
+    if(/^\d{1,2}$/.test(v) && +v<=12) continue;   // 1..12 phần lớn là số thứ tự
+    bo.add(v);
+  }
+  return bo;
+}
+
+/* ---- phép kiểm 2: PHỦ ĐỊNH Ở KẾT LUẬN -----------------------------------
+   Cái bẫy nguy hiểm nhất: chép nguyên đáp án rồi kết luận ngược lại. Trùng lặp
+   từ ngữ vẫn 99%. Dò riêng các dấu phủ định trong phần CUỐI (nơi đặt kết luận). */
+const RE_PHU_DINH = /\b(không|chưa|không\s+phải|không\s+bị|không\s+thuộc|miễn|loại\s+trừ|ngoại\s+trừ)\b/giu;
+function phanKetLuan(s){
+  const cau=(s||"").split(/(?<=[.!?])\s+/).filter(x=>x.trim());
+  return cau.slice(-3).join(" ");   // ba câu cuối
+}
+function demPhuDinh(s){ return ((s||"").match(RE_PHU_DINH)||[]).length; }
+
+function doTuongDong(dapAn, aiText){
+  const g=tuCoNghia(dapAn), a=tuCoNghia(aiText);
+  if(!g.length || !a.length) return null;
+
+  const noiDung = cosin(g,a);
+  const phuY    = doPhu(g,a,1);
+  const trungCum= doPhu(g,a,4)||0;
+
+  // số liệu
+  const sG=soLieu(dapAn), sA=soLieu(aiText);
+  const thieuSo=[...sG].filter(x=>!sA.has(x));
+  const thuaSo =[...sA].filter(x=>!sG.has(x));
+  const khopSo = sG.size ? (sG.size-thieuSo.length)/sG.size : null;
+
+  // phủ định ở kết luận
+  const pdG=demPhuDinh(phanKetLuan(dapAn)), pdA=demPhuDinh(phanKetLuan(aiText));
+  // nghi trái chiều: lời văn rất giống nhau mà một bên phủ định, bên kia không
+  const nghiTraiChieu = trungCum>=.30 && ((pdG>0)!==(pdA>0));
+
+  /* Nhãn nói ĐÚNG thứ mình đo: mức TRÙNG LẶP TỪ NGỮ. Bản trước ghi "Rất giống /
+     Khác hẳn" — người đọc hiểu thành giống/khác về NGHĨA, trong khi câu đúng mà
+     diễn đạt khác vẫn bị ghi "Gần như khác hẳn". */
+  let nhan, mau;
+  if(noiDung>=.70){ nhan="Trùng lặp từ ngữ: cao"; mau="ok"; }
+  else if(noiDung>=.45){ nhan="Trùng lặp từ ngữ: vừa"; mau="ok"; }
+  else if(noiDung>=.25){ nhan="Trùng lặp từ ngữ: thấp"; mau="extra"; }
+  else { nhan="Trùng lặp từ ngữ: rất thấp"; mau="miss"; }
+
+  return {noiDung, phuY, trungCum, nhan, mau,
+          soTuDapAn:g.length, soTuAI:a.length,
+          khopSo, thieuSo, thuaSo, soGoc:sG.size,
+          pdG, pdA, nghiTraiChieu};
+}
+
+/* ============================================================
+   TÁCH CHUẨN VĂN BẢN PHÁP LÝ trong câu trả lời
+   ------------------------------------------------------------
+   extractCites() trả về chuỗi thô như người ta viết trong bài. Cùng một văn
+   bản có thể xuất hiện nhiều dạng: "Bộ luật Hình sự 2015", "Bộ luật Hình sự
+   số 100/2015/QH13", "Bộ luật Hình sự". Hàm dưới gộp chúng về MỘT mục theo
+   normDocId() (cùng khoá so khớp đang dùng), tách rời loại / tên / số hiệu /
+   năm, và gom các điều-khoản-điểm đã dẫn của từng văn bản.
+   ============================================================ */
+/* KHÔNG dùng \b ở cuối: "Thông tư" kết thúc bằng "ư", "Bộ luật" bằng "t".
+   \b chỉ biết [A-Za-z0-9_] nên sau "ư" không có ranh giới -> "Thông tư"
+   không bao giờ nhận ra được loại. Dùng "kế tiếp là khoảng trắng/dấu/hết". */
+const RE_LOAI_VB = /^(Bộ luật|Luật|Nghị định|Thông tư liên tịch|Thông tư|Nghị quyết|Quyết định|Pháp lệnh|Văn bản hợp nhất|Hiến pháp|Công văn|Chỉ thị|Thông báo|Công điện)(?=[\s,.;:]|$)/;
+
+function tachVanBan(chuoi){
+  const t=cleanCite(chuoi);
+  const mLoai=t.match(RE_LOAI_VB);
+  const loai=mLoai?mLoai[1]:"";
+  const so_hieu=soHieu(t);
+  // năm: lấy trong số hiệu trước (100/2015/QH13 -> 2015), không có thì lấy năm rời
+  let nam="";
+  const mNamSH=so_hieu.match(/[/-]((?:19|20)\d{2})[/-]/) || so_hieu.match(/[/-]((?:19|20)\d{2})$/);
+  if(mNamSH) nam=mNamSH[1];
+  else { const mNam=t.match(/\b((?:19|20)\d{2})\b/); if(mNam) nam=mNam[1]; }
+  // tên riêng = bỏ loại ở đầu, bỏ "số ...", bỏ năm ở cuối
+  let ten=t.replace(RE_LOAI_VB,"").replace(/\s*số\s+\S+/i,"")
+           .replace(/\s*(?:năm\s+)?(?:19|20)\d{2}\s*$/,"").trim()
+           .replace(/^[\s,.-]+|[\s,.-]+$/g,"");
+  // đừng lặp số hiệu sang cột Tên: "Nghị định 168/2024/NĐ-CP" thì tên là rỗng
+  if(so_hieu) ten = ten.split(so_hieu).join(" ").replace(/\s+/g," ").trim();
+  return {nguyen_van:t, loai, ten, so_hieu, nam};
+}
+
+/* Khoá theo TÊN (+ năm). Cần khoá này vì normDocId() ưu tiên số hiệu, nên
+   "Bộ luật Hình sự 2015" (khoá "bo luat hinh su") và "Bộ luật Hình sự số
+   100/2015/QH13" (khoá "100/2015/qh13") ra hai khoá khác nhau, dù là MỘT văn
+   bản. Kèm năm để không gộp nhầm "Luật Đất đai 2013" với "Luật Đất đai 2024". */
+function khoaTenVB(v, keNam){
+  const t=stripDia(((v.loai||"")+" "+(v.ten||"")).toLowerCase())
+    .replace(/[^a-z0-9]+/g," ").trim().replace(/\\s+/g," ");
+  return t ? (keNam===false ? t : t+"|"+(v.nam||"")) : "";
+}
+
+/* Gộp mọi cách viết của cùng một văn bản về MỘT dòng.
+   Hai lần xuất hiện là cùng văn bản khi trùng SỐ HIỆU, hoặc trùng LOẠI+TÊN+NĂM. */
+function gomVanBan(cites, docs){
+  const lan=[];
+  const them=(chuoi,cite)=>{ if(!chuoi) return;
+    const v=tachVanBan(chuoi); if(!v.nguyen_van) return; lan.push({v,cite}); };
+  for(const d of (docs||[])) them(d.ten||d.van_ban, null);
+  for(const c of (cites||[])) them(c.van_ban, c);
+  if(!lan.length) return [];
+
+  const cha=lan.map((_,i)=>i);
+  const tim=i=>cha[i]===i?i:(cha[i]=tim(cha[i]));
+  const noi=(i,j)=>{ const a=tim(i),b=tim(j); if(a!==b) cha[b]=a; };
+  const theoSo=new Map(), theoTen=new Map();
+  lan.forEach((o,i)=>{
+    const ks=(o.v.so_hieu||"").toLowerCase();
+    if(ks){ theoSo.has(ks) ? noi(theoSo.get(ks),i) : theoSo.set(ks,i); }
+    const kt=khoaTenVB(o.v);
+    if(kt){ theoTen.has(kt) ? noi(theoTen.get(kt),i) : theoTen.set(kt,i); }
+  });
+  /* Bản KHÔNG ghi năm ("Bộ luật Hình sự" trống trơn): chỉ gộp khi có ĐÚNG MỘT
+     văn bản cùng tên mà biết năm. Từ hai trở lên thì để riêng — đoán bừa
+     "Luật Đất đai" là 2013 hay 2024 là làm sai dữ liệu, thà để người đọc thấy. */
+  const theoTenTran=new Map();
+  lan.forEach((o,i)=>{ const g=khoaTenVB(o.v,false); if(!g) return;
+    if(!theoTenTran.has(g)) theoTenTran.set(g,[]); theoTenTran.get(g).push(i); });
+  for(const [,ds] of theoTenTran){
+    const coNam=[...new Set(ds.filter(i=>lan[i].v.nam||lan[i].v.so_hieu).map(tim))];
+    if(coNam.length!==1) continue;
+    ds.filter(i=>!lan[i].v.nam && !lan[i].v.so_hieu).forEach(i=>noi(coNam[0],i));
+  }
+
+  const nhom=new Map();
+  lan.forEach((o,i)=>{
+    const g=tim(i);
+    if(!nhom.has(g)) nhom.set(g,{cach_viet:new Set(),cites:[],vb:null,khoaSet:new Set()});
+    const n=nhom.get(g);
+    n.cach_viet.add(o.v.nguyen_van);
+    if(o.v.so_hieu) n.khoaSet.add("sh:"+o.v.so_hieu.toLowerCase());
+    const kt=khoaTenVB(o.v); if(kt) n.khoaSet.add("tn:"+kt);
+    // đại diện: ưu tiên bản có số hiệu, rồi bản NGẮN hơn (ít nuốt văn xuôi hơn)
+    if(!n.vb || (o.v.so_hieu && !n.vb.so_hieu) ||
+       (!!o.v.so_hieu===!!n.vb.so_hieu && o.v.nguyen_van.length<n.vb.nguyen_van.length)) n.vb=o.v;
+    if(o.cite) n.cites.push(o.cite);
+  });
+  return [...nhom.values()].sort((x,y)=>y.cites.length-x.cites.length);
+}
+
+/* Hai nhóm là cùng một văn bản nếu chung bất kỳ khoá nào (số hiệu hoặc tên+năm) */
+function cungVanBan(a,b){ for(const k of a.khoaSet) if(b.khoaSet.has(k)) return true; return false; }
+
+/* ---- so khớp căn cứ AI vs đáp án ---- */
+function stripDia(s){ return (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D"); }
+function normDocId(c){
+  if(c.so_hieu) return c.so_hieu.toLowerCase().replace(/\s+/g,"");
+  return stripDia((c.van_ban||c.ten||"").toLowerCase())
+    .replace(/\b(nam|so)\b/g," ").replace(/\b(19|20)\d{2}\b/g," ")
+    .replace(/[^a-z0-9]+/g," ").trim().replace(/\s+/g," ");
+}
+function citesMatch(a,b){
+  if(normDocId(a)!==normDocId(b)) return false;
+  if((a.dieu||"")!==(b.dieu||"")) return false;
+  const ka=a.khoan||"", kb=b.khoan||"";
+  return ka===kb || ka==="" || kb==="";
+}
+
+/* ---- lưu câu trả lời AI theo từng câu hỏi ------------------------------
+   Nguồn thật là DB (cột cau_hoi.ai_tra_loi), gửi lên bằng
+   PUT /api/cau_hoi/<id>/ai-tra-loi. Nhờ vậy dán ở máy này, mở máy khác vẫn
+   thấy, và đổi địa chỉ (localhost <-> 10.110.40.37) cũng không mất.
+
+   localStorage GIỮ LẠI làm hai việc, không phải nguồn chính:
+     * bản ghi nạp từ file JSON chưa có cau_hoi_id -> không có chỗ trong DB;
+     * mạng/DB lỗi lúc đang gõ -> vẫn còn bản nháp để lần sau mở lên có.
+   Khi cả hai cùng có, DB thắng.                                          */
+function aiStoreKey(r){
+  const raw=(r.tieu_de||"")+"¦"+(r.ngay||"")+"¦"+(r.nguon||"");
+  try{ return "ploai:"+btoa(unescape(encodeURIComponent(raw))); }catch(_){ return "ploai:"+raw; }
+}
+function loadLocalAI(r){ try{ return localStorage.getItem(aiStoreKey(r))||""; }catch(_){ return ""; } }
+function saveLocalAI(r,txt){ try{ if(txt&&txt.trim()) localStorage.setItem(aiStoreKey(r),txt); else localStorage.removeItem(aiStoreKey(r)); }catch(_){} }
+
+function loadAI(r){ return (r && r.ai_tra_loi) ? r.ai_tra_loi : loadLocalAI(r); }
+
+/* Ghi xuống DB. Trả về true nếu DB nhận, false nếu chỉ còn bản nháp cục bộ. */
+async function saveAI(r, txt){
+  if(!r) return false;
+  const sach=(txt||"").trim();
+  saveLocalAI(r, sach);            // luôn giữ bản nháp trước, gửi mạng sau
+  r.ai_tra_loi=sach;               // cập nhật luôn bản ghi đang giữ trong bộ nhớ
+  if(r.cau_hoi_id==null) return false;   // bản ghi từ file JSON, không có id
+  try{
+    const res=await fetch(`/api/cau_hoi/${r.cau_hoi_id}/ai-tra-loi`,{
+      method:"PUT", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({ai_tra_loi:sach})
+    });
+    const j=await res.json().catch(()=>({}));
+    if(!res.ok || !j.ok) throw new Error(j.detail || ("HTTP "+res.status));
+    return true;
+  }catch(e){ aiTrangThai("Chưa lưu được vào DB: "+e.message+" (đã giữ bản nháp trong trình duyệt)", true); return false; }
+}
+
+/* Dòng chữ nhỏ cạnh nút, cho biết đã lưu hay chưa. */
+let aiTrangThaiT=null;
+function aiTrangThai(chu, loi){
+  const el=$("#aiSaveMsg"); if(!el) return;
+  el.textContent=chu; el.className="ai-hint"+(loi?" ai-err":"");
+  clearTimeout(aiTrangThaiT);
+  if(!loi) aiTrangThaiT=setTimeout(()=>{ if($("#aiSaveMsg")===el) el.textContent="Tự lưu vào DB theo từng câu hỏi."; },2500);
+}
+
+function pt(x){ return x==null ? "—" : Math.round(x*100)+"%"; }
+
+function renderAI(ground, text, dapAnGoc){
+  if(!text || !text.trim()) return `<div class="ai-hint" style="margin-top:10px">Chưa có nội dung. Dán câu trả lời của AI rồi bấm “Phân tích &amp; so khớp”.</div>`;
+  const ex=extractCites(text);
+  const g=(ground||[]).map(c=>({c, ok: ex.cites.some(a=>citesMatch(c,a))}));
+  const a=ex.cites.map(c=>({c, extra: !(ground||[]).some(gc=>citesMatch(gc,c))}));
+  const nOk=g.filter(x=>x.ok).length, nMiss=g.length-nOk, nExtra=a.filter(x=>x.extra).length;
+  const recall=g.length?nOk/g.length:null;
+  const td=doTuongDong(dapAnGoc||"", text);
+
+  const score=`<div class="score">
+    <div class="s ${td?td.mau:''}"><b>${td?pt(td.noiDung):'—'}</b><span>Tương đồng nội dung</span></div>
+    <div class="s"><b>${td?pt(td.phuY):'—'}</b><span>Phủ ý đáp án</span></div>
+    <div class="s ok"><b>${nOk}/${g.length}</b><span>Khớp căn cứ</span></div>
+    <div class="s miss"><b>${nMiss}</b><span>AI thiếu</span></div>
+    <div class="s extra"><b>${nExtra}</b><span>AI nêu thừa</span></div>
+    <div class="s"><b>${recall==null?'—':pt(recall)}</b><span>Độ phủ căn cứ</span></div>
+  </div>`;
+
+  /* ---- khối 1: độ tương đồng lời văn ---- */
+  const simBlock = td ? `
+    <div class="simbox">
+      <div class="grp-h">Đối chiếu với đáp án gốc · <b class="sim-${td.mau}">${esc(td.nhan)}</b></div>
+      ${td.nghiTraiChieu ? `<div class="canh-bao-do">🚩 <b>Nghi kết luận trái chiều.</b>
+        Lời văn trùng tới ${pt(td.trungCum)} nhưng phần kết luận
+        ${td.pdA>td.pdG?'của AI có phủ định (không / chưa / không phải) mà đáp án gốc thì không'
+                       :'của đáp án gốc có phủ định mà AI thì không'}.
+        Đọc kỹ hai câu kết — đây đúng là kiểu sai mà điểm trùng lặp không bắt được.</div>` : ''}
+      <table class="simtab">
+        <tr><td class="k">Trùng lặp từ ngữ</td><td class="v">${pt(td.noiDung)}</td>
+            <td class="d">Cosine trên log(1+tần suất) của từ có nghĩa. <b>Không phải điểm đúng/sai</b>:
+            trả lời đúng mà diễn đạt khác vẫn ra thấp.</td></tr>
+        <tr><td class="k">Phủ ý đáp án</td><td class="v">${pt(td.phuY)}</td>
+            <td class="d">Tỷ lệ từ có nghĩa của <b>đáp án gốc</b> được AI nhắc lại. Thấp = AI nói ít hơn,
+            hoặc dùng từ khác.</td></tr>
+        <tr><td class="k">Trùng nguyên văn</td><td class="v">${pt(td.trungCum)}</td>
+            <td class="d">Cụm 4 từ liên tiếp trùng khít. Cao bất thường = chép lại đáp án.</td></tr>
+        <!-- tô cảnh báo cả khi AI BỊA THÊM số: con số không có trong đáp án
+             (mức phạt, ngưỡng) sai chẳng kém gì bỏ sót -->
+        <tr class="${(td.thieuSo.length||td.thuaSo.length)?'hang-canh-bao':''}">
+            <td class="k">Số liệu khớp</td>
+            <td class="v">${td.soGoc?`${td.soGoc-td.thieuSo.length}/${td.soGoc}`:'—'}</td>
+            <td class="d">Ngưỡng tiền, số năm, tỷ lệ %. <b>Sai một con số là sai cả câu trả lời</b>,
+            mà trùng lặp từ ngữ gần như không nhận ra.
+            ${td.thieuSo.length?`<div class="so-lech"><b>Đáp án có, AI không nêu:</b>
+              ${td.thieuSo.slice(0,12).map(x=>`<code>${esc(x)}</code>`).join(" ")}</div>`:''}
+            ${td.thuaSo.length?`<div class="so-lech"><b>AI nêu thêm:</b>
+              ${td.thuaSo.slice(0,12).map(x=>`<code>${esc(x)}</code>`).join(" ")}</div>`:''}</td></tr>
+        <tr><td class="k">Độ dài</td><td class="v">${td.soTuAI}/${td.soTuDapAn}</td>
+            <td class="d">Số từ có nghĩa: AI / đáp án gốc.</td></tr>
+      </table>
+      <div class="ai-hint sim-canh-bao">⚠ Ba dòng đầu chỉ đo <b>trùng lặp từ ngữ</b>, không đo <b>ý</b>.
+      Đã thử: câu trả lời đúng nhưng diễn đạt khác hẳn chỉ được <b>20%</b>, câu đúng mà ngắn gọn được
+      <b>28%</b> — nên <b>điểm thấp không có nghĩa là AI sai</b>. Hai dòng “Số liệu khớp” và cờ
+      “kết luận trái chiều” mới là phần bắt được lỗi nội dung.</div>
+    </div>` : "";
+
+  /* ---- khối 2: văn bản pháp lý, đã gộp các cách viết ---- */
+  const nhomAI = gomVanBan(ex.cites, ex.docs);
+  const nhomGoc = gomVanBan(ground||[], (curRec&&curRec.van_ban_dan_chieu)||[]);
+  const coTrongDapAn = o => nhomGoc.some(t=>cungVanBan(o,t));
+  const dongVB = nhomAI.map(o=>{
+    const v=o.vb||{};
+    const trongDapAn = coTrongDapAn(o);
+    // các điều/khoản/điểm đã dẫn của riêng văn bản này
+    // viết theo lối tiếng Việt: điểm a khoản 6 Điều 134 (hẹp -> rộng)
+    const dieuKhoan = [...new Set(o.cites.map(c=>
+      [c.diem?"điểm "+c.diem:"", c.khoan?"khoản "+c.khoan:"", c.dieu?"Điều "+c.dieu:""]
+        .filter(Boolean).join(" ")).filter(Boolean))];
+    const cachKhac = [...o.cach_viet].filter(x=>x!==v.nguyen_van);
+    return `<tr class="${trongDapAn?'vb-co':'vb-khong'}">
+      <td class="vb-loai">${esc(v.loai||"—")}</td>
+      <td class="vb-ten"><b>${v.ten?esc(v.ten):'<span class="thieu">(chỉ nêu số hiệu)</span>'}</b>
+        ${cachKhac.length?`<div class="vb-alias">cũng viết: ${cachKhac.map(x=>esc(x)).join(" · ")}</div>`:''}</td>
+      <td class="vb-sh">${v.so_hieu?esc(v.so_hieu):'<span class="thieu">chưa nêu số hiệu</span>'}</td>
+      <td class="vb-nam">${esc(v.nam||"—")}</td>
+      <td class="vb-dk">${dieuKhoan.length?dieuKhoan.map(x=>`<span class="badge">${esc(x)}</span>`).join(" "):'<span class="thieu">không dẫn điều/khoản</span>'}</td>
+      <td class="vb-doi">${trongDapAn?'<span class="tick ok">✓ có trong đáp án</span>':'<span class="tick extra">⚠ đáp án không nhắc</span>'}</td>
+    </tr>`;
+  }).join("");
+
+  const soDung = nhomAI.filter(coTrongDapAn).length;
+  const vbBlock = nhomAI.length ? `
+    <div class="vbbox">
+      <div class="grp-h">Văn bản pháp lý AI viện dẫn · ${nhomAI.length} văn bản
+        · ${soDung} trùng đáp án · ${ex.cites.length} lượt trích dẫn</div>
+      <div class="vbwrap"><table class="vbtab">
+        <thead><tr><th>Loại</th><th>Tên văn bản</th><th>Số hiệu</th><th>Năm</th>
+          <th>Điều / khoản / điểm được dẫn</th><th>Đối chiếu</th></tr></thead>
+        <tbody>${dongVB}</tbody>
+      </table></div>
+    </div>` : `<div class="ai-hint" style="margin-top:12px">Không tách được văn bản pháp lý nào trong câu trả lời AI.</div>`;
+
+  /* ---- khối 3: so khớp từng căn cứ (giữ nguyên như cũ) ---- */
+  const crow=(o,cls,ic)=>`<div class="crow ${cls}"><span class="ic">${ic}</span><div class="cbody">
+      <div class="cv">${esc(o.van_ban||o.ten||"(không rõ văn bản)")}</div>
+      <div class="badges">${citeBadges(o)||'<span class="badge">Trích dẫn</span>'}</div>
+    </div></div>`;
+
+  let cmp=`<div class="cmp"><div class="grp-h">Căn cứ trong đáp án (${g.length})</div>`;
+  cmp += g.length ? g.map(x=>crow(x.c, x.ok?'ok':'miss', x.ok?'✓':'✗')).join("")
+                  : `<div class="ai-hint">Đáp án gốc không có căn cứ điều/khoản để so.</div>`;
+  const extras=a.filter(x=>x.extra);
+  if(extras.length){
+    cmp += `<div class="grp-h">AI nêu thêm — không có trong đáp án (${extras.length})</div>`;
+    cmp += extras.map(x=>crow(x.c,'extra','⚠')).join("");
+  }
+  cmp += `</div>`;
+
+  return score + simBlock + vbBlock + cmp;
+}
+
+/* ============================================================
+   CHẤM BẰNG LLM — gọi POST /api/cau_hoi/<id>/cham-llm
+   ------------------------------------------------------------
+   Khác hẳn phần "trùng lặp từ ngữ" chạy tại chỗ: chỗ đó không phân biệt được
+   "diễn đạt khác" với "sai" (câu đúng mà nói cách khác chỉ được ~20%). Chấm
+   bằng mô hình mới đọc được Ý.
+   Tốn tiền + tốn thời gian nên kết quả LƯU trong DB; mở lại trang là hiện
+   luôn, chỉ chấm lại khi bấm "Chấm lại".
+   ============================================================ */
+/* Tô câu trả lời của AI theo nhận xét từng đoạn.
+   Vị trí (bat_dau/ket_thuc) do server tính trên CHÍNH chuỗi ai_tra_loi, nên chỉ
+   tô khi chuỗi đang hiển thị vẫn đúng chuỗi đã chấm — người dùng sửa ô sau khi
+   chấm thì vị trí lệch, lúc đó thà không tô còn hơn tô sai chỗ. */
+const NHAN_LOAI_DOAN = {
+  dung:       {chu:"Đúng",            cls:"d-dung"},
+  sai:        {chu:"Sai",             cls:"d-sai"},
+  can_cu_sai: {chu:"Căn cứ sai",      cls:"d-cc"},
+  khong_chac: {chu:"Không kiểm được", cls:"d-kc"},
+};
+const NHAN_LAP_LUAN = {
+  chat_che:          "Lập luận chặt chẽ",
+  co_lo_hong:        "Lập luận có lỗ hổng",
+  sai_logic:         "Lập luận sai logic",
+  khong_co_lap_luan: "Không có lập luận",
+};
+
+function veCauTraLoiToMau(vanBan, doan){
+  const ds = (doan||[]).filter(d => typeof d.bat_dau === "number"
+                                 && typeof d.ket_thuc === "number"
+                                 && d.ket_thuc > d.bat_dau)
+                       .sort((a,b)=>a.bat_dau-b.bat_dau);
+  if(!vanBan) return "";
+  let out = "", i = 0, n = 0;
+  for(const d of ds){
+    if(d.bat_dau < i) continue;                 // an toàn: bỏ đoạn chồng lấn
+    if(d.bat_dau > vanBan.length) break;
+    const kt = Math.min(d.ket_thuc, vanBan.length);
+    const k = NHAN_LOAI_DOAN[d.loai] || NHAN_LOAI_DOAN.khong_chac;
+    n++;
+    out += esc(vanBan.slice(i, d.bat_dau));
+    out += `<mark class="dn ${k.cls}" data-i="${n}" title="${esc(k.chu)}${d.ly_do?" — "+esc(d.ly_do):""}">`
+         + esc(vanBan.slice(d.bat_dau, kt))
+         + `<sup class="dn-so">${n}</sup></mark>`;
+    i = kt;
+  }
+  out += esc(vanBan.slice(i));
+  if(!n) return "";
+  const chuThich = ds.map((d,k)=>{
+    const nh = NHAN_LOAI_DOAN[d.loai] || NHAN_LOAI_DOAN.khong_chac;
+    return `<div class="dn-ct ${nh.cls}"><span class="dn-ct-so">${k+1}</span>
+      <div><b>${esc(nh.chu)}</b>${d.ly_do?` — ${esc(d.ly_do)}`:""}</div></div>`;
+  }).join("");
+  return `<div class="grp-h">Soi câu trả lời · ${n} đoạn được đánh dấu</div>
+    <div class="dn-vb">${out}</div>
+    <div class="dn-chu">${chuThich}</div>`;
+}
+
+/* Đoạn model nhận xét nhưng không trích khớp văn bản -> không tô được, vẫn phải
+   hiện ra, nếu không người dùng mất luôn phần nhận xét đó. */
+function veDoanKhongToDuoc(doan){
+  const ds=(doan||[]).filter(d=>d.khong_tim_thay);
+  if(!ds.length) return "";
+  return `<div class="grp-h">Nhận xét không gắn được vào văn bản (${ds.length})</div>`
+    + ds.map(d=>{
+        const nh=NHAN_LOAI_DOAN[d.loai]||NHAN_LOAI_DOAN.khong_chac;
+        return `<div class="crow ${d.loai==="dung"?"ok":d.loai==="sai"?"miss":"extra"}">
+          <span class="ic">${d.loai==="dung"?"✓":d.loai==="sai"?"✗":"⚠"}</span>
+          <div class="cbody"><div class="cv">“${esc(d.trich)}”</div>
+          <div class="ai-hint">${esc(nh.chu)}${d.ly_do?" — "+esc(d.ly_do):""}</div></div></div>`;
+      }).join("");
+}
+
+const NHAN_KET_LUAN = {
+  khop:          {chu:"Khớp đáp án",            mau:"ok"},
+  mot_phan:      {chu:"Đúng một phần",          mau:"extra"},
+  trai_nguoc:    {chu:"KẾT LUẬN TRÁI NGƯỢC",    mau:"miss"},
+  khong_tra_loi: {chu:"Không trả lời / lạc đề", mau:"miss"},
+};
+
+/* Chuỗi đã được chấm = ai_tra_loi lưu trong DB, KHÔNG phải nội dung đang gõ.
+   Người dùng sửa ô sau khi chấm thì vị trí các đoạn lệch hết, tô sẽ sai chỗ. */
+function vanBanDaCham(){ return (curRec && curRec.ai_tra_loi) || ""; }
+
+function veKetQuaCham(k){
+  if(!k) return "";
+  const kl = NHAN_KET_LUAN[k.ket_luan] || {chu:k.ket_luan, mau:"extra"};
+  const ds = (ten, arr, cls, ic) => (arr && arr.length)
+    ? `<div class="grp-h">${esc(ten)} (${arr.length})</div>` +
+      arr.map(x=>`<div class="crow ${cls}"><span class="ic">${ic}</span>
+        <div class="cbody"><div class="cv">${esc(x)}</div></div></div>`).join("")
+    : "";
+  return `<div class="chambox">
+    <div class="grp-h">Chấm bằng mô hình · <b class="sim-${kl.mau}">${esc(kl.chu)}</b>
+      ${k.model?`<span class="ai-hint">· ${esc(k.model)}${k.cham_luc?` · ${esc(k.cham_luc.replace("T"," "))}`:""}</span>`:""}</div>
+    <div class="score">
+      <div class="s ${kl.mau}"><b>${k.diem_noi_dung}</b><span>Điểm nội dung</span></div>
+      <div class="s"><b>${k.diem_can_cu}</b><span>Điểm căn cứ</span></div>
+    </div>
+    ${k.lap_luan?`<div class="cham-ll ll-${esc(k.lap_luan)}">${esc(NHAN_LAP_LUAN[k.lap_luan]||k.lap_luan)}</div>`:""}
+    ${k.nhan_xet?`<div class="cham-nx">${esc(k.nhan_xet)}</div>`:""}
+    ${veCauTraLoiToMau(vanBanDaCham(), k.doan)}
+    <div class="cmp">
+      ${veDoanKhongToDuoc(k.doan)}
+      ${ds("AI nói đúng",       k.y_dung,   "ok",    "✓")}
+      ${ds("AI thiếu ý",        k.y_thieu,  "miss",  "✗")}
+      ${ds("AI nói sai / bịa",  k.y_sai,    "miss",  "✗")}
+      ${ds("Căn cứ dẫn sai",    k.can_cu_sai,"extra","⚠")}
+    </div>
+  </div>`;
+}
+
+function veThanhCham(r){
+  const daCham = !!(r && r.ai_cham);
+  return `<div class="ai-bar cham-bar">
+    <button class="btn ${daCham?"":"primary"}" id="chamLLM">
+      ${daCham ? "↻ Chấm lại bằng AI" : "🤖 Chấm bằng AI"}</button>
+    ${daCham?`<button class="btn" id="xoaCham">Bỏ kết quả chấm</button>`:""}
+    <span class="ai-hint" id="chamMsg">${daCham
+      ? "Kết quả đã lưu trong DB."
+      : "Chấm theo Ý bằng mô hình, lấy đáp án gốc làm chuẩn. Kết quả lưu lại."}</span>
+  </div>`;
+}
+
+async function chamBangLLM(batBuoc){
+  const r = curRec;
+  if(!r) return;
+  if(r.cau_hoi_id==null){
+    chamTrangThai("Bản ghi nạp từ file JSON, chưa có id trong DB nên không chấm được.", true);
+    return;
+  }
+  const ta = $("#aiInput");
+  const nut = $("#chamLLM");
+  if(nut){ nut.disabled = true; nut.textContent = "Đang chấm…"; }
+  chamTrangThai("Đang gọi mô hình, mất khoảng 10-40 giây…");
+  try{
+    const res = await fetch(`/api/cau_hoi/${r.cau_hoi_id}/cham-llm`, {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      // gửi kèm nội dung đang có trên màn hình -> chấm đúng cái đang nhìn thấy
+      body: JSON.stringify({ai_tra_loi: ta ? ta.value : undefined, bat_buoc: !!batBuoc})
+    });
+    const j = await res.json().catch(()=>({}));
+    if(!res.ok || !j.ok) throw new Error(j.detail || ("HTTP "+res.status));
+    r.ai_cham = j.ket_qua;
+    $("#chamResult").innerHTML = veKetQuaCham(j.ket_qua);
+    $("#chamWrap").innerHTML = veThanhCham(r);
+    chamTrangThai(j.canh_bao ? j.canh_bao
+      : (j.tu_bo_nho ? "Lấy lại kết quả đã lưu (bấm “Chấm lại” để chấm mới)."
+                     : "Chấm xong, đã lưu vào DB."), !!j.canh_bao);
+  }catch(e){
+    chamTrangThai("Chấm thất bại: "+e.message, true);
+  }finally{
+    const n2 = $("#chamLLM");
+    if(n2){ n2.disabled = false; if(n2.textContent==="Đang chấm…") n2.textContent="🤖 Chấm bằng AI"; }
+  }
+}
+
+let chamT=null;
+function chamTrangThai(chu, loi){
+  const el=$("#chamMsg"); if(!el) return;
+  el.textContent=chu; el.className="ai-hint"+(loi?" ai-err":"");
+  clearTimeout(chamT);
+  if(!loi) chamT=setTimeout(()=>{ if($("#chamMsg")===el && curRec)
+    el.textContent = curRec.ai_cham ? "Kết quả đã lưu trong DB." : ""; }, 4000);
+}
+
+async function xoaKetQuaCham(){
+  const r=curRec; if(!r || r.cau_hoi_id==null) return;
+  try{
+    const res=await fetch(`/api/cau_hoi/${r.cau_hoi_id}/cham-llm`,{method:"DELETE"});
+    const j=await res.json().catch(()=>({}));
+    if(!res.ok || !j.ok) throw new Error(j.detail||("HTTP "+res.status));
+    r.ai_cham=null;
+    $("#chamResult").innerHTML="";
+    $("#chamWrap").innerHTML=veThanhCham(r);
+    chamTrangThai("Đã bỏ kết quả chấm.");
+  }catch(e){ chamTrangThai("Không bỏ được: "+e.message, true); }
+}
+
+function analyzeAI(){
+  const ta=$("#aiInput"); if(!ta||!curRec) return;
+  // truyền cả đáp án gốc để tính độ tương đồng lời văn, không chỉ căn cứ
+  $("#aiResult").innerHTML = renderAI(curRec.trich_dan||[], ta.value, curRec.dap_an||"");
+}
+
+function renderDetail(r){
+  const docs=r.van_ban_dan_chieu, cites=r.trich_dan;
+  const f=FIELDS.find(x=>x.name===r.linh_vuc);
+  const docHtml = docs.length ? `<ul class="docs">`+docs.map(d=>`
+      <li class="doc"><span class="nm">${esc(d.ten)}</span>
+        ${d.so_hieu?`<span class="sh">${esc(d.so_hieu)}</span>`:''}
+        ${d.link?`<a class="open" href="${esc(d.link)}" target="_blank" rel="noopener">Mở văn bản ↗</a>`:''}
+      </li>`).join("")+`</ul>` : "";
+  const citeHtml = cites.length ? `<div class="cites">`+cites.map(c=>`
+      <div class="cite">
+        <div class="badges">${citeBadges(c)||'<span class="badge">Trích dẫn</span>'}</div>
+        <div class="cv">${esc(c.van_ban||"(không rõ văn bản)")}
+          ${c.link?` &nbsp;<a class="open" href="${esc(c.link)}" target="_blank" rel="noopener">Mở ↗</a>`:''}</div>
+        ${c.trich_dan_goc?`<div class="cg">“${esc(c.trich_dan_goc)}”</div>`:''}
+      </div>`).join("")+`</div>`
+    : (docs.length? "" : `<div class="nocite">Câu trả lời này không nêu điều/khoản cụ thể.</div>`);
+
+  curRec = r;
+  const saved = loadAI(r);
+  $("#detail").className="detail";
+  $("#detail").innerHTML=`
+    <div class="d-head">
+      <h2>${esc(r.tieu_de)}</h2>
+      <div class="d-meta">
+        ${r.cau_hoi_id!=null?`<span class="tag" title="cau_hoi_id trong DB">🆔 #${esc(r.cau_hoi_id)}</span>`:''}
+        <span class="tag"><span class="dot" style="background:${f?f.color:'#888'}"></span>${esc(r.linh_vuc)}</span>
+        <span class="tag">🕒 ${esc(r.ngay)}</span>
+        <span class="tag">${esc(r.nguon)}</span>
+        ${r.chuyen_muc?`<span class="tag">Chuyên mục: ${esc(r.chuyen_muc)}</span>`:''}
+      </div>
+      ${r.cau_hoi_id!=null ? (editing
+        ? `<div class="edit-bar"><button class="btn primary" id="saveEdit">💾 Lưu vào DB</button><button class="btn" id="cancelEdit">Hủy</button><span class="ai-hint" id="editMsg"></span></div>`
+        : `<div class="edit-bar"><button class="btn" id="startEdit">✏️ Sửa câu hỏi / đáp án</button></div>`) : ''}
+    </div>
+    <div class="block"><div class="bh q">Câu hỏi ${editing?'<span class="editflag">· đang sửa</span>':''}</div>
+      <div class="bb">${editing?`<textarea class="edit-ta" id="editQ">${esc(r.cau_hoi)}</textarea>`:`<div class="qtext">${esc(r.cau_hoi)}</div>`}</div></div>
+    <div class="twocol">
+      <div class="colL">
+        <div class="block"><div class="bh a">Trả lời (đáp án gốc) ${editing?'<span class="editflag">· đang sửa</span>':''}</div>
+          <div class="bb">${editing?`<textarea class="edit-ta tall" id="editA">${esc(r.dap_an)}</textarea>`:`<div class="atext scrollbox">${esc(r.dap_an)}</div>`}</div></div>
+        <div class="block"><div class="bh c">Căn cứ pháp lý (đáp án) ${(docs.length||cites.length)?`· ${docs.length} văn bản · ${cites.length} trích dẫn`:''}</div>
+          <div class="bb">${docHtml}${citeHtml || '<div class="nocite">Không phát hiện căn cứ pháp lý trong câu trả lời.</div>'}</div></div>
+      </div>
+      <div class="colR">
+        <div class="block"><div class="bh ai">AI trả lời &amp; đối chiếu căn cứ</div>
+          <div class="bb">
+            <textarea class="ai-ta" id="aiInput" placeholder="Dán câu trả lời của AI vào đây… (tự tách bộ luật / điều / khoản / điểm và so khớp với đáp án)">${esc(saved)}</textarea>
+            <div class="ai-bar">
+              <button class="btn primary" id="aiRun">Phân tích &amp; so khớp</button>
+              <button class="btn" id="aiClear">Xoá</button>
+              <span class="ai-hint" id="aiSaveMsg">Tự lưu vào DB theo từng câu hỏi.</span>
+            </div>
+            <div id="aiResult"></div>
+            <div id="chamWrap">${veThanhCham(r)}</div>
+            <div id="chamResult">${veKetQuaCham(r.ai_cham)}</div>
+          </div></div>
+      </div>
+    </div>`;
+  $("#detail").scrollTop=0;
+  if(saved.trim()) analyzeAI();
+}
+
+/* ---------- Events ---------- */
+$("#fieldSel").addEventListener("change",e=>{
+  state.field = e.target.value || null;
+  state.limit=60; renderList();
+});
+let qt=null;
+$("#q").addEventListener("input",e=>{ clearTimeout(qt); qt=setTimeout(()=>{ state.query=e.target.value.trim(); state.limit=60; renderList(); },160); });
+$("#sort").addEventListener("change",e=>{ state.sort=e.target.value; state.limit=60; renderList(); });
+function copyId(el){
+  const id=(el.dataset.id||"").trim(); if(!id) return;
+  const done=()=>{ const old=el.textContent; el.textContent="✓"; setTimeout(()=>{el.textContent=old;},700); };
+  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(id).then(done).catch(done);
+  else done();
+}
+function resetDetail(){
+  state.sel=null;
+  $("#detail").className="detail empty-state";
+  $("#detail").innerHTML="<div>Chọn một câu hỏi bên trái để xem chi tiết &amp; căn cứ pháp lý.</div>";
+}
+async function deleteQuestion(cid, btn){
+  cid=+cid; if(!cid) return;
+  const rec=DATA.find(r=>r.cau_hoi_id===cid);
+  if(!confirm(`Xóa câu hỏi #${cid}${rec?` — “${rec.tieu_de}”`:""} khỏi DB?\n\nHành động này KHÔNG thể hoàn tác.`)) return;
+  if(btn){ btn.disabled=true; btn.textContent="…"; }
+  try{
+    const res=await fetch(`/api/cau_hoi/${cid}`,{method:"DELETE"});
+    const j=await res.json().catch(()=>({}));
+    if(!res.ok || !j.ok){ alert("Xóa thất bại: "+(j.detail||("HTTP "+res.status))); if(btn){ btn.disabled=false; btn.textContent="🗑"; } return; }
+    // Gỡ khỏi dữ liệu đang xem, giữ nguyên câu đang chọn (nếu khác câu vừa xóa)
+    const selId=(state.sel!=null && DATA[state.sel]) ? DATA[state.sel].cau_hoi_id : null;
+    DATA=DATA.filter(r=>r.cau_hoi_id!==cid);
+    DATA.forEach((r,i)=>r._i=i);
+    buildFields(); renderStats(); renderFields();
+    if(selId===cid) resetDetail();
+    else if(selId!=null){ const s=DATA.find(r=>r.cau_hoi_id===selId); state.sel=s?s._i:null; }
+    renderList();
+  }catch(err){ alert("Lỗi kết nối: "+err.message); if(btn){ btn.disabled=false; btn.textContent="🗑"; } }
+}
+$("#list").addEventListener("click",e=>{
+  if(e.target.id==="more"){ state.limit+=100; renderList(); return; }
+  const del=e.target.closest(".del-btn"); if(del){ if(!del.disabled) deleteQuestion(del.dataset.del, del); return; }
+  const idc=e.target.closest(".idcol"); if(idc){ copyId(idc); return; }
+  const card=e.target.closest(".card"); if(!card) return;
+  state.sel=+card.dataset.i;
+  document.querySelectorAll(".card.sel").forEach(c=>c.classList.remove("sel"));
+  card.classList.add("sel");
+  editing=false;
+  renderDetail(DATA[state.sel]);
+});
+
+async function saveEdit(){
+  if(!curRec || curRec.cau_hoi_id==null) return;
+  const q=$("#editQ")?$("#editQ").value:curRec.cau_hoi;
+  const a=$("#editA")?$("#editA").value:curRec.dap_an;
+  const btn=$("#saveEdit"), msg=$("#editMsg");
+  if(btn){ btn.disabled=true; btn.textContent="Đang lưu…"; }
+  try{
+    const res=await fetch(`/api/cau_hoi/${curRec.cau_hoi_id}`,{
+      method:"PUT", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({cau_hoi:q, dap_an:a})});
+    const j=await res.json().catch(()=>({}));
+    if(!res.ok || !j.ok){ if(msg) msg.textContent="Lỗi: "+(j.detail||("HTTP "+res.status));
+      if(btn){ btn.disabled=false; btn.textContent="💾 Lưu vào DB"; } return; }
+    // Cập nhật trong bộ nhớ + chuỗi tìm kiếm để list/search khớp nội dung mới
+    curRec.cau_hoi=q; curRec.dap_an=a;
+    curRec._hay=[curRec.tieu_de,curRec.cau_hoi,curRec.dap_an,
+      curRec.van_ban_dan_chieu.map(v=>v.ten+" "+v.so_hieu).join(" "),
+      curRec.trich_dan.map(t=>t.trich_dan_goc).join(" ")].join(" ").toLowerCase();
+    editing=false; renderDetail(curRec);
+  }catch(err){ if(msg) msg.textContent="Lỗi kết nối: "+err.message;
+    if(btn){ btn.disabled=false; btn.textContent="💾 Lưu vào DB"; } }
+}
+
+/* ---- AI trả lời & đối chiếu (uỷ quyền sự kiện vì #detail render lại mỗi lần chọn) ---- */
+$("#detail").addEventListener("click",e=>{
+  if(e.target.id==="startEdit"){ editing=true; renderDetail(curRec); return; }
+  if(e.target.id==="cancelEdit"){ editing=false; renderDetail(curRec); return; }
+  if(e.target.id==="saveEdit"){ saveEdit(); return; }
+  if(e.target.id==="chamLLM"){ chamBangLLM(!!(curRec&&curRec.ai_cham)); return; }
+  if(e.target.id==="xoaCham"){ xoaKetQuaCham(); return; }
+  if(e.target.id==="aiRun"){ if(curRec) luuAI($("#aiInput").value); analyzeAI(); }
+  else if(e.target.id==="aiClear"){ const t=$("#aiInput"); if(t){ t.value=""; luuAI(""); $("#aiResult").innerHTML=""; t.focus(); } }
+});
+
+/* Lưu + báo trạng thái. Chốt bản ghi tại thời điểm gọi: người dùng có thể bấm
+   sang câu khác trong lúc request đang bay, lúc đó curRec đã đổi rồi. */
+function luuAI(txt){
+  const r=curRec; if(!r) return;
+  aiTrangThai("Đang lưu…");
+  saveAI(r, txt).then(ok=>{ if(ok) aiTrangThai("Đã lưu vào DB."); });
+}
+
+let aiT=null;
+$("#detail").addEventListener("input",e=>{
+  if(e.target.id!=="aiInput") return;
+  clearTimeout(aiT);
+  aiT=setTimeout(()=>{ luuAI(e.target.value); analyzeAI(); }, 400);
+});
+/* Dán thì lưu NGAY, không đợi 400ms gõ tiếp — dán là hành động đã xong. */
+$("#detail").addEventListener("paste",e=>{
+  if(e.target.id!=="aiInput") return;
+  clearTimeout(aiT);
+  setTimeout(()=>{ luuAI(e.target.value); analyzeAI(); },0);  // đợi text vào ô
+});
+/* Rời ô hoặc đóng tab khi bộ đếm 400ms chưa chạy -> lưu nốt, khỏi mất chữ. */
+$("#detail").addEventListener("focusout",e=>{
+  if(e.target.id!=="aiInput") return;
+  clearTimeout(aiT); luuAI(e.target.value);
+});
+window.addEventListener("beforeunload",()=>{
+  const t=$("#aiInput");
+  if(!t || !curRec || curRec.cau_hoi_id==null) return;
+  if((t.value||"").trim()===(curRec.ai_tra_loi||"").trim()) return;
+  // fetch thường bị huỷ khi trang đóng; sendBeacon vẫn gửi được
+  try{
+    navigator.sendBeacon && navigator.sendBeacon(
+      `/api/cau_hoi/${curRec.cau_hoi_id}/ai-tra-loi`,
+      new Blob([JSON.stringify({ai_tra_loi:t.value})],{type:"application/json"}));
+  }catch(_){}
+});
+
+/* ---------- File import ---------- */
+function readFile(file){
+  if(!file) return;
+  const rd=new FileReader();
+  rd.onload=()=>{ try{ load(JSON.parse(rd.result)); }catch(err){ alert("Không đọc được JSON: "+err.message); } };
+  rd.onerror=()=>alert("Lỗi đọc file.");
+  rd.readAsText(file,"utf-8");
+}
+$("#fileInput").addEventListener("change",e=>readFile(e.target.files[0]));
+["#importBtn","#importBtn2"].forEach(s=>$(s).addEventListener("click",()=>$("#fileInput").click()));
+
+/* drag & drop toàn trang */
+const ov=$("#dropOverlay"); let dc=0;
+window.addEventListener("dragenter",e=>{ if(e.dataTransfer&&[...e.dataTransfer.types].includes("Files")){ dc++; ov.classList.add("show"); }});
+window.addEventListener("dragover",e=>e.preventDefault());
+window.addEventListener("dragleave",()=>{ if(--dc<=0){ dc=0; ov.classList.remove("show"); }});
+window.addEventListener("drop",e=>{ e.preventDefault(); dc=0; ov.classList.remove("show");
+  const fs=e.dataTransfer&&e.dataTransfer.files; if(!fs||!fs.length) return;
+  if(typeof MODE!=="undefined" && MODE==="edit") eImport(fs); else readFile(fs[0]); });
+
+/* thử tự nạp file cạnh trang (khi chạy qua http server) — im lặng nếu thất bại.
+   Thử lần lượt vài tên quen thuộc, nạp file ĐẦU TIÊN tìm thấy. */
+(function autoload(){
+  // Ưu tiên API (khi chạy qua app.py / FastAPI); nếu không có thì thử file JSON tĩnh.
+  const cands=["/api/data","api/data"];
+  const names=["plo_hoidap_dataset.json","chinhsachonline_dataset.json","plo_chat_dataset.json"];
+  names.forEach(n=>{ cands.push(n); cands.push("../"+n); });
+  (function tryNext(i){
+    if(i>=cands.length) return;
+    fetch(cands[i]).then(r=>r.ok?r.json():Promise.reject())
+      .then(d=>{ if(Array.isArray(d)&&d.length) load(d); else throw 0; })
+      .catch(()=>tryNext(i+1));
+  })(0);
+})();
+
+/* ===================== TAB / MODE ===================== */
+let MODE="view";
+function setMode(m){
+  MODE=m;
+  document.querySelectorAll(".tabbtn").forEach(b=>b.classList.toggle("on",b.dataset.mode===m));
+  const edit=(m==="edit");
+  $("#editApp").classList.toggle("hidden",!edit);
+  $("#app").classList.toggle("hidden", edit || DATA.length===0);
+  $("#importView").classList.toggle("hidden", edit || DATA.length>0);
+}
+document.querySelectorAll(".tabbtn").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.mode)));
+
+/* ===================== MODE: NHẬP & SỬA ===================== */
+const EFILES=[]; let ecur=-1, esel=-1;
+const eSel=new Set();   // các bản ghi (theo tham chiếu) đang được tick để xóa hàng loạt
+const hasCite = r => (Array.isArray(r.van_ban_dan_chieu)&&r.van_ban_dan_chieu.length>0)
+                  || (Array.isArray(r.trich_dan)&&r.trich_dan.length>0);
+
+function eImport(files){
+  const arr=[...files]; let pending=arr.length, added=0;
+  if(!pending) return;
+  arr.forEach(file=>{
+    const rd=new FileReader();
+    rd.onload=()=>{
+      try{ const d=JSON.parse(rd.result); if(!Array.isArray(d)) throw 0;
+        EFILES.push({name:file.name, records:d}); added++; }
+      catch(_){ alert("Không đọc được JSON (phải là MẢNG): "+file.name); }
+      if(--pending===0 && added){ ecur=EFILES.length-1; esel=-1; eSel.clear(); $("#eSelAll").checked=false; renderEFileSel(); renderEList(); clearEditor(); }
+    };
+    rd.onerror=()=>{ if(--pending===0) renderEList(); };
+    rd.readAsText(file,"utf-8");
+  });
+}
+function renderEFileSel(){
+  $("#eFileSel").innerHTML=EFILES.map((f,i)=>`<option value="${i}">${esc(f.name)} (${f.records.length})</option>`).join("");
+  if(ecur>=0) $("#eFileSel").value=ecur;
+}
+function eRows(){
+  if(ecur<0) return [];
+  const only=$("#eOnlyMissing").checked;
+  return EFILES[ecur].records.map((r,idx)=>({r,idx})).filter(x=> only ? !hasCite(x.r) : true);
+}
+function renderEList(){
+  const el=$("#eList");
+  if(ecur<0){ el.innerHTML=`<div class="empty">Nhập file JSON để bắt đầu…</div>`; $("#eCount").textContent=""; return; }
+  const recs=EFILES[ecur].records, missing=recs.filter(r=>!hasCite(r)).length;
+  $("#eCount").textContent=`Chưa có căn cứ: ${missing} / ${recs.length}`;
+  const rows=eRows();
+  if(!rows.length){ el.innerHTML=`<div class="empty">Không có câu nào khớp bộ lọc.</div>`; return; }
+  el.innerHTML=rows.map(({r,idx})=>{
+    const m=hasCite(r), on=eSel.has(r);
+    return `<div class="ecard ${esel===idx?'sel':''} ${on?'cbsel':''}" data-i="${idx}">
+      <input type="checkbox" class="ecb" ${on?'checked':''}>
+      <div class="ecb-body">
+        <div class="ttl">${esc(r.tieu_de||"(không tiêu đề)")}</div>
+        <div class="meta"><span>${esc(r.linh_vuc||"")}</span>
+          ${m?`<span class="hascite">✓ ${(r.van_ban_dan_chieu||[]).length} VB / ${(r.trich_dan||[]).length} TD</span>`
+             :`<span class="miss">⚠ chưa có căn cứ</span>`}</div>
+      </div>
+    </div>`;
+  }).join("");
+  updateBulkUI();
+}
+function updateBulkUI(){
+  const btn=$("#eDelSel");
+  btn.textContent="Xóa đã chọn ("+eSel.size+")";
+  btn.disabled = eSel.size===0;
+}
+function eStatus(t,cls){ const s=$("#eStatus"); s.textContent=t||""; s.className="ehint "+(cls||""); }
+function renderPreview(rec){
+  $("#ePvQ").textContent = (rec && rec.cau_hoi) ? rec.cau_hoi : "(không có)";
+  $("#ePvA").textContent = (rec && rec.dap_an) ? rec.dap_an : "(không có)";
+}
+function clearEditor(){ $("#eJson").value=""; $("#eSelInfo").textContent="Chọn 1 câu bên trái để sửa JSON."; eStatus(""); renderPreview(null); }
+function selectERecord(idx){
+  esel=idx; const r=EFILES[ecur].records[idx];
+  $("#eJson").value=JSON.stringify(r,null,2);
+  $("#eSelInfo").textContent=`${EFILES[ecur].name} · câu #${idx} · ${hasCite(r)?"đã có căn cứ":"CHƯA có căn cứ"}`;
+  eStatus(""); renderPreview(r); renderEList();
+}
+function eApply(){
+  if(ecur<0||esel<0){ eStatus("Chưa chọn câu nào.","err"); return; }
+  let obj; try{ obj=JSON.parse($("#eJson").value); }
+  catch(err){ eStatus("JSON lỗi: "+err.message,"err"); return; }
+  EFILES[ecur].records[esel]=obj;
+  eStatus('Đã áp dụng vào bộ nhớ — bấm "Tải file đã sửa ↓" để lưu ra file rồi nạp lại DB.',"ok");
+  renderPreview(obj); renderEList();
+}
+function eDownload(){
+  if(ecur<0){ eStatus("Chưa có file.","err"); return; }
+  const f=EFILES[ecur];
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(f.records,null,2)],{type:"application/json"}));
+  a.download=f.fromDB?"tu_db.json":f.name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+$("#eImportBtn").addEventListener("click",()=>$("#eFileInput").click());
+$("#eFileInput").addEventListener("change",e=>{ eImport(e.target.files); e.target.value=""; });
+$("#eFileSel").addEventListener("change",e=>{ ecur=+e.target.value; esel=-1; eSel.clear(); $("#eSelAll").checked=false; renderEList(); clearEditor(); });
+$("#eOnlyMissing").addEventListener("change",renderEList);
+$("#eList").addEventListener("click",e=>{
+  const card=e.target.closest(".ecard"); if(!card) return;
+  const idx=+card.dataset.i, rec=EFILES[ecur].records[idx];
+  const cb=e.target.closest(".ecb");
+  if(cb){                                   // tick chọn/bỏ chọn (không mở editor)
+    if(cb.checked) eSel.add(rec); else eSel.delete(rec);
+    card.classList.toggle("cbsel", cb.checked);
+    $("#eSelAll").checked=false;
+    updateBulkUI(); return;
+  }
+  selectERecord(idx);
+});
+$("#eSelAll").addEventListener("change",e=>{
+  const rows=eRows();
+  if(e.target.checked) rows.forEach(x=>eSel.add(x.r)); else rows.forEach(x=>eSel.delete(x.r));
+  renderEList();
+});
+async function eDeleteSelected(){
+  if(!eSel.size){ eStatus("Chưa tick câu nào.","err"); return; }
+  const recs=[...eSel];
+  if(!confirm(`Xóa ${recs.length} câu đã chọn${EFILES[ecur].fromDB?" khỏi DB":""}? Không thể hoàn tác.`)) return;
+  eStatus("Đang xóa "+recs.length+" câu…");
+  try{
+    if(EFILES[ecur].fromDB){
+      const ids=recs.map(r=>r.cau_hoi_id).filter(x=>x!=null);
+      if(ids.length){
+        const r=await fetch("/api/cau_hoi/delete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids})});
+        const j=await r.json(); if(!r.ok||!j.ok) throw new Error(j.detail||("HTTP "+r.status));
+      }
+    }
+    EFILES[ecur].records=EFILES[ecur].records.filter(r=>!eSel.has(r));   // bỏ khỏi danh sách
+    const nd=recs.length; eSel.clear(); esel=-1; $("#eSelAll").checked=false;
+    clearEditor(); renderEFileSel(); renderEList();
+    eStatus("✓ Đã xóa "+nd+" câu"+(EFILES[ecur].fromDB?" khỏi DB":"")+".","ok");
+  }catch(err){ eStatus("Xóa lỗi: "+err.message,"err"); }
+}
+$("#eDelSel").addEventListener("click",eDeleteSelected);
+function eLoadDB(){
+  eStatus("Đang tải từ DB…");
+  fetch("/api/data").then(r=>r.ok?r.json():Promise.reject("HTTP "+r.status)).then(d=>{
+    if(!Array.isArray(d)) throw "dữ liệu không hợp lệ";
+    EFILES.push({name:"(Dữ liệu từ DB)", fromDB:true, records:d});
+    ecur=EFILES.length-1; esel=-1; eSel.clear(); $("#eSelAll").checked=false;
+    renderEFileSel(); renderEList(); clearEditor();
+    eStatus("✓ Đã tải "+d.length+" câu từ DB.","ok");
+  }).catch(e=>eStatus("Tải DB lỗi: "+e,"err"));
+}
+async function eSaveDB(){
+  if(ecur<0||esel<0){ eStatus("Chưa chọn câu.","err"); return; }
+  if(!EFILES[ecur].fromDB){ eStatus('File này không phải từ DB — dùng "Tải file đã sửa" rồi nạp lại DB.',"err"); return; }
+  let obj; try{ obj=JSON.parse($("#eJson").value); }catch(err){ eStatus("JSON lỗi: "+err.message,"err"); return; }
+  const id=obj.cau_hoi_id;
+  if(id==null){ eStatus("Câu này thiếu cau_hoi_id — không lưu DB được.","err"); return; }
+  eStatus("Đang lưu vào DB…");
+  try{
+    const r=await fetch("/api/cau_hoi/"+id+"/raw",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(obj)});
+    const j=await r.json();
+    if(!r.ok||!j.ok) throw new Error(j.detail||("HTTP "+r.status));
+    EFILES[ecur].records[esel]=obj;
+    eStatus("✓ Đã lưu vào DB (câu #"+id+").","ok");
+    renderPreview(obj); renderEList();
+  }catch(err){ eStatus("Lưu DB lỗi: "+err.message,"err"); }
+}
+async function eDeleteDB(){
+  if(ecur<0||esel<0){ eStatus("Chưa chọn câu.","err"); return; }
+  const rec=EFILES[ecur].records[esel]; const id=rec&&rec.cau_hoi_id;
+  if(!EFILES[ecur].fromDB || id==null){ eStatus('Chỉ xóa được câu đã "Nạp từ DB" (có cau_hoi_id).',"err"); return; }
+  if(!confirm(`Xóa HẲN câu #${id} khỏi DB?\n"${(rec.tieu_de||"").slice(0,90)}"\nKhông thể hoàn tác.`)) return;
+  eStatus("Đang xóa…");
+  try{
+    const r=await fetch("/api/cau_hoi/"+id,{method:"DELETE"});
+    const j=await r.json();
+    if(!r.ok||!j.ok) throw new Error(j.detail||("HTTP "+r.status));
+    EFILES[ecur].records.splice(esel,1);   // bỏ khỏi danh sách đang xem
+    esel=-1; clearEditor(); renderEFileSel(); renderEList();
+    eStatus("✓ Đã xóa câu #"+id+" khỏi DB.","ok");
+  }catch(err){ eStatus("Xóa lỗi: "+err.message,"err"); }
+}
+$("#eApply").addEventListener("click",eApply);
+$("#eSaveDB").addEventListener("click",eSaveDB);
+$("#eDeleteDB").addEventListener("click",eDeleteDB);
+$("#eLoadDB").addEventListener("click",eLoadDB);
+$("#eDownload").addEventListener("click",eDownload);
+$("#eJson").addEventListener("input",()=>{ try{ renderPreview(JSON.parse($("#eJson").value)); }catch(_){} });
+$("#eFormat").addEventListener("click",()=>{ try{ $("#eJson").value=JSON.stringify(JSON.parse($("#eJson").value),null,2); eStatus("Đã định dạng JSON.","ok"); }catch(err){ eStatus("JSON lỗi: "+err.message,"err"); } });
+</script>
+</body>
+</html>

@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gán nhãn hồ sơ đơn thư</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --panel:#ffffff; --line:#dfe3e8; --line2:#eceff2;
+    --text:#1c2430; --muted:#6b7684; --accent:#1e6fd9; --accent-soft:#e8f1fd;
+    --ok:#1a7f47; --warn:#b06a00; --radius:8px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);
+       font:14px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif}
+  button,input,select,textarea{font:inherit;color:inherit}
+
+  .app{display:flex;flex-direction:column;height:100vh}
+  header{display:flex;align-items:center;gap:14px;padding:10px 16px;
+         background:var(--panel);border-bottom:1px solid var(--line);flex:none}
+  header h1{margin:0;font-size:15px;font-weight:650;letter-spacing:-.01em;white-space:nowrap}
+  header .path{font-size:11.5px;color:var(--muted);font-family:Consolas,monospace;
+               overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .spacer{flex:1}
+  .progress{font-size:12px;color:var(--muted);white-space:nowrap}
+  .progress b{color:var(--text)}
+
+  /* Thanh bao dang o che do nap _all.json. Phai that noi bat: o che do nay
+     ban ghi hien ra KHONG phai tu data_mau_json/, ma bam Luu lai ghi de vao
+     do - nham lan la mat nhan dang lam. */
+  /* flex-wrap: man hinh hep thi phan canh bao "bam Luu se ghi de" bi cat mat,
+     ma do lai la cau quan trong nhat tren thanh nay */
+  .modebar{display:flex;align-items:center;gap:6px 12px;padding:7px 16px;flex:none;
+           flex-wrap:wrap;background:#fff4e5;border-bottom:1px solid #f0d9a8;
+           font-size:12.5px;color:#6b5320}
+  .modebar b{color:#8a5a12}
+  .modebar .fn{font-family:Consolas,monospace;font-size:11.5px;overflow:hidden;
+               text-overflow:ellipsis;white-space:nowrap;max-width:280px}
+  .modebar .warn{color:#a4402c}
+  .fitem .meta .tag.imp{color:#b3720f;font-weight:600}
+
+  main{flex:1;display:grid;min-height:0;min-width:0;
+       grid-template-columns:clamp(200px,18vw,275px) minmax(240px,1fr) 6px var(--formw,470px)}
+
+  /* thanh keo doi be rong cot nhap lieu */
+  .gutter{background:var(--line);cursor:col-resize;position:relative}
+  .gutter:hover,.gutter.dragging{background:var(--accent)}
+  .gutter::after{content:"";position:absolute;inset:0 -4px}
+  body.resizing{cursor:col-resize;user-select:none}
+  body.resizing iframe{pointer-events:none}
+  .col{min-height:0;min-width:0;display:flex;flex-direction:column;background:var(--panel)}
+  .col + .col{border-left:1px solid var(--line)}
+
+  /* sidebar */
+  .side-top{padding:10px;border-bottom:1px solid var(--line2);flex:none;
+            display:flex;flex-direction:column;gap:6px}
+  .side-top input,.side-top select{width:100%;padding:7px 9px;border:1px solid var(--line);
+                  border-radius:6px;background:#fff}
+  .side-top select{padding:6px 8px;font-size:12.5px}
+  .filelist{overflow:auto;flex:1;padding:6px}
+  .fitem{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;border-radius:6px;
+         cursor:pointer;border:1px solid transparent}
+  .fitem:hover{background:#f7f9fb}
+  .fitem.active{background:var(--accent-soft);border-color:#bcd8f7}
+  .fitem .nm{font-size:12.5px;line-height:1.35;word-break:break-word;flex:1}
+  .fitem .meta{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  .fitem .meta .tag{color:var(--accent);font-weight:600}
+  .fitem .meta .tag.old{color:var(--warn)}
+  .fitem .meta .tag.gq{color:#5a3fa8}
+  .dot{width:8px;height:8px;border-radius:50%;background:#cdd4dc;margin-top:6px;flex:none}
+  .dot.saved{background:var(--warn)}
+  .dot.done{background:var(--ok)}
+
+  /* viewer */
+  .viewer-bar{display:flex;align-items:center;gap:8px;padding:6px 12px;
+              border-bottom:1px solid var(--line2);flex:none}
+  .viewer-bar .fn{font-size:12.5px;font-weight:600;overflow:hidden;
+                  text-overflow:ellipsis;white-space:nowrap}
+  .tabs{display:flex;gap:2px;background:#eef1f4;border-radius:7px;padding:2px;flex:none}
+  .tabs button{border:0;background:transparent;padding:4px 12px;border-radius:5px;
+               cursor:pointer;font-size:12.5px;color:var(--muted)}
+  .tabs button.on{background:#fff;color:var(--text);font-weight:600;
+                  box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  iframe{flex:1;width:100%;border:0;background:#525659}
+  .empty{flex:1;display:grid;place-items:center;color:var(--muted);font-size:13px;
+         text-align:center;padding:20px}
+
+  /* ocr pane */
+  .ocrpane{flex:1;display:flex;flex-direction:column;min-height:0}
+  /* flex-wrap: co 3 bo doc thi thanh cong cu dai hon be ngang cot -> phai
+     cho xuong dong, khong thi tab "Doi chieu" bi day ra ngoai man hinh */
+  .ocrbar{display:flex;align-items:center;gap:8px;padding:8px 12px;flex-wrap:wrap;
+          border-bottom:1px solid var(--line2);flex:none;background:#fbfcfd}
+  .ocrbar .info{font-size:12px;color:var(--muted);flex:1 1 100%;overflow:hidden;
+                text-overflow:ellipsis;white-space:nowrap}
+  .ocrbody{flex:1;overflow:auto;padding:12px 14px 40px;background:#fafbfc}
+  .pg{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      margin-bottom:12px;overflow:hidden}
+  .pg h3{margin:0;padding:6px 10px;font-size:11.5px;font-weight:650;color:var(--muted);
+         background:#f7f9fb;border-bottom:1px solid var(--line2);
+         display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.03em}
+  .pg h3 button{margin-left:auto}
+  .pg pre{margin:0;padding:10px 12px;white-space:pre-wrap;word-break:break-word;
+          font:13.5px/1.62 "Segoe UI",system-ui,sans-serif;user-select:text}
+  .pg .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:0}
+  .pg .two > div{min-width:0}
+  .pg .two > div + div{border-left:1px solid var(--line2)}
+  .pg .two h4{margin:0;padding:4px 12px;font-size:10.5px;font-weight:700;color:var(--muted);
+              background:#fcfdfe;border-bottom:1px solid var(--line2);letter-spacing:.04em}
+  .warnbox{margin:0 0 12px;padding:8px 11px;border:1px solid #f0d9a8;background:#fdf7e9;
+           border-radius:var(--radius);font-size:12px;line-height:1.5;color:#6b5320}
+  .errbox{margin:0;padding:6px 12px;font-size:11.5px;color:#a4402c;background:#fdf1ee;
+          border-bottom:1px solid #f3d6ce}
+  .bar-progress{height:3px;background:var(--line2);border-radius:2px;overflow:hidden;width:120px}
+  .bar-progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+
+  /* form */
+  .form-scroll{overflow:auto;flex:1;padding:14px 16px 40px}
+  .sec{border:1px solid var(--line);border-radius:var(--radius);margin-bottom:14px;
+       overflow:hidden;background:#fff}
+  .sec > h2{margin:0;padding:9px 12px;font-size:12.5px;font-weight:650;
+            background:#f7f9fb;border-bottom:1px solid var(--line2);
+            display:flex;align-items:center;gap:8px}
+  .sec > h2 .count{color:var(--muted);font-weight:500}
+  .sec > h2 .add{margin-left:auto}
+  .entries{padding:10px 12px 12px}
+  .entry{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+  .entry:first-child{border-top:0;margin-top:0;padding-top:0}
+  .entry .ehead{display:flex;align-items:center;margin-bottom:8px}
+  .entry .ehead span{font-size:11.5px;color:var(--muted);font-weight:600;
+                     text-transform:uppercase;letter-spacing:.03em}
+  .entry .ehead button{margin-left:auto}
+  .none{padding:10px 12px 14px;color:var(--muted);font-size:12.5px}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  label.f{display:block;margin-bottom:8px}
+  label.f > i{display:block;font-style:normal;font-size:11.5px;color:var(--muted);
+              margin-bottom:3px;font-weight:600}
+  input[type=text],select,textarea{width:100%;padding:6px 8px;border:1px solid var(--line);
+       border-radius:6px;background:#fff}
+  textarea{resize:vertical;min-height:110px;max-height:70vh;line-height:1.6;
+           overflow-y:auto;padding:8px 10px}
+  input[type=text]{padding:7px 9px}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent-soft);
+       border-color:var(--accent)}
+
+  .btn{padding:6px 12px;border:1px solid var(--line);background:#fff;border-radius:6px;
+       cursor:pointer;font-size:12.5px;white-space:nowrap}
+  .btn:hover{background:#f2f5f8}
+  .btn.small{padding:3px 8px;font-size:11.5px}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  .btn.primary:hover{background:#175cb5}
+  .btn.danger{color:#b1352f;border-color:#eccbc9}
+  .btn.danger:hover{background:#fdf0ef}
+  .btn:disabled{opacity:.45;cursor:default}
+
+  .savebar{flex:none;border-top:1px solid var(--line);padding:10px 16px;background:#fff;
+           display:flex;align-items:center;gap:10px}
+  .savebar .status{font-size:12px;color:var(--muted);flex:1;overflow:hidden;
+                   text-overflow:ellipsis;white-space:nowrap}
+  .savebar .status.dirty{color:var(--warn)}
+  .savebar .status.ok{color:var(--ok)}
+  .tagline{font-size:11.5px;color:var(--ok);font-weight:600;white-space:nowrap}
+  .chk{display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Gán nhãn hồ sơ đơn thư</h1>
+    <span class="path" id="paths"></span>
+    <span class="spacer"></span>
+    <span class="progress" id="gemProg"></span>
+    <button class="btn" id="btnGemAll" title="Đọc toàn bộ hồ sơ bằng mô hình thị giác (chính xác nhất, đọc được cả chữ viết tay)">Gemini tất cả</button>
+    <span class="progress" id="ocrProg"></span>
+    <button class="btn" id="btnOcrAll">OCR tất cả</button>
+    <span class="progress" id="prog"></span>
+    <button class="btn" id="btnExport" title="Gộp tất cả JSON thành _all.json">Xuất gộp _all.json</button>
+    <input type="file" id="fileAll" accept=".json,application/json" style="display:none">
+    <button class="btn" id="btnImport" title="Mở một file _all.json đã lưu về và xem/sửa nội dung trong đó">Nạp _all.json</button>
+  </header>
+
+  <div class="modebar" id="modebar" style="display:none">
+    <b>Chế độ _all.json</b>
+    <span class="fn" id="impName"></span>
+    <span id="impInfo"></span>
+    <span class="spacer"></span>
+    <button class="btn small" id="btnImpExit">Thoát chế độ này</button>
+  </div>
+
+  <main>
+    <section class="col">
+      <div class="side-top">
+        <input id="q" type="text" placeholder="Tìm tên file...">
+        <select id="fGq" title="Lọc theo ô “Cách giải quyết” ở phần Đơn thư"></select>
+      </div>
+      <div class="filelist" id="filelist"></div>
+    </section>
+
+    <section class="col">
+      <div class="viewer-bar">
+        <div class="tabs">
+          <button id="tabPdf" class="on">PDF gốc</button>
+          <button id="tabOcr">Văn bản OCR</button>
+        </div>
+        <span class="fn" id="curName">Chưa chọn tài liệu</span>
+        <span class="spacer"></span>
+        <label class="chk" id="origWrap" style="display:none">
+          <input type="checkbox" id="origPdf"> Bản gốc
+        </label>
+        <span class="tagline" id="pdfTag"></span>
+        <button class="btn small" id="btnOpen" disabled>Mở tab mới</button>
+      </div>
+
+      <div class="empty" id="empty">Chọn một tài liệu ở cột bên trái để bắt đầu.</div>
+      <iframe id="pdf" style="display:none"></iframe>
+
+      <div class="ocrpane" id="ocrpane" style="display:none">
+        <div class="ocrbar">
+          <button class="btn small" id="btnGem">Đọc bằng Gemini</button>
+          <button class="btn small" id="btnOcr">Chạy OCR</button>
+          <select id="ocrDpi" style="width:auto;padding:3px 6px;font-size:11.5px"
+                  title="Chỉ ảnh hưởng các trang PDF không có ảnh nhúng (phải render lại). Trang scan luôn dùng đúng độ phân giải thật của ảnh.">
+            <option value="300">300 dpi</option>
+            <option value="400">400 dpi (scan mờ)</option>
+            <option value="200">200 dpi (nhanh)</option>
+          </select>
+          <button class="btn small" id="btnVocr" style="display:none">Đọc thêm bằng VietOCR</button>
+          <div class="tabs" id="engTabs" style="display:none">
+            <button id="engG">Gemini</button>
+            <button id="engT" class="on">Tesseract</button>
+            <button id="engV">VietOCR</button>
+            <button id="engBoth">Đối chiếu</button>
+          </div>
+          <div class="bar-progress" id="ocrBar" style="display:none"><i></i></div>
+          <span class="info" id="ocrInfo"></span>
+          <button class="btn small" id="btnCopyAll" style="display:none">Copy toàn bộ</button>
+        </div>
+        <div class="ocrbody" id="ocrbody"></div>
+      </div>
+    </section>
+
+    <div class="gutter" id="gutter" title="Kéo để đổi bề rộng cột nhập liệu"></div>
+
+    <section class="col">
+      <div class="form-scroll" id="form" spellcheck="false"></div>
+      <div class="savebar">
+        <label class="chk"><input type="checkbox" id="done"> Đã hoàn thành</label>
+        <span class="status" id="status"></span>
+        <button class="btn" id="btnReload">Tải lại</button>
+        <button class="btn primary" id="btnSave" disabled>Lưu JSON (Ctrl+S)</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ============ dinh nghia cac phan & truong ============ */
+var SECTIONS = [
+  { key:'don_thu', title:'Đơn thư', singular:'Đơn', defaultCount:1, fields:[
+      {k:'ho_ten',    l:'Họ tên', t:'text', half:true},
+      {k:'cccd',      l:'CCCD / Số định danh', t:'text', half:true},
+      {k:'ngay_sinh', l:'Ngày sinh', t:'text', half:true, ph:'dd/mm/yyyy hoặc năm sinh'},
+      {k:'dia_chi',   l:'Địa chỉ', t:'text'},
+      {k:'nguyen_nhan', l:'Nguyên nhân', t:'area'},
+      {k:'yeu_cau',     l:'Yêu cầu', t:'area'},
+      {k:'cach_giai_quyet', l:'Cách giải quyết', t:'select',
+        opts:[['','— chưa xác định —'],['chuyen_don','Chuyển đơn'],['tu_giai_quyet','Tự giải quyết']]}
+  ]},
+  { key:'phieu_de_xuat', title:'Phiếu đề xuất', singular:'Phiếu đề xuất', defaultCount:0, fields:[
+      {k:'gui_cho_ai', l:'Gửi cho ai', t:'text'},
+      {k:'can_cu',     l:'Căn cứ', t:'area'},
+      {k:'noi_dung',   l:'Nội dung', t:'area'}
+  ]},
+  { key:'phieu_tra_loi', title:'Phiếu trả lời', singular:'Phiếu trả lời', defaultCount:0, fields:[
+      {k:'noi_dung_tra_loi', l:'Nội dung trả lời', t:'area'}
+  ]},
+  { key:'phieu_chuyen_don', title:'Phiếu chuyển đơn', singular:'Phiếu chuyển đơn', defaultCount:0, fields:[
+      {k:'gui_cho_ai', l:'Gửi cho ai', t:'text'},
+      {k:'can_cu',     l:'Căn cứ', t:'area'},
+      {k:'noi_dung',   l:'Nội dung', t:'area'}
+  ]}
+];
+
+/* ============ state ============ */
+var files = [], current = null, model = null, dirty = false;
+var justFinished = false;
+var engine = 'gemini';
+var vocrAvailable = false, gemAvailable = false, gemModel = '';
+var lastOcrData = null;
+var ocrAvailable = false, view = 'pdf', ocrTimer = null, globalTimer = null;
+
+/* ---- che do nap _all.json ----
+   allJson = null  -> che do thuong, nhan lay tu /api/annotation (data_mau_json/)
+   allJson != null -> nhan lay tu file _all.json nguoi dung vua mo tren may. */
+var allJson = null;          // {ten, theoFile:{}, tong, thieuPdf:[], daLuu:{}}
+var impWarned = false;       // da canh bao ghi de lan dau chua
+
+/* ---- ba bo doc dung chung mot khuon, khoi phai viet if long nhau ---- */
+var ENGINES = [
+  { key:'gemini',    field:'text_gemini',   label:'GEMINI',    tab:'engG' },
+  { key:'tesseract', field:'text',          label:'TESSERACT', tab:'engT' },
+  { key:'vietocr',   field:'text_vietocr',  label:'VIETOCR',   tab:'engV' }
+];
+function engField(k){
+  for(var i = 0; i < ENGINES.length; i++) if(ENGINES[i].key === k) return ENGINES[i].field;
+  return 'text';
+}
+function pageText(p, k){ var v = p[engField(k)]; return v == null ? '' : v; }
+/* engine nao thuc su co du lieu trong file nay */
+function availEngines(data){
+  return ENGINES.filter(function(e){
+    return data.pages.some(function(p){
+      return p[e.field] != null && String(p[e.field]).trim() !== '';
+    });
+  }).map(function(e){ return e.key; });
+}
+
+function fileInfo(name){
+  for(var i = 0; i < files.length; i++) if(files[i].name === name) return files[i];
+  return null;
+}
+function pdfUrl(name){
+  return '/api/pdf/' + encodeURIComponent(name) + ($('origPdf').checked ? '?orig=1' : '');
+}
+function refreshPdfBadge(){
+  var f = fileInfo(current);
+  var has = !!(f && f.has_pdf_text);
+  $('origWrap').style.display = has ? 'flex' : 'none';
+  $('pdfTag').textContent = has
+    ? ($('origPdf').checked ? '' : 'bôi đen được')
+    : '';
+}
+
+function $(id){ return document.getElementById(id); }
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+  });
+}
+
+function emptyEntry(sec){ var o = {}; sec.fields.forEach(function(f){ o[f.k] = ''; }); return o; }
+function emptyModel(){
+  var m = { ghi_chu:'', da_hoan_thanh:false };
+  SECTIONS.forEach(function(s){
+    m[s.key] = [];
+    for(var i = 0; i < s.defaultCount; i++) m[s.key].push(emptyEntry(s));
+  });
+  return m;
+}
+function normalize(raw){
+  var m = emptyModel();
+  if(!raw) return m;
+  m.ghi_chu = raw.ghi_chu || '';
+  m.da_hoan_thanh = !!raw.da_hoan_thanh;
+  SECTIONS.forEach(function(s){
+    var v = raw[s.key];
+    if(!v){ m[s.key] = []; return; }
+    if(!Array.isArray(v)) v = [v];
+    m[s.key] = v.map(function(e){
+      var o = emptyEntry(s);
+      s.fields.forEach(function(f){ if(e && e[f.k] != null) o[f.k] = String(e[f.k]); });
+      return o;
+    });
+  });
+  return m;
+}
+
+/* ============ danh sach file ============ */
+function loadFiles(){
+  return fetch('/api/files').then(function(r){ return r.json(); }).then(function(j){
+    files = j.files;
+    ocrAvailable = j.ocr_available;
+    vocrAvailable = !!j.vietocr_available;
+    gemAvailable = !!j.gemini_available;
+    gemModel = j.gemini_model || '';
+    $('paths').textContent = j.data_dir + '  \u2192  ' + j.out_dir;
+    if(!ocrAvailable){
+      $('btnOcrAll').disabled = true;
+      $('btnOcrAll').title = 'Không tìm thấy Tesseract';
+    }
+    if(!gemAvailable){
+      $('btnGemAll').disabled = true;
+      $('btnGem').disabled = true;
+      $('btnGemAll').title = $('btnGem').title = 'Chưa có GEMINI_API_KEY';
+    } else {
+      $('btnGemAll').title = 'Đọc toàn bộ hồ sơ bằng ' + gemModel +
+        ' (chính xác nhất, đọc được cả chữ viết tay)';
+    }
+    renderModeBar();        // so ho so khop PDF phu thuoc danh sach files
+    renderList();
+  });
+}
+/* Cham mau trang thai. O che do _all.json phai doc tu FILE DA NAP chu khong
+   phai tu data_mau_json/, de mau phan anh dung cai dang xem tren form.
+   Ho so khong co trong file da nap -> cham xam (file do khong noi gi ve no). */
+function dotClass(f){
+  if(allJson){
+    var r = allJson.theoFile[f.name];
+    if(!r) return '';
+    return r.da_hoan_thanh ? 'done' : 'saved';
+  }
+  return f.done ? 'done' : (f.has_json ? 'saved' : '');
+}
+/* ============ loc theo cach giai quyet ============ */
+/* Nhan hien thi lay thang tu dinh nghia truong o SECTIONS, khoi phai sua hai
+   noi khi them mot lua chon moi. */
+function gqOpts(){
+  var fs = SECTIONS[0].fields.filter(function(f){ return f.k === 'cach_giai_quyet'; })[0];
+  return (fs ? fs.opts : []).filter(function(p){ return p[0]; });
+}
+function gqLabel(v){
+  var o = gqOpts().filter(function(p){ return p[0] === v; })[0];
+  return o ? o[1] : v;
+}
+/* Mot ho so co the co nhieu don, moi don mot cach giai quyet -> tra ve mang. */
+function gqTuDon(donThu){
+  var v = donThu;
+  if(!v) return [];
+  if(!Array.isArray(v)) v = [v];
+  var out = [];
+  v.forEach(function(e){
+    var g = e && e.cach_giai_quyet;
+    if(g && out.indexOf(g) === -1) out.push(g);
+  });
+  return out;
+}
+/* O che do _all.json phai doc tu file da nap chu khong phai tu server, giong
+   dotClass - khong thi bo loc lai khong khop voi cai dang xem tren form. */
+function giaiQuyetOf(f){
+  if(allJson){
+    var r = allJson.theoFile[f.name];
+    return r ? gqTuDon(r.don_thu) : [];
+  }
+  return f.cach_giai_quyet || [];
+}
+function khopGq(g, loc){
+  return loc === '__chua' ? g.length === 0 : g.indexOf(loc) !== -1;
+}
+
+function daHoanThanh(f){
+  if(allJson){
+    var r = allJson.theoFile[f.name];
+    return !!(r && r.da_hoan_thanh);
+  }
+  return !!f.done;
+}
+
+function renderList(){
+  var q = $('q').value.trim().toLowerCase();
+  var loc = $('fGq').value;
+  var box = $('filelist');
+  box.innerHTML = '';
+  var done = 0, ocr = 0, gem = 0, demGq = {};
+  files.forEach(function(f){
+    if(daHoanThanh(f)) done++;
+    if(f.has_ocr) ocr++;
+    if(f.has_gemini) gem++;
+    /* dem tren TOAN BO danh sach chu khong theo o tim kiem: con so tren o loc
+       la "bam vao se con bao nhieu ho so", doc no doi theo tung chu vua go */
+    var gq = giaiQuyetOf(f);
+    if(gq.length) gq.forEach(function(v){ demGq[v] = (demGq[v] || 0) + 1; });
+    else demGq.__chua = (demGq.__chua || 0) + 1;
+    if(q && f.name.toLowerCase().indexOf(q) === -1) return;
+    if(loc && !khopGq(gq, loc)) return;
+    var el = document.createElement('div');
+    el.className = 'fitem' + (current === f.name ? ' active' : '');
+    el.innerHTML =
+      '<span class="dot ' + dotClass(f) + '"></span>' +
+      '<span class="nm">' + esc(f.name) +
+      '<span class="meta">' + (f.pages ? f.pages + ' trang \u00b7 ' : '') +
+      Math.round(f.size / 1024) + ' KB' +
+      (allJson && allJson.theoFile[f.name]
+        ? (allJson.daLuu[f.name] ? ' \u00b7 <span class="tag imp">_all \u2713</span>'
+                                 : ' \u00b7 <span class="tag imp">_all</span>') : '') +
+      (gq.length ? ' \u00b7 <span class="tag gq">' +
+        esc(gq.map(gqLabel).join(', ')) + '</span>' : '') +
+      (f.has_gemini ? ' \u00b7 <span class="tag">Gemini</span>' : '') +
+      (f.has_ocr ? (f.has_pdf_text ? ' \u00b7 <span class="tag">OCR</span>'
+                                   : ' \u00b7 <span class="tag old">OCR c\u0169</span>') : '') +
+      '</span></span>';
+    el.onclick = function(){ select(f.name); };
+    box.appendChild(el);
+  });
+  if(!box.children.length){
+    box.innerHTML = '<div class="none">Không có hồ sơ nào khớp bộ lọc.</div>';
+  }
+  capNhatSoTrenOLoc(demGq);
+  /* Ghi ro nguon so lieu, khong thi thay con so doi ma khong hieu vi sao */
+  $('prog').innerHTML = (allJson ? 'Hoàn thành <i>(_all)</i> <b>' : 'Hoàn thành <b>')
+                      + done + '</b>/' + files.length;
+  $('ocrProg').innerHTML = 'OCR <b>' + ocr + '</b>/' + files.length;
+  $('gemProg').innerHTML = 'Gemini <b>' + gem + '</b>/' + files.length;
+}
+
+/* Dung san cac lua chon mot lan; moi lan render sau do chi sua phan so luong. */
+function dungOLoc(){
+  var sel = $('fGq');
+  var html = '<option value="">Cách giải quyết: tất cả</option>';
+  gqOpts().forEach(function(pair){
+    html += '<option value="' + esc(pair[0]) + '">' + esc(pair[1]) + '</option>';
+  });
+  html += '<option value="__chua">Chưa xác định</option>';
+  sel.innerHTML = html;
+}
+function capNhatSoTrenOLoc(dem){
+  var sel = $('fGq');
+  for(var i = 0; i < sel.options.length; i++){
+    var o = sel.options[i];
+    if(!o.getAttribute('data-nhan')) o.setAttribute('data-nhan', o.textContent);
+    var n = o.value ? (dem[o.value] || 0) : files.length;
+    o.textContent = o.getAttribute('data-nhan') + ' (' + n + ')';
+  }
+}
+
+/* ============ che do nap _all.json ============ */
+/* Chap nhan ca 3 dang cho de dung:
+     - list ban ghi (dung dang _all.json)
+     - 1 ban ghi le (file JSON cua mot ho so)
+     - object bao {pages/files/...} co truong la list ben trong          */
+function bocDanhSach(raw){
+  if(Array.isArray(raw)) return raw;
+  if(raw && typeof raw === 'object'){
+    if(raw.file) return [raw];                       // 1 ho so le
+    for(var k in raw) if(Array.isArray(raw[k])) return raw[k];
+  }
+  return null;
+}
+
+function napAllJson(text, tenFile){
+  var raw;
+  try { raw = JSON.parse(text); }
+  catch(e){ alert('File không phải JSON hợp lệ:\n' + e.message); return; }
+
+  var ds = bocDanhSach(raw);
+  if(!ds){ alert('Không tìm thấy danh sách hồ sơ trong file này.'); return; }
+
+  var coPdf = {};
+  files.forEach(function(f){ coPdf[f.name] = true; });
+
+  var theoFile = {}, thieuPdf = [], khongTen = 0, trung = 0;
+  ds.forEach(function(r){
+    if(!r || typeof r !== 'object' || !r.file){ khongTen++; return; }
+    if(theoFile[r.file]) trung++;
+    theoFile[r.file] = r;                            // trung thi ban ghi sau thang
+    if(!coPdf[r.file]) thieuPdf.push(r.file);
+  });
+
+  var khop = Object.keys(theoFile).filter(function(n){ return coPdf[n]; }).length;
+  if(!khop && !thieuPdf.length){
+    alert('File không có hồ sơ nào đọc được.'); return;
+  }
+  if(!khop){
+    alert('Nạp được ' + thieuPdf.length + ' hồ sơ nhưng KHÔNG hồ sơ nào khớp tên ' +
+          'PDF trong data_mau/.\nCó thể đây là _all.json của bộ tài liệu khác.');
+    return;
+  }
+
+  allJson = { ten: tenFile, theoFile: theoFile, tong: ds.length,
+              thieuPdf: thieuPdf, khongTen: khongTen, trung: trung, daLuu: {} };
+  impWarned = false;
+  renderModeBar();
+  renderList();
+  if(current) select(current);                        // nap lai ho so dang mo
+}
+
+function renderModeBar(){
+  if(!allJson){ $('modebar').style.display = 'none'; return; }
+  $('modebar').style.display = 'flex';
+  $('impName').textContent = allJson.ten;
+  $('impName').title = allJson.ten;
+
+  var coPdf = {};
+  files.forEach(function(f){ coPdf[f.name] = true; });
+  var khop = Object.keys(allJson.theoFile).filter(function(n){ return coPdf[n]; }).length;
+
+  var s = khop + '/' + allJson.tong + ' hồ sơ khớp PDF';
+  var canh = [];
+  if(allJson.thieuPdf.length) canh.push(allJson.thieuPdf.length + ' hồ sơ không có PDF');
+  if(allJson.khongTen) canh.push(allJson.khongTen + ' mục thiếu trường "file"');
+  if(allJson.trung) canh.push(allJson.trung + ' tên trùng');
+  $('impInfo').innerHTML = s +
+    (canh.length ? ' · <span class="warn">' + esc(canh.join(' · ')) + '</span>' : '') +
+    ' · bấm Lưu sẽ <b>ghi đè</b> vào data_mau_json/';
+  $('impInfo').title = allJson.thieuPdf.length
+    ? 'Không có PDF: ' + allJson.thieuPdf.slice(0, 20).join(', ') : '';
+}
+
+function thoatAllMode(){
+  if(dirty && !confirm('Có thay đổi chưa lưu. Thoát chế độ _all.json và bỏ thay đổi?')) return;
+  allJson = null;
+  renderModeBar();
+  renderList();
+  if(current){ dirty = false; select(current); }
+}
+
+$('btnImport').onclick = function(){ $('fileAll').click(); };
+$('fileAll').onchange = function(){
+  var f = this.files && this.files[0];
+  if(!f) return;
+  if(dirty && !confirm('Có thay đổi chưa lưu. Nạp file khác và bỏ thay đổi?')){
+    this.value = ''; return;
+  }
+  var rd = new FileReader();
+  rd.onload = function(){ napAllJson(String(rd.result), f.name); };
+  rd.onerror = function(){ alert('Không đọc được file.'); };
+  rd.readAsText(f, 'utf-8');
+  this.value = '';                     // cho phep chon lai dung file do lan sau
+};
+$('btnImpExit').onclick = thoatAllMode;
+
+/* ============ chon tai lieu ============ */
+function select(name){
+  if(dirty && !confirm('Có thay đổi chưa lưu. Bỏ qua và chuyển tài liệu khác?')) return;
+  current = name;
+  $('curName').textContent = name;
+  $('empty').style.display = 'none';
+  $('pdf').src = pdfUrl(name);
+  refreshPdfBadge();
+  $('btnOpen').disabled = false;
+  $('btnSave').disabled = false;
+  setView(view);
+  loadOcr();
+
+  /* Che do _all.json: lay nhan tu file da nap, khong goi server.
+     Ho so nao khong co trong file thi van roi ve ban da luu de khoi trong tron. */
+  if(allJson && allJson.theoFile[name]){
+    model = normalize(allJson.theoFile[name]);
+    $('done').checked = model.da_hoan_thanh;
+    dirty = false;
+    setStatus(allJson.daLuu[name]
+      ? 'Từ _all.json — đã ghi đè vào data_mau_json/.'
+      : 'Từ _all.json — CHƯA lưu. Bấm Lưu để ghi đè bản trong data_mau_json/.',
+      allJson.daLuu[name] ? 'ok' : 'dirty');
+    renderForm();
+    renderList();
+    return Promise.resolve();
+  }
+
+  return fetch('/api/annotation/' + encodeURIComponent(name))
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      model = normalize(j.data);
+      $('done').checked = model.da_hoan_thanh;
+      dirty = false;
+      var t = j.exists ? 'Đã có JSON — đang xem bản đã lưu.'
+                       : 'Chưa có JSON cho tài liệu này.';
+      if(allJson) t = 'Không có trong _all.json đã nạp. ' + t;
+      setStatus(t);
+      renderForm();
+      renderList();
+    });
+}
+
+/* ============ tab PDF / OCR ============ */
+function setView(v){
+  view = v;
+  var has = !!current;
+  $('tabPdf').className = v === 'pdf' ? 'on' : '';
+  $('tabOcr').className = v === 'ocr' ? 'on' : '';
+  $('pdf').style.display = (has && v === 'pdf') ? 'block' : 'none';
+  $('ocrpane').style.display = (has && v === 'ocr') ? 'flex' : 'none';
+  $('empty').style.display = has ? 'none' : 'grid';
+}
+$('tabPdf').onclick = function(){ setView('pdf'); };
+$('tabOcr').onclick = function(){ setView('ocr'); if(current) loadOcr(); };
+
+/* ============ OCR ============ */
+function loadOcr(){
+  if(!current) return;
+  var name = current;
+  fetch('/api/ocr/' + encodeURIComponent(name)).then(function(r){ return r.json(); })
+    .then(function(j){
+      if(name !== current) return;
+      var job = j.job;
+      if(j.cached && j.data){
+        renderOcr(j.data);
+        var f0 = fileInfo(name);
+        var info;
+        if(!j.data.chan_doan && j.data.gemini_cap_nhat){
+          /* chi co Gemini doc, chua chay Tesseract lan nao -> dung bao "OCR cu" */
+          info = (j.data.gemini_model || 'Gemini') + ' \u00b7 ' + j.data.pages.length +
+                 ' trang \u00b7 ' + j.data.gemini_cap_nhat;
+        } else if(f0 && !f0.has_pdf_text){
+          info = '\u0110\u00e2y l\u00e0 k\u1ebft qu\u1ea3 OCR c\u0169 \u2014 b\u1ea5m \u201cCh\u1ea1y l\u1ea1i OCR\u201d \u0111\u1ec3 d\u00f9ng pipeline m\u1edbi.';
+        } else {
+          info = 'OCR ' + j.data.lang + ' \u00b7 ' + j.data.pages.length +
+                 ' trang \u00b7 ' + j.data.cap_nhat;
+          if(j.data.gemini_cap_nhat) info += '  +  ' + (j.data.gemini_model || 'Gemini');
+        }
+        $('ocrInfo').textContent = info;
+        $('btnOcr').textContent = 'Chạy lại OCR';
+        $('btnCopyAll').style.display = '';
+        $('ocrBar').style.display = 'none';
+        if(justFinished){
+          justFinished = false;
+          fetch('/api/files').then(function(r){ return r.json(); }).then(function(fj){
+            files = fj.files; renderList(); refreshPdfBadge();
+            if(current === name) $('pdf').src = pdfUrl(name);
+          });
+        }
+        stopOcrPoll();
+        return;
+      }
+      $('btnCopyAll').style.display = 'none';
+      $('btnOcr').textContent = 'Chạy OCR';
+      if(job && (job.state === 'queued' || job.state === 'running')){
+        justFinished = true;
+        showJob(job);
+        startOcrPoll();
+      } else if(job && job.state === 'error'){
+        $('ocrBar').style.display = 'none';
+        $('ocrInfo').textContent = 'Lỗi OCR: ' + job.error;
+        $('ocrbody').innerHTML = '<div class="none">OCR thất bại.</div>';
+        stopOcrPoll();
+      } else {
+        $('ocrBar').style.display = 'none';
+        $('ocrInfo').textContent = ocrAvailable
+          ? 'Chưa OCR tài liệu này.'
+          : 'Không tìm thấy Tesseract — chức năng OCR bị tắt.';
+        $('ocrbody').innerHTML = '<div class="none">Bấm “Chạy OCR” để nhận dạng chữ tiếng Việt, ' +
+          'đồng thời tạo bản PDF bôi đen copy được ở tab “PDF gốc”.</div>';
+        stopOcrPoll();
+      }
+    });
+}
+function showJob(job){
+  $('ocrBar').style.display = '';
+  var pct = job.total ? Math.round(job.done / job.total * 100) : 0;
+  $('ocrBar').firstElementChild.style.width = pct + '%';
+  $('ocrInfo').textContent = (job.state === 'queued' ? 'Đang xếp hàng...' :
+    'Đang OCR trang ' + (job.done + 1) + '/' + job.total + '...');
+  $('ocrbody').innerHTML = '<div class="none">Đang nhận dạng, vui lòng đợi...</div>';
+}
+function startOcrPoll(){ if(!ocrTimer) ocrTimer = setInterval(loadOcr, 1500); }
+function stopOcrPoll(){ if(ocrTimer){ clearInterval(ocrTimer); ocrTimer = null; } }
+
+/* canh bao rieng cho tung bo doc - moi bo sai mot kieu khac nhau */
+var ENG_WARN = {
+  vietocr: 'VietOCR đọc dấu tiếng Việt sạch hơn Tesseract nhưng <b>tự bịa chữ</b> ở chỗ ' +
+           'scan mờ và <b>không đọc được chữ viết tay</b> (nó được huấn luyện trên chữ in). ' +
+           'Luôn đối chiếu số CCCD, ngày tháng với ảnh gốc.',
+  tesseract: 'Tesseract chỉ đáng tin với <b>chữ in</b>. Với trang viết tay nó cho ra ký tự rác. ' +
+             'Chỗ nào trông như rác thì xem lại bằng Gemini.',
+  gemini: 'Gemini đọc được cả chữ viết tay và con dấu. Chỗ nó không chắc sẽ đánh dấu ' +
+          '<b>[?]</b> — đó là chỗ cần soát lại bằng mắt, đừng bỏ qua.'
+};
+
+function renderOcr(data){
+  lastOcrData = data;
+  var box = $('ocrbody');
+  var avail = availEngines(data);
+  var hasGem = avail.indexOf('gemini') !== -1;
+
+  /* chi hien tab cua engine co du lieu; "Doi chieu" can it nhat 2 bo */
+  ENGINES.forEach(function(e){
+    $(e.tab).style.display = avail.indexOf(e.key) !== -1 ? '' : 'none';
+  });
+  $('engBoth').style.display = avail.length >= 2 ? '' : 'none';
+  $('engTabs').style.display = avail.length >= 1 ? 'flex' : 'none';
+  $('btnVocr').style.display = (vocrAvailable && avail.indexOf('vietocr') === -1) ? '' : 'none';
+  $('btnGem').style.display = gemAvailable ? '' : 'none';
+  $('btnGem').textContent = hasGem ? 'Đọc lại bằng Gemini' : 'Đọc bằng Gemini';
+
+  /* Gemini chinh xac nhat -> uu tien mac dinh; neu engine dang chon khong co
+     du lieu thi tu roi ve bo dau tien co san. */
+  if(engine !== 'both' && avail.indexOf(engine) === -1) engine = avail[0] || 'tesseract';
+  syncEngTabs();
+
+  box.innerHTML = '';
+  if(ENG_WARN[engine]){
+    var w = document.createElement('div');
+    w.className = 'warnbox';
+    w.innerHTML = ENG_WARN[engine];
+    box.appendChild(w);
+  }
+
+  data.pages.forEach(function(p){
+    var d = document.createElement('div');
+    d.className = 'pg';
+    var h = document.createElement('h3');
+    h.textContent = 'Trang ' + p.page;
+    var main = engine === 'both' ? pageText(p, avail[0]) : pageText(p, engine);
+    var b = document.createElement('button');
+    b.className = 'btn small';
+    b.textContent = 'Copy';
+    b.onclick = function(){
+      navigator.clipboard.writeText(main).then(function(){
+        b.textContent = 'Đã copy';
+        setTimeout(function(){ b.textContent = 'Copy'; }, 1200);
+      });
+    };
+    h.appendChild(b);
+    d.appendChild(h);
+
+    /* trang Gemini doc that bai thi phai noi ro, khong de nguoi dung
+       tuong trang do trong */
+    if(p.gemini_loi && (engine === 'gemini' || engine === 'both')){
+      var er = document.createElement('div');
+      er.className = 'errbox';
+      er.textContent = 'Gemini không đọc được trang này: ' + p.gemini_loi;
+      d.appendChild(er);
+    }
+
+    if(engine === 'both'){
+      var two = document.createElement('div');
+      two.className = 'two';
+      avail.forEach(function(k){
+        var e = ENGINES.filter(function(x){ return x.key === k; })[0];
+        var c = document.createElement('div');
+        var t = document.createElement('h4'); t.textContent = e.label;
+        var pre = document.createElement('pre');
+        pre.textContent = pageText(p, k) || '(trống)';
+        c.appendChild(t); c.appendChild(pre); two.appendChild(c);
+      });
+      d.appendChild(two);
+    } else {
+      var pre = document.createElement('pre');
+      pre.textContent = main || '(không nhận được chữ nào)';
+      d.appendChild(pre);
+    }
+    box.appendChild(d);
+  });
+
+  $('btnCopyAll').onclick = function(){
+    var k = engine === 'both' ? avail[0] : engine;
+    var all = data.pages.map(function(p){
+      return '--- Trang ' + p.page + ' ---\n' + pageText(p, k);
+    }).join('\n\n');
+    navigator.clipboard.writeText(all).then(function(){
+      $('btnCopyAll').textContent = 'Đã copy';
+      setTimeout(function(){ $('btnCopyAll').textContent = 'Copy toàn bộ'; }, 1200);
+    });
+  };
+}
+
+function syncEngTabs(){
+  ENGINES.forEach(function(e){
+    $(e.tab).className = engine === e.key ? 'on' : '';
+  });
+  $('engBoth').className = engine === 'both' ? 'on' : '';
+}
+function setEngine(e){
+  engine = e;
+  syncEngTabs();
+  if(lastOcrData) renderOcr(lastOcrData);
+}
+$('engG').onclick = function(){ setEngine('gemini'); };
+$('engT').onclick = function(){ setEngine('tesseract'); };
+$('engV').onclick = function(){ setEngine('vietocr'); };
+$('engBoth').onclick = function(){ setEngine('both'); };
+
+$('btnVocr').onclick = function(){
+  if(!current) return;
+  fetch('/api/vietocr/' + encodeURIComponent(current), { method: 'POST' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if(!j.ok){ alert(j.error || 'Không chạy được VietOCR'); return; }
+      $('ocrInfo').textContent = 'Đang đọc lại bằng VietOCR (chậm, ~20 giây/trang)...';
+      $('btnVocr').style.display = 'none';
+      startEnginePoll('vietocr', 'VietOCR');
+    });
+};
+
+$('btnGem').onclick = function(){
+  if(!current) return;
+  setView('ocr');
+  fetch('/api/gemini/' + encodeURIComponent(current), { method: 'POST' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if(!j.ok){ alert(j.error || 'Không chạy được Gemini'); return; }
+      $('ocrInfo').textContent = 'Đang đọc bằng ' + gemModel + '...';
+      engine = 'gemini';
+      startEnginePoll('gemini', 'Gemini');
+      startGlobalPoll();
+    });
+};
+
+/* Theo doi tien do cua MOT engine. Job khoa theo "engine|name" nen chay
+   Gemini va Tesseract cung mot file khong con de tien do len nhau. */
+function startEnginePoll(eng, label){
+  if(ocrTimer) return;
+  ocrTimer = setInterval(function(){
+    var name = current;
+    fetch('/api/ocr_status').then(function(r){ return r.json(); }).then(function(st){
+      if(name !== current) return;
+      var job = st.jobs[eng + '|' + name];
+      if(job && (job.state === 'running' || job.state === 'queued')){
+        $('ocrBar').style.display = '';
+        $('ocrBar').firstElementChild.style.width =
+          (job.total ? Math.round(job.done / job.total * 100) : 0) + '%';
+        $('ocrInfo').textContent = job.state === 'queued'
+          ? (label + ': đang xếp hàng...')
+          : (label + ': trang ' + Math.min(job.done + 1, job.total) + '/' + job.total + '...');
+      } else if(job && job.state === 'error'){
+        stopOcrPoll(); $('ocrBar').style.display = 'none';
+        $('ocrInfo').textContent = 'Lỗi ' + label + ': ' + job.error;
+      } else if(job && job.state === 'done'){
+        stopOcrPoll(); $('ocrBar').style.display = 'none';
+        if(job.error) alert(label + ': ' + job.error);
+        loadOcr();
+        loadFiles();
+      }
+    });
+  }, 2000);
+}
+
+$('btnOcr').onclick = function(){
+  if(!current) return;
+  var dpi = $('ocrDpi').value;
+  var force = $('btnOcr').textContent.indexOf('lại') !== -1 ? '&force=1' : '';
+  setView('ocr');
+  fetch('/api/ocr/' + encodeURIComponent(current) + '?dpi=' + dpi + force, { method:'POST' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if(!j.ok){ alert(j.error || 'Không chạy được OCR'); return; }
+      startOcrPoll();
+      startGlobalPoll();
+      loadOcr();
+    });
+};
+
+$('btnOcrAll').onclick = function(){
+  if(!confirm('Chạy OCR cho tất cả tài liệu chưa có? Việc này có thể mất vài phút.')) return;
+  fetch('/api/ocr_all?dpi=' + $('ocrDpi').value, { method:'POST' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if(!j.ok){ alert(j.error || 'Lỗi'); return; }
+      startGlobalPoll();
+    });
+};
+
+$('btnGemAll').onclick = function(){
+  var todo = files.filter(function(f){ return !f.has_gemini; }).length;
+  if(!todo){ alert('Tất cả tài liệu đã được Gemini đọc.'); return; }
+  if(!confirm('Đọc ' + todo + ' tài liệu chưa có bằng ' + gemModel + '?\n\n' +
+              'Ảnh từng trang sẽ được gửi lên Google để nhận dạng.')) return;
+  fetch('/api/gemini_all', { method:'POST' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if(!j.ok){ alert(j.error || 'Lỗi'); return; }
+      startGlobalPoll();
+    });
+};
+
+function startGlobalPoll(){
+  if(globalTimer) return;
+  globalTimer = setInterval(function(){
+    fetch('/api/ocr_status').then(function(r){ return r.json(); }).then(function(j){
+      /* dem rieng theo engine, khong thi nut nao cung nhay so cua nut kia */
+      var nT = 0, nG = 0;
+      Object.keys(j.jobs).forEach(function(k){
+        var v = j.jobs[k];
+        if(v.state !== 'queued' && v.state !== 'running') return;
+        if(v.engine === 'gemini') nG++; else if(v.engine === 'tesseract') nT++;
+      });
+      $('btnOcrAll').textContent = nT ? ('Đang OCR (' + nT + ')') : 'OCR tất cả';
+      $('btnGemAll').textContent = nG ? ('Đang đọc (' + nG + ')') : 'Gemini tất cả';
+      if(j.pending === 0){
+        clearInterval(globalTimer); globalTimer = null;
+      }
+      // cap nhat cot trai
+      fetch('/api/files').then(function(r){ return r.json(); }).then(function(f){
+        files = f.files; renderList();
+      });
+    });
+  }, 2500);
+}
+
+/* ============ form ============ */
+function renderForm(){
+  var box = $('form');
+  if(!model){ box.innerHTML = '<div class="none">Chưa chọn tài liệu.</div>'; return; }
+  box.innerHTML = '';
+
+  SECTIONS.forEach(function(sec){
+    var list = model[sec.key];
+    var card = document.createElement('div');
+    card.className = 'sec';
+
+    var h = document.createElement('h2');
+    h.innerHTML = esc(sec.title) + ' <span class="count">(' + list.length + ')</span>';
+    var add = document.createElement('button');
+    add.className = 'btn small add';
+    add.textContent = '+ Thêm';
+    add.onclick = function(){ list.push(emptyEntry(sec)); setDirty(true); renderForm(); };
+    h.appendChild(add);
+    card.appendChild(h);
+
+    if(!list.length){
+      var n = document.createElement('div');
+      n.className = 'none';
+      n.textContent = 'Tài liệu không có phần này.';
+      card.appendChild(n);
+    } else {
+      var wrap = document.createElement('div');
+      wrap.className = 'entries';
+      list.forEach(function(entry, i){ wrap.appendChild(renderEntry(sec, entry, i, list)); });
+      card.appendChild(wrap);
+    }
+    box.appendChild(card);
+  });
+
+  var card2 = document.createElement('div');
+  card2.className = 'sec';
+  card2.innerHTML = '<h2>Ghi chú</h2>';
+  var w = document.createElement('div');
+  w.className = 'entries';
+  var ta = document.createElement('textarea');
+  ta.spellcheck = false;
+  ta.value = model.ghi_chu;
+  ta.oninput = function(){ model.ghi_chu = ta.value; setDirty(true); };
+  w.appendChild(ta);
+  card2.appendChild(w);
+  box.appendChild(card2);
+  autogrowAll();
+}
+
+function renderEntry(sec, entry, idx, list){
+  var d = document.createElement('div');
+  d.className = 'entry';
+
+  var head = document.createElement('div');
+  head.className = 'ehead';
+  head.innerHTML = '<span>' + esc(sec.singular) + ' #' + (idx + 1) + '</span>';
+  var del = document.createElement('button');
+  del.className = 'btn small danger';
+  del.textContent = 'Xoá';
+  del.onclick = function(){ list.splice(idx, 1); setDirty(true); renderForm(); };
+  head.appendChild(del);
+  d.appendChild(head);
+
+  var halfBuf = [];
+  function flush(){
+    if(!halfBuf.length) return;
+    var g = document.createElement('div');
+    g.className = 'grid2';
+    halfBuf.forEach(function(n){ g.appendChild(n); });
+    d.appendChild(g);
+    halfBuf = [];
+  }
+
+  sec.fields.forEach(function(f){
+    var lab = document.createElement('label');
+    lab.className = 'f';
+    lab.innerHTML = '<i>' + esc(f.l) + '</i>';
+    var inp;
+    if(f.t === 'area'){
+      inp = document.createElement('textarea');
+    } else if(f.t === 'select'){
+      inp = document.createElement('select');
+      f.opts.forEach(function(pair){
+        var o = document.createElement('option');
+        o.value = pair[0]; o.textContent = pair[1];
+        inp.appendChild(o);
+      });
+    } else {
+      inp = document.createElement('input');
+      inp.type = 'text';
+      if(f.ph) inp.placeholder = f.ph;
+    }
+    inp.spellcheck = false;              // tat gach do: trinh duyet khong biet tieng Viet
+    inp.value = entry[f.k] || '';
+    var on = function(){
+      entry[f.k] = inp.value;
+      setDirty(true);
+      if(inp.tagName === 'TEXTAREA') autogrow(inp);
+    };
+    inp.oninput = on;
+    inp.onchange = on;
+    lab.appendChild(inp);
+    if(f.half) halfBuf.push(lab); else { flush(); d.appendChild(lab); }
+  });
+  flush();
+  return d;
+}
+
+/* ============ luu ============ */
+function setDirty(v){ dirty = v; if(v) setStatus('Có thay đổi chưa lưu.', 'dirty'); }
+function setStatus(t, cls){
+  var s = $('status');
+  s.className = 'status ' + (cls || '');
+  s.textContent = t;
+}
+
+function save(){
+  if(!current || !model) return;
+
+  /* Canh bao MOT lan moi phien: o che do _all.json, Luu la ghi de ban nhan
+     dang co trong data_mau_json/ bang du lieu tu file vua nap. */
+  if(allJson && !impWarned){
+    var f0 = fileInfo(current);
+    if(f0 && f0.has_json &&
+       !confirm('Đang ở chế độ _all.json.\n\nLưu sẽ GHI ĐÈ nhãn hiện có của\n"' +
+                current + '"\ntrong data_mau_json/ bằng dữ liệu từ "' + allJson.ten +
+                '".\n\nTiếp tục?')){
+      return;
+    }
+    impWarned = true;
+  }
+
+  model.da_hoan_thanh = $('done').checked;
+  return fetch('/api/annotation/' + encodeURIComponent(current), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(model)
+  }).then(function(r){ return r.json(); }).then(function(j){
+    if(j.ok){
+      dirty = false;
+      setStatus('Đã lưu: ' + j.path, 'ok');
+      for(var i = 0; i < files.length; i++){
+        if(files[i].name === current){
+          files[i].has_json = true;
+          files[i].done = model.da_hoan_thanh;
+          files[i].cach_giai_quyet = gqTuDon(model.don_thu);
+        }
+      }
+      if(allJson && allJson.theoFile[current]){
+        allJson.theoFile[current] = JSON.parse(JSON.stringify(model));
+        allJson.daLuu[current] = true;      // danh dau "_all ✓" o cot trai
+      }
+      renderList();
+    } else {
+      setStatus('Lỗi khi lưu: ' + (j.error || 'không rõ'));
+    }
+  });
+}
+
+/* ============ su kien ============ */
+$('q').oninput = renderList;
+$('fGq').onchange = renderList;
+$('btnSave').onclick = save;
+$('btnReload').onclick = function(){ if(current){ dirty = false; select(current); } };
+$('btnOpen').onclick = function(){
+  if(current) window.open(pdfUrl(current), '_blank');
+};
+$('done').onchange = function(){ setDirty(true); };
+$('origPdf').onchange = function(){
+  if(current){ $('pdf').src = pdfUrl(current); refreshPdfBadge(); }
+};
+$('btnExport').onclick = function(){
+  fetch('/api/export_all', { method: 'POST' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      alert(j.ok ? ('Đã gộp ' + j.count + ' hồ sơ vào:\n' + j.path) : 'Lỗi khi gộp');
+    });
+};
+window.addEventListener('keydown', function(e){
+  if((e.ctrlKey || e.metaKey) && String(e.key).toLowerCase() === 's'){
+    e.preventDefault(); save();
+  }
+});
+window.addEventListener('beforeunload', function(e){
+  if(dirty){ e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ============ o nhap tu gian theo noi dung ============ */
+var TA_MIN = 110;
+
+/* tinh moi lan goi: luc trang moi nap window.innerHeight co the con bang 0 */
+function taMax(){
+  return Math.max(280, Math.round((window.innerHeight || 900) * 0.7));
+}
+function autogrow(ta){
+  if(ta.dataset.manual === '1') return;      // nguoi dung da tu keo -> ton trong
+  ta.style.height = 'auto';
+  var h = Math.min(Math.max(ta.scrollHeight + 2, TA_MIN), taMax()) + 'px';
+  ta.style.height = h;
+  ta.dataset.autoH = h;                      // moc de nhan ra nguoi dung keo tay
+}
+function autogrowAll(){
+  var list = document.querySelectorAll('#form textarea');
+  for(var i = 0; i < list.length; i++) autogrow(list[i]);
+}
+/* nguoi dung keo goc o nhap -> ghi nho, thoi tu dong chinh o do */
+document.addEventListener('mouseup', function(e){
+  var t = e.target;
+  if(t && t.tagName === 'TEXTAREA' && t.closest('#form')
+     && t.dataset.autoH && t.style.height !== t.dataset.autoH){
+    t.dataset.manual = '1';
+  }
+});
+window.addEventListener('resize', autogrowAll);
+
+/* ============ keo doi be rong cot nhap lieu ============ */
+(function(){
+  var g = $('gutter'), root = document.documentElement;
+  var saved = null;
+  try { saved = localStorage.getItem('formw'); } catch(e) {}
+  if(saved) root.style.setProperty('--formw', saved);
+
+  function clampW(w){ return Math.max(340, Math.min(w, window.innerWidth - 520)); }
+
+  g.onmousedown = function(ev){
+    ev.preventDefault();
+    g.classList.add('dragging');
+    document.body.classList.add('resizing');
+    function move(e){
+      var w = clampW(window.innerWidth - e.clientX);
+      root.style.setProperty('--formw', w + 'px');
+    }
+    function up(){
+      document.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseup', up);
+      g.classList.remove('dragging');
+      document.body.classList.remove('resizing');
+      try { localStorage.setItem('formw', root.style.getPropertyValue('--formw')); } catch(e) {}
+      autogrowAll();
+    }
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', up);
+  };
+  /* nhay doi: ve lai be rong mac dinh */
+  g.ondblclick = function(){
+    root.style.setProperty('--formw', '470px');
+    try { localStorage.setItem('formw', '470px'); } catch(e) {}
+    autogrowAll();
+  };
+})();
+
+dungOLoc();
+renderForm();
+loadFiles();
+</script>
+</body>
+</html>

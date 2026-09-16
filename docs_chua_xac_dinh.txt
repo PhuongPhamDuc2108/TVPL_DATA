@@ -1,0 +1,615 @@
+5	Thông tư 17/2016/TT-BQP
+5	Thông tư 01/2007/TT-BKHCN
+4	Quyết định 595/
+4	Quyết định 15/2006/QĐ-BKHCN
+4	Quyết định 959/
+3	Nghị định 226/2025/NĐ-CP
+3	Thông tư liên tịch 02/2016/TTLT-BNG-BTP
+3	Nghị định 88/2019/NĐ-CP
+3	Luật Người khuyết tật 2010
+3	Luật Nuôi con nuôi 2010
+3	Nghị định 126/2014/NĐ-CP
+3	Nghị định 96/2016/NĐ-CP
+3	Nghị quyết 01/2010/NQ-HĐTP
+3	Luật Kế toán 2015
+3	Nghị định 49
+3	Luật Phá sản 2014
+3	Nghị định 125/2020/NĐ-CP
+3	Nghị định 201/2013/NĐ-CP
+3	Luật Quảng cáo 2012
+3	Nghị định 118/2015/NĐ-CP
+3	Luật Quản lý thuế 2019
+3	Thông tư 200/2014/TT-BTC
+3	Luật Trật tự an toàn giao thông đường bộ 2024
+3	Nghị định 94/2012/NĐ-CP
+3	Luật Viên chức 2010
+3	Nghị định 76/2019/NĐ-CP
+3	Nghị định 27/2012/NĐ-CP
+3	Nghị định 29/2012/NĐ-CP
+3	Nghị định 108/2014/NĐ-CP
+3	Nghị định 103/2006/NĐ-CP
+3	Nghị định 45/2011/NĐ-CP
+3	Nghị định 191/2013/NĐ-CP
+3	Thông tư 03/2011/TT-BGDĐT
+3	Nghị định 59/2015/NĐ-CP
+3	Luật Đấu thầu 2013
+3	Nghị định 124/2015/NĐ-CP
+2	Nghị định 49/2026/NĐ-CP
+2	Nghị quyết 254/2025/QH15
+2	Nghị định 100/2024/NĐ-CP
+2	Thông tư 05/2024/TT-BXD
+2	Nghị định 123/2024/NĐ-CP
+2	Nghị định 131/2021/NĐ-CP
+2	Luật Thuế sử dụng đất phi nông nghiệp 2010
+2	Nghị định 08/2020/NĐ-CP
+2	Thông tư 02/2016/TT-BXD
+2	Thông tư 07/2015/TT-NHNN
+2	Nghị định 23/2018/NĐ-CP
+2	Bộ luật Dân sự ban hành 2015
+2	Thông tư 257/2016/TT-BTC
+2	Nghị quyết 23/2003/QH11
+2	Nghị định 24/2012/NĐ-CP
+2	Nghị định 20/2021/NĐ-CP
+2	Luật Sửa đổi Bộ luật Hình sự 2017
+2	Nghị định 130/2021/NĐ-CP
+2	Nghị định 62/2021/NĐ-CP
+2	Thông tư 04/2020/TT-BTP
+2	Thông tư 31/2019/TT-BGTVT
+2	Luật Phòng cháy và chữa cháy
+2	Thông tư 23/2014/TT-NHNN
+2	Thông tư 65/2020/TT-BCA
+2	Nghị quyết 02/2019/NQ-HĐTP
+2	Nghị định 119/2017/NĐ-CP
+2	Nghị định 102/2017/NĐ-CP
+2	Luật Khám bệnh, chữa bệnh 2009
+2	Thông tư 58/2020/TT-BCA
+2	Nghị định 03/2021/NĐ-CP
+2	Luật Trẻ em 2016
+2	Bộ luật Dân sự, điều kiện để Tòa án tuyên bố một người mất tích
+2	Luật Cư trú ban hành 2006
+2	Bộ luật Dân sự mới nhất
+2	Luật Nghĩa vụ quân sự 2015
+2	Thông tư 22/2016/TT-BTC
+2	Nghị định 282/2025/NĐ-CP
+2	Nghị quyết 04/2025/NQ-HĐTP
+2	Thông tư liên tịch 08/2015/TTLT-BCA-VKSNDTC-TANDTC-BTP
+2	Nghị quyết số 04/
+2	Luật LSDVKVLNVCCHT
+2	Nghị quyết 01/2006/NQ-HĐTP
+2	Luật Quản lý, sử dụng vũ khí, vật liệu nổ và công cụ hỗ trợ 2017
+2	Nghị định 176/2013/NĐ
+2	Luật 59/2014/QH13
+2	Thông tư 34/2017/TT-BCA
+2	Nghị định 115/2018/NĐ-CP
+2	Nghị định 24/2018/NĐ-CP
+2	Luật Giao dịch điện tử 2005
+2	Luật Công đoàn 2012
+2	Luật An toàn, vệ sinh lao động 2015
+2	Luật Cạnh tranh 2018
+2	Nghị định 152/2020/NĐ-CP
+2	Thông tư 28/2016/TT-BYT
+2	Nghị định 11/2016/NĐ-CP
+2	Thông tư 17/2015/TT-BLĐTBXH
+2	Bộ luật Lao động để sa thải bạn
+2	Nghị định 46/2017/NĐ-CP
+2	Luật Bảo vệ môi trường 2020
+2	Luật Hợp tác xã 2012
+2	Thông tư 04/2017/TT-BKHĐT
+2	Nghị định 132/2020/NĐ-CP
+2	Thông tư 103/2014/TT-BTC
+2	Luật Quản lý, sử dụng vũ khí, vật liệu nổ, công cụ hỗ trợ 2017
+2	Nghị định 45/2010/NĐ-CP
+2	Luật Đầu tư
+2	Nghị định 135/2018/NĐ-CP
+2	Nghị định 105/2017/NĐ-CP
+2	Thông tư 15/2016/TT-BXD
+2	Luật Doanh nghiệp ban hành 2014
+2	Luật Phòng, chống bạo lực gia đình 2022
+2	Thông tư 06/2021/TT-BLĐTBXH
+2	Thông tư 07/2023/TT-BNG
+2	Nghị định 112/2020/NĐ-CP
+2	Thông tư 173/2013/TT-BTC
+2	Thông tư 95/2016/TT-BTC
+2	Thông tư 24/2023/TT-BCA
+2	Nghị định 08/2015/NĐ-CP
+2	Thông tư 48/2011/TT-BGDĐT
+2	Thông tư liên tịch 22/2015/TTLT-BGDĐT-BNV
+2	Thông tư liên tịch 06/2015/TTLT-BGDĐT
+2	Luật Viên chức
+2	Nghị định 34/2011/NĐ-CP
+2	Luật Căn cước công dân
+2	Nghị định 185/2013/NĐ-CP
+2	Thông tư 40/2019/TT-BCA
+2	Nghị định 151/2016/NĐ-CP
+2	Nghị định 94/2015/NĐ-CP
+2	Nghị định 204/2004/NĐ-CP
+2	Nghị định 16/2015/NĐ-CP
+2	Nghị định 137/2015/NĐ-CP
+2	Thông tư 47/2011/TT-BCA
+2	Nghị định 121/2013/NĐ-CP
+2	Thông tư 01/2016/TT-BCA
+2	Thông tư liên tịch 01/2013/TTLT-BNV-BQP
+2	Nghị định 24/2010/NĐ-CP
+2	Nghị định 120/2013/NĐ-CP
+2	Nghị quyết 03/2006/NQ-HĐTP
+2	Thông tư 124/2011/TT-BTC
+2	Bộ luật Lao động, người sử dụng lao động phải thông báo
+2	Nghị định 85/2015/NĐ-CP
+2	Quyết định 959/2015/QĐ-BHXH
+2	Thông tư 08/2013/TT-BNV
+2	Nghị định 49/2013/NĐ-CP
+2	Thông tư 12/2014/TT-NHNN
+2	Nghị định 193/2013/NĐ-CP
+2	Luật 71/2014/QH13
+2	Nghị quyết 01/2000/NQ-HĐTP
+2	Luật Việc làm, đang đóng bảo hiểm thất nghiệp
+2	Thông tư 119/2014/TT-BTC
+1	Luật Đất đai mà có nhu cầu tự lo chỗ ở
+1	Nghị định 50/2026/NĐ-CP
+1	Luật Đất đai đối với trường hợp thửa đất ở hoặc không đủ điều kiện xây dựng công trình
+1	Nghị định 95/2024/NĐ-CP
+1	Luật Dân số 2025
+1	Thông tư 09/2025/TT-BXD
+1	Thông tư 80/2021/TT-BTC
+1	Nghị định 261/2025/NĐ-CP
+1	Luật Luật Đường bộ 2024
+1	Luật Trồng trọt 2018
+1	Luật Thuế giá trị gia tăng 2024
+1	Nghị định 151/2025/NĐ-CP
+1	Thông tư 10/2024/TT-BTNMT
+1	Văn bản hợp nhất 14/
+1	Luật Đất đai”
+1	Luật Khiếu nại 2012
+1	Luật Quy hoạch đô thị 2009
+1	Thông tư 24/2014/TT-BTNMN
+1	Luật Đất đai, nhà ở thuộc trường hợp này sẽ không
+1	Thông tư 153/2011/TT-BTC
+1	Thông tư 09/2021/TT-BTNMT
+1	Luật Kinh doanh bất động sản có
+1	Thông tư 34/2014/TT-BTNMT
+1	Luật Đấu giá tài sản 2016
+1	Nghị định 51/2020/NĐ-CP
+1	Nghị định 21/2021/NĐ-CP
+1	Bộ luật Dân sự (BLDS 2015
+1	Nghị định 51/
+1	Luật Đất đai 2013
+1	Thông tư 24/2019/TT-BTNMT
+1	Nghị định 43/2018/NĐ-CP
+1	Nghị định 64/2008/NĐ-CP
+1	Quyết định 31/2014/QĐ-UBND
+1	Luật Nhà ở mới nhất ban hành 2014
+1	Luật Đất đai mới nhất
+1	Luật Đất đai và thời điểm bắt đầu sử dụng đất thể hiện trên các loại giấy tờ hoặc thông tin
+1	Luật Luật sư 2006
+1	Nghị quyết 01/2021/NQ-HĐTP
+1	Nghị quyết 02/2020/NQ-HĐTP
+1	Luật Kinh doanh bảo hiểm
+1	Luật Hòa giải, đối thoại
+1	Quyết định 217/
+1	Thông tư 39/2016/TT-NHNN
+1	Bộ luật Tố tụng dân sự, bên
+1	Thông tư 17/2014/TT-NHNN
+1	Pháp lệnh 06/2013/UBTVQH13
+1	Nghị định 28/2012/NĐ-CP
+1	Nghị định 99/2022/NĐ-CP
+1	Luật Dân Sự 2015
+1	Bộ luật Dân sự và các
+1	Bộ luật Dân sự, bên gửi tài sản - khách hàng có quyền
+1	Luật Cán bộ công chức
+1	Luật HNGĐ 2014
+1	Nghị định 24/2019/NĐ-CP
+1	Thông tư 216/2016/TT-BTC
+1	Thông tư 28/2021/TT-BLĐTBXH
+1	Thông tư 11/2014/TT-NHNN
+1	Văn bản hợp nhất số 20/
+1	Thông tư 19/2014/TT-BCT
+1	Luật Điện lực
+1	Luật Phòng chống bệnh truyền nhiễm 2007
+1	Nghị quyết 326/2016/UBTVQH14
+1	Nghị quyết 02/2020
+1	Luật Phòng, chống bạo lực 2007
+1	Nghị định 82/2016/NĐ-CP
+1	Nghị định 40/2018
+1	Luật Thi hành án 2008
+1	Luật Trợ giúp pháp lý 2017
+1	Luật 36/2005/QH11
+1	Luật Phòng, chống ma túy 2021
+1	Bộ luật Hình sự bởi
+1	Nghị định 04/2021/NĐ-CP
+1	Bộ luật Hình sự Bị hại thực
+1	Nghị quyết 02/2018/NQ-HĐTP
+1	Thông tư liên tịch 13/2012/TTLT-BCA-BTP-VKSNDTC-TANDTC
+1	Nghị quyết 01/2022/NQ-HĐTP
+1	Nghị quyết 06/2019/NQ-HĐTP
+1	Bộ luật Tố tụng hình sự (sau đây gọi chung
+1	Thông tư 64/2019/TT-BCA
+1	Thông tư liên tịch 06/2018/TTLT-BCA-BQP-BTC-VKSNDTC-TANDTC
+1	Luật Quản lý, sử dụng vũ khí, vật liệu nổ và công cụ hỗ trợ
+1	Nghị định 117/2018/NĐ-CP
+1	Luật Tổ chức tòa án nhân dân 2014
+1	Bộ luật Hình sự ban hành 2015
+1	Nghị định 111/2022/NĐ-CP
+1	Luật An toàn vệ sinh lao động, các trường hợp giám định mức suy giảm khả năng lao động
+1	Thông tư 32/2023/TT-BYT
+1	Nghị định 140/2018/NĐ-CP
+1	Nghị định 81/2021/NĐ-CP
+1	Quyết định 166/
+1	Luật An toàn vệ sinh lao động 2015
+1	Nghị định số 04/
+1	Nghị định 27/2016/NĐ-CP
+1	Thông tư 34/2012/TTLT-BYT-BLĐTBXH
+1	Nghị định 56/2023/NĐ-CP
+1	Nghị định 137/2020/NĐ-CP
+1	Thông tư 12/2022/TT-NHNN
+1	Nghị định 136/2020/NĐ-CP
+1	Luật Đầu tư thuộc thẩm quyền chấp thuận chủ trương đầu tư của Thủ tướng Chính phủ
+1	Nghị định 91/2017/NĐ-CP
+1	Nghị định 35/2022/NĐ-CP
+1	Nghị định 98/2021/NĐ-CP
+1	Thông tư 28/2012/TT-BKHCN
+1	Thông tư 96/2020/TT-BTC
+1	Nghị định 38/2020/NĐ-CP
+1	Nghị định 113/2017/NĐ-CP
+1	Nghị định 41/2014/NĐ-CP
+1	Luật 50/2014/QH13
+1	Thông tư 02/2019/TT-NHNN
+1	Luật Hải quan 2014
+1	Nghị định 39/2016/NĐ-CP
+1	Nghị định 30/2020/NĐ-CP
+1	Nghị định 109/2016/NĐ-CP
+1	Bộ luật Dân sự 2015
+1	Nghị định 08/2014/NĐ-CP
+1	Nghị định 222/2013/NĐ-CP
+1	Luật Quảng cáo
+1	Thông tư 173/2016/TT
+1	Luật 23/2012/QH13
+1	Nghị định 32/2018/NĐ-CP
+1	Nghị định 38/2018/NĐ-CP
+1	Nghị định 07/2016/NĐ-CP
+1	Thông tư 21/2018/TT-BGDĐT
+1	Thông tư 168/2016/TT-BTC
+1	Luật An toàn thực phẩm 2010
+1	Thông tư 18/2011/BKHCN-SHTT
+1	Nghị định 15/2018/NĐ-CP
+1	Nghị định số 78
+1	Luật Doanh nghiệp mới nhất 2014
+1	Nghị định số 222
+1	Nghị định số 155
+1	Nghị quyết 01/2024/NQ-HĐTP
+1	Luật Hôn nhân và gia đình, việc trông nom, chăm sóc con sẽ
+1	Luật HNGĐ 2000
+1	Thông tư liên tịch 01/2016/TTLT-TANDTC-VKSNDTC-BTP
+1	Bộ luật Tố tụng Dân sự (Bộ luật TTDS
+1	Luật Luật Hôn nhân và gia đình 2014
+1	Luật Hôn nhân & Gia đình 2014
+1	Luật Hôn nhân và gia đình, người không
+1	Thông tư 12/2025/TT-BNV
+1	Thông tư 01/2025/TT-BYT
+1	Luật Bảo hiểm y tế đã
+1	Luật Kinh doanh bảo hiểm 2022
+1	Nghị định 61/2020/NĐ-CP
+1	Thông tư 143/2020/TT-BQP
+1	Luật Kinh doanh bảo hiểm 2000
+1	Thông tư liên tịch 41/2014/TTLT-BYT-BTC
+1	Quyết định số 1351/
+1	Luật Bảo hiểm y tế, hồ sơ
+1	Luật Bảo hiểm xã hội ban hành 2014
+1	Thông tư 56/2017/TT-BYT
+1	Luật Tố tụng hành chính, trường hợp người bị kiện
+1	Luật Khiếu nại
+1	Thông tư 03/2021/TT-BNV
+1	Luật Cư trú để thực hiện thủ tục điều chỉnh thông tin
+1	Luật Nuôi con nuôi, hồ sơ của đứa trẻ
+1	Luật Người cao tuổi 2009
+1	Nghị định 78/2002/NĐ-CP
+1	Luật Xuất cảnh nhập cảnh của công dân Việt Nam
+1	Luật Xuất cảnh, nhập cảnh của công dân Việt Nam 2019
+1	Nghị định 138/2006/NĐ-CP
+1	Luật Ban hành văn bản quy phạm pháp luật
+1	Thông tư liên tịch 01/2014/TTLT-BCA-BQP-BLĐTBXH-BNG
+1	Nghị định 116/2020/NĐ
+1	Luật Dân quân tự vệ 2019
+1	Nghị định 82/2015/NĐ-CP
+1	Luật Quản lý và sử dụng tài sản công 2017
+1	Luật Xuất cảnh nhập cảnh của công dân Việt Nam 2019
+1	Nghị định 55/2021/NĐ-CP
+1	Nghị định 100/2013/NĐ-CP
+1	Luật Bầu cử đại biểu Quốc hội và Hội đồng nhân dân 2015
+1	Nghị định 79/2011/NĐ-CP
+1	Luật Xuất cảnh, nhập cảnh của công dân Việt Nam, thủ tục làm hộ chiếu phổ thông
+1	Thông tư 05/2013/TT-BLĐTBXH
+1	Quyết định 102/
+1	Thông tư 17/2016/TT-BLĐTBXH
+1	Thông tư 15/2011/TT-NHNN
+1	Nghị định 65/2013/NĐ-CP
+1	Thông tư 16/2012/TT-BTC
+1	Nghị định 135/2015/NĐ-CP
+1	Nghị định 22/2020/NĐ-CP
+1	Thông tư 40/2021/TT-BTC
+1	Thông tư 92
+1	Thông tư 38/2015/TT-BTC
+1	Thông tư 194/2010
+1	Luật Thuế xuất khẩu, thuế nhập khẩu 2016
+1	Nghị định 114/2020/NĐ-CP
+1	Luật Quản lý thuế 2006
+1	Nghị định 140/2016
+1	Luật Thuế giá trị gia tăng
+1	Luật Thuế tiêu thụ đặc biệt 2008
+1	Luật Trật tự
+1	Nghị định 118/2021/NĐ-CP
+1	Thông tư 18/2023/TT-BTC
+1	Nghị định 123/2021/NĐ-CP
+1	Thông tư 46/2019/TT-BGTVT
+1	Thông tư liên tịch 26/2014/TTLT-BCA
+1	Thông tư 12/2020/TT-BGTVT
+1	Luật Giao thông đường bộ và các
+1	Thông tư 88/2014/TT-BGTVT
+1	Thông tư 105/2014/TT-BTC
+1	Nghị định 46
+1	Nghị định 134/2016/NĐ-CP
+1	Luật Bảo vệ môi trường 2014
+1	Nghị định 72/2016/NĐ-CP
+1	Nghị định 155/2018/NĐ-CP
+1	Luật Quản lý ngoại thương 2017
+1	Luật An toàn thông tin mạng 2015
+1	Luật Giá 2012
+1	Nghị định 36/2008/NĐ-CP
+1	Luật Xuất bản 2012
+1	Luật An toàn thực phẩm
+1	Nghị định 111/2011/NĐ-CP
+1	Nghị định 16/2020/NĐ-CP
+1	Nghị định 78/2009/NĐ-CP
+1	Nghị định 123
+1	Nghị định 218/2013/NĐ-CP
+1	Luật Thuế thu nhập doanh nghiệp 2008
+1	Thông tư 36/2018/TT-BTC
+1	Nghị định 88/2022/NĐ-CP
+1	Thông tư 32/2020/TT-BGDĐT
+1	Quyết định 42/2007/QĐ-BGDĐT
+1	Quyết định 11/2006/QĐ-BGD
+1	Thông tư 08/2021/TT-BGDĐT
+1	Thông tư 22/2021/TT-BGDĐT
+1	Nghị định 141/2020/NĐ-CP
+1	Thông tư 12/2019/TT-BNV
+1	Thông tư 03/2018/TT-BGDĐT
+1	Thông tư 15/2014/TT-BGDĐT
+1	Thông tư liên tịch 09/2016/TTLT-BGDĐT-BTC-BLĐTBXH
+1	Quyết định 22/2001/QĐ-BGDĐT
+1	Thông tư 20
+1	Luật Phòng, chống tham nhũng 2018
+1	Nghị định 76
+1	Thông tư 04/2017/TT-BGDĐT
+1	Luật 43/2019/QH14
+1	Thông tư 36/2015/TT-BLĐTBXH
+1	Thông tư liên tịch 68/2011/TTLT-BGDĐT-BNV-BTC-BLĐTBXH
+1	Thông tư 05/2017/TT-BGDĐT
+1	Văn bản hợp nhất 01/
+1	Luật Phòng chống tham nhũng 2018
+1	Nghị định 104/2003/NĐ-CP
+1	Thông tư 10/2019/TT-BGDĐT
+1	Nghị định 20/2010/NĐ-CP
+1	Thông tư 14/2014/TT-BNV
+1	Thông tư liên tịch 20/2015/TTLT-BGDDT-BNV
+1	Thông tư liên tịch 20/2015/TTLT-BGDĐT-BNV
+1	Thông tư 14/2012/TT-BNV
+1	Luật Tiền Phong tư vấn
+1	Thông tư liên tịch 20/2015/TTLT
+1	Thông tư 77/2019/TT-BTC
+1	Nghị định 61/2006
+1	Luật Ban hành văn bản quy phạm pháp luật, văn bản quy phạm pháp luật
+1	Thông tư 19/2015/TT-BGDĐT
+1	Nghị định 34/2012/NĐ-CP
+1	Luật Nghĩa vụ quân sự mới nhất
+1	Nghị định 154/2024/NĐ-CP
+1	Nghị định 31/2014/NĐ-CP
+1	Luật Nhập cảnh, xuất cảnh, quả cảnh, cư trú của người nước ngoài
+1	Thông tư 06/2021/TT-BCA
+1	Nghị định số 87/
+1	Nghị định 138/2020/NĐ-CP
+1	Thông tư 16/2014/TT-BLĐTBXH
+1	Thông tư 63/2020/TT-BCA
+1	Thông tư 24/2019/TT-BYT
+1	Nghị định 43/2013/NĐ-CP
+1	Thông tư 25/2018/TT-BTC
+1	Luật Giám định tư pháp 2012
+1	Nghị định 44/2016/NĐ-CP
+1	Thông tư 140/2015/TT-BQP
+1	Thông tư liên tịch 03/2012/TTLT-BQP-BYT-BTC
+1	Thông tư 27/2018/TT-BNNPTNT
+1	Nghị định 100/2018/NĐ-CP
+1	Thông tư 66/2015/TT-BCA
+1	Quyết định 41/2002/QĐ-TT
+1	Luật Cư trú đã
+1	Nghị định 73/2010/NĐ-CP
+1	Nghị định 56/2010/NĐ-CP
+1	Nghị định 107/2007/NĐ-CP
+1	Luật Cư trú cũng
+1	Thông tư 18/2014/TT-BCA
+1	Nghị định 97
+1	Nghị định 72/2013/NĐ-CP
+1	Luật SHTT, ngày nộp đơn
+1	Thông tư 26/2010/TT-BYT
+1	Luật 36/2009/QH12
+1	Thông tư 11/2015/TT-
+1	Luật 50/2005/QH11
+1	Thông tư 24/2015/TT-BTTTT
+1	Luật Sở hữu trí tuệ, tính sáng tạo
+1	Luật SHTT
+1	Luật Thủ Đô
+1	Luật Hộ tịch phải có sự đồng ý của cha, mẹ người đó
+1	Thông tư 153/2013/TT-BTC
+1	Nghị định 158/2006/NĐ-CP
+1	Thông tư liên tịch 01/2016/TTLT-
+1	Nghị định 107/2014/NĐ
+1	Nghị định 117/2007/NĐ-CP
+1	Nghị định 36/2009/NĐ-CP
+1	Quyết định 01/2014/QĐ-BHXH
+1	Luật Bầu cử đại biểu Quốc hội và đại biểu Hội đồng nhân dân 2015
+1	Nghị định 87/2009/NĐ-CP
+1	Thông tư 58/2015/TT-BGTVT
+1	Pháp lệnh Dân số 2003
+1	Nghị định 107/2014/NĐ-CP
+1	Thông tư liên tịch 28/2013/TTLT-BLĐTBXH-BQP
+1	Nghị định 221/2013/NĐ-CP
+1	Nghị định 138/2013/NĐ-CP
+1	Quyết định 181
+1	Thông tư 50/2014/TT-BGTVT
+1	Luật Bẩu cử đại biểu Quốc hội và đại biểu Hội đồng nhân dân 2015
+1	Thông tư 09/2013/TT-BCT
+1	Thông tư 15/2016/TT-BCA
+1	Nghị định 27/2010/NĐ-CP
+1	Luật Cán bộ, công chức 2008
+1	Văn bản hợp nhất 8013/
+1	Thông tư 15/2014/TT-
+1	Thông tư 07/2013/TT-BCA
+1	Văn bản hợp nhất 03/
+1	Quyết định 181/
+1	Nghị định 86/2015/NĐ-CP
+1	Luật 29/2012/NĐ-CP
+1	Thông tư liên tịch 115/2015/TTLT-BTC-BTP
+1	Thông tư 40/2014/TT-BYT
+1	Luật Nhập cảnh, xuất cảnh, quá cảnh, cư trú của người nước ngoài
+1	Thông tư liên tịch 09/2013/TTLT-BCA-BQP-BTP-VKSNDTC-TANDTC
+1	Nghị định 93/2013/NĐ-CP
+1	Thông tư 14/2015/TT-BGTVT
+1	Thông tư 68/2013/TT-BCA
+1	Luật GTĐB
+1	Luật An toàn giao thông
+1	Thông tư 17/2012/TT-BCA
+1	Nghị định 171/2013/CP
+1	Nghị định 103/2008/NĐ-CP
+1	Thông tư 15/2014/BCA
+1	Thông tư 65/2012/TT-BCA
+1	Thông tư 133/2014/TT-BTC
+1	Thông tư 13/2009/TT-BGTVT
+1	Nghị quyết số 30
+1	Thông tư 56/2013/TT-BTC
+1	Thông tư 25/2014/NĐ-CP
+1	Nghị định 180/2007/NĐ-CP
+1	Nghị quyết 02/2004/NQ-HĐTP
+1	Nghị định 102/2014/NĐ-CPĐ
+1	Luật Đất đai sang làm đất ở
+1	Thông tư 08/2014
+1	Luật Đất đai, việc tính tiền đền bù
+1	Nghị định số 2/
+1	Nghị định 64/2012
+1	Thông tư 346/1998/TT-TCĐC
+1	Thông tư liên tịch 16/2015/TTLT-BTNMT-BNV-BTC
+1	Thông tư 20/2011/TT-BTP-BTNMT
+1	Nghị quyết 02/2004/NQ-
+1	Thông tư 05/2014/TT-BTP
+1	Quyết định số 959/
+1	Thông tư 97/2010/TT-BTC
+1	Luật Sĩ quan Quân đội nhân dân Việt Nam 1999
+1	Pháp lệnh 04/2012/UBTVQH13
+1	Thông tư 04/1999/TT-BCA
+1	Bộ luật Lao động nên bạn thuộc trường hợp
+1	Luật Bảo hiểm y tế có
+1	Quyết định 1439/
+1	Thông tư 04/2015/TT-BLĐTBXH
+1	Nghị định 122/2015/NĐ-CP
+1	Nghị định 54/2011/NĐ-CP
+1	Thông tư 28/2009/TT-BGDĐT
+1	Nghị định 134/2015/NĐ-CP
+1	Thông tư 59/2015/TT-BLĐXH
+1	Nghị quyết 99/2015/QH13
+1	Quyết định 812/
+1	Nghị định 66/2013
+1	Nghị định 05/2015/NĐ
+1	Nghị định 102/2013/NĐ-CP
+1	Thông tư 25/2013/TT-BLĐTBXH
+1	Quyết định 73/2011/QĐ-TT
+1	Quyết định số 26/
+1	Nghị định 15/2012/NĐ-CP
+1	Nghị định 72/2013
+1	Thông tư 47/2014/TT-BYT
+1	Thông tư 33/2010/TT-BCA
+1	Nghị định 93/2015/NĐ-CP
+1	Luật Công nghệ cao
+1	Nghị định 47/2011/NĐ-CP
+1	Nghị định 59/2011/NĐ-CP
+1	Nghị định 85/2009/NĐ-CP
+1	Thông tư 28/2014/TT-BCA
+1	Thông tư 63/2014/TT-BGTVT
+1	Nghị định 48/2010/NĐ-CP
+1	Bộ luật Hình sự như
+1	Bộ luật Dân sự) hay đã mua xe
+1	Nghị định 29/2015/NĐ-CP
+1	Nghị quyết 05/2012/NQ-HĐTP
+1	Thông tư 08/2012/TTLT-BTC-BTP
+1	Bộ luật Dân sự có
+1	Nghị định 118
+1	Thông tư 41/2011
+1	Thông tư 129/2015/TT-BTC
+1	Nghị định 83/2014/NĐ-CP
+1	Nghị định 81/2015/NĐ-CP
+1	Thông tư liên tịch 01/2012/TTLT-BYT-BTC
+1	Thông tư 121/2012/TT-BTC
+1	Nghị định 95/2015/NĐ-CP
+1	Thông tư 16/2015/TT-NHNN
+1	Thông tư 190/2013/TT-BTC
+1	Nghị định 15/2015/NĐ-CP
+1	Quyết định 51/2011/QĐ-TT
+1	Nghị định 37/2015/NĐ
+1	Nghị định 80/2013/NĐ-CP
+1	Nghị định 97/2015/NĐ-CP
+1	Thông tư 11/2015/TT-BKHCN
+1	Nghị định 106/2015/NĐ-CP
+1	Nghị định 91/2015/NĐ-CP
+1	Nghị định 30/2012/NĐ-CP
+1	Thông tư 01/2014/TT-BTC
+1	Nghị định 185/2013/NĐ-
+1	Thông tư 91/2013/TT-BTC
+1	Thông tư 20/2015/TT-BKHĐT
+1	Thông tư 04/2015/TT-NHNN
+1	Luật Đấu thầu
+1	Luật Cạnh tranh 2004
+1	Nghị định 105/2006/NĐ-CP
+1	Thông tư liên tịch 17/2007/TTLT-BCA-VKSNDTC-TANDTC-BTP
+1	Thông tư liên tịch số 17
+1	Nghị định số 167
+1	Luật Đặc xá
+1	Bộ luật Hình sự (nếu sự việc xảy ra trong
+1	Bộ luật Hình sự Việt Nam
+1	Bộ luật Hình sự để xác định thời hạn xóa án tích
+1	Bộ luật Tố tụng hình sự để xác định tính chính xác trong quyết định của cơ quan có thẩm quyền
+1	Bộ luật Hình sự với khung hình phạt nhẹ nhất
+1	Bộ luật Dân sự hoặc các
+1	Bộ luật Khi có ít nhất hai tình tiết giảm nhẹ
+1	Nghị định 44/2013/NĐ-CP
+1	Quyết định 1351/
+1	Thông tư 21/2007/TT-BLĐTBXH
+1	Nghị định 95/2013/NĐ
+1	Thông tư 13/2010/TT-BNV
+1	Thông tư 22/2013/TT-BLĐTBXH
+1	Nghị định 46/2010
+1	Nghị định 06/2010/NĐ-CP
+1	Nghị định 47/2010/NĐ-CP
+1	Luật Bảo hiểm xã hội có
+1	Thông tư 36/2015/TT
+1	Thông tư 17/2009/TT-BLĐTBXH
+1	Luật Lao động 2012
+1	Quyết định số 51/
+1	Nghị định 119/2014/NĐ-CP
+1	Nghị định 45/2014/NĐ-CPĐ
+1	Thông tư 111/2013/TTBTC
+1	Thông tư 151/2014/TT-BTC
+1	Nghị định 72/2006/NĐ-CP
+1	Nghị định 75/2002/NĐ-CP
+1	Luật Quản lý Thuế 2006
+1	Nghị định 19/2015/NĐ-CP
+1	Quyết định 31/2015/QĐ
+1	Nghị định 129/2004/NĐ-CP
+1	Thông tư 26/2015/TT-BTC
+1	Thông tư 45/2013/NĐ-CP
+1	Thông tư 166/2013/TT-BTC
+1	Thông tư 195/2015/TT-BTC
+1	Nghị định 105/2013/NĐ-CP
+1	Quyết định 78/2010/QĐ-TT
+1	Thông tư 10/2014/TT-BTC
+1	Nghị định 79/2013/NĐ-CP
+1	Nghị định 89/2006/NĐ
+1	Nghị định 47/2014/NĐ
+1	Nghị định 163/2006/NĐ-CP
+1	Thông tư 45/2013/TT-BTC
+1	Nghị định 91/2014/NĐ-CP

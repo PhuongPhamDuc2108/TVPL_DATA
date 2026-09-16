@@ -1,0 +1,78 @@
+# ============================================================================
+#  TVPL_data - .gitignore
+#  Ba nhóm chính: môi trường Python, DỮ LIỆU CÁ NHÂN, và file sinh tự động.
+# ============================================================================
+
+# ---------------------------------------------------------------- Python
+venv/
+tool_annotate/ocr_env/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# ---------------------------------------------------- Khoá & cấu hình máy
+# Không bao giờ commit key. Các script đọc GEMINI_API_KEY / DATABASE_URL từ
+# biến môi trường, nên file .env chỉ dành cho máy cá nhân.
+.env
+.env.*
+!.env.example
+*.key
+secrets.json
+
+# ============================================================================
+#  DỮ LIỆU CÁ NHÂN - KHÔNG ĐƯỢC ĐẨY LÊN
+#  Hồ sơ đơn thư của công dân thật: họ tên, CCCD, ngày sinh, địa chỉ, nội
+#  dung khiếu nại. Kể cả repo riêng tư cũng không nên đưa lên, vì đẩy rồi thì
+#  xoá khỏi lịch sử git rất phiền.
+# ============================================================================
+data_mau/
+data_mau_json/
+data_mau_ocr/
+data_mau_pdf_text/
+data_khieunai/
+data_khieunai.zip
+data/
+
+# ------------------------------------------------- Mô hình & dữ liệu nặng
+# Tải lại được từ nguồn gốc, tổng ~170 MB, không nên nằm trong git.
+tool_annotate/models/
+tool_annotate/tessdata/
+*.pth
+*.traineddata
+
+# ------------------------------------------- Kết quả crawl & cache của LLM
+# Đều tạo lại được bằng cách chạy lại script, và rất nặng.
+*.ckpt.json
+*.llm_cache.json
+chinhsachonline_dataset.json
+plo_chat_dataset.json
+plo_hoidap_dataset.json
+cso_test.json
+
+# --------------------------------------------------- File sinh tự động
+view_hieu_luc.html
+public/danh_muc_nghe.html
+nap_danh_muc.sql
+
+# ---------------------------------------------------------------- IDE
+.idea/
+.vscode/
+*.iml
+
+# Claude Code: giữ launch.json (dùng chung), bỏ cấu hình riêng từng máy
+.claude/settings.local.json
+
+# ---------------------------------------------------------------- Hệ điều hành
+Thumbs.db
+desktop.ini
+ehthumbs.db
+.DS_Store
+
+# File tạm Excel/Word mở dở (~$Review_entity_types_v5.xlsx)
+~$*
+*.tmp
+*.bak

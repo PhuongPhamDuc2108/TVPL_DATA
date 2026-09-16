@@ -1,0 +1,14 @@
+fastapi>=0.119
+uvicorn[standard]>=0.30
+psycopg2-binary>=2.9
+curl_cffi==0.15.0
+beautifulsoup4==4.12.3
+lxml==5.2.2
+nodriver==0.50.3
+# trích danh mục -> Excel (danh_muc_*.py)
+requests>=2.31
+python-docx>=1.1
+pandas>=2.0
+openpyxl>=3.1
+truststore>=0.9
+pywin32>=306        ; sys_platform == "win32"
