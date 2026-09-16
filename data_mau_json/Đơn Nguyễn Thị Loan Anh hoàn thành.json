@@ -1,0 +1,31 @@
+{
+  "file": "Đơn Nguyễn Thị Loan Anh hoàn thành.pdf",
+  "so_trang": 5,
+  "cap_nhat": "2026-09-14T09:34:12",
+  "ghi_chu": "",
+  "da_hoan_thanh": true,
+  "don_thu": [
+    {
+      "ho_ten": "Nguyễn Thị Loan Anh",
+      "cccd": "079191013187",
+      "ngay_sinh": "13/11/1991",
+      "dia_chi": "37/23 Ngô Tất Tố, P.Thạnh Mỹ Tây, TPHCM",
+      "nguyen_nhan": "Số điện thoại chính chủ xuất hiện trong hồ sơ định danh điện tử của người khác",
+      "yeu_cau": "1. Xác minh nguyên nhân số điện thoại 0937670808 xuất hiện trong hồ sơ định danh điện tử của ông Nguyễn Quốc Hân\n2. Gỡ bỏ ngay số điện thoại 0937670808 khỏi hồ sơ định danh điện tử của ông Nguyễn Quốc Hân\n3. Cập nhật chính xác dữ liệu theo đúng quy định và thông báo kết quả giải quyết cho tôi bằng văn bản",
+      "cach_giai_quyet": "tu_giai_quyet"
+    }
+  ],
+  "phieu_de_xuat": [
+    {
+      "gui_cho_ai": "Đồng chí Trung tá Trần Duy Hiển - PGĐTT",
+      "can_cu": "",
+      "noi_dung": "I. Kết quả xác minh \nQua rà soát dữ liệu trên Hệ thống Cơ sở dữ liệu quốc gia về dân dư và Hệ thống định danh và xác thực điện tử, xác định số thuê bao 0937.670.808 đã được đăng ký chính chủ và đang được sử dụng bởi công dân Nguyễn Thị Loan Anh. Tuy nhiên, trên ứng dụng VNeID của công dân Nguyễn Quốc Hân, số điện thoại nêu trên đang được hiển thị tại trường thông tin \"Số điện thoại di động - Khác\", không phải trường thông tin số điện thoại chính chủ.\nNguyên nhân trong quá trình đồng bộ dữ liệu từ kho làm giàu vào Hệ thống Cơ sở dữ liệu quốc gia về dân cư, dẫn đến số điện thoại của công dân \"Nguyễn Thị Loan Anh được hiển thị không đúng trên \"Căn cước điện tử\" thuộc tài khoản VNeID của công dân Nguyễn Quốc Hân.\nII. Đề xuất\nĐể bảo đảm tính chính xác, thông nhất của dữ liệu trên Hệ thống Cơ sở dữ liệu quốc gia về dân cư và Hệ thống định danh và xác thực điện tử, kính đề nghị: Đồng chí Phó Giám đốc giao Tổ 2 chủ trì thực hiện điều chỉnh, gỡ bỏ số thuê bao 0937.670.808 khỏi trường thông tin \"Số điện thoại di động - Khác\" trên \"Căn cước điện tử\" thuộc tài khoản VNeID của công dân Nguyễn Quốc Hân"
+    }
+  ],
+  "phieu_tra_loi": [
+    {
+      "noi_dung_tra_loi": "Ngày 23/07/2026 Cục Cảnh sát Quản lý hành chính về trật tự xã hội nhận được đơn của bà Nguyễn Thị Loan Anh (sinh ngày: 13/11/1991) về việc đề nghị xử lý dữ liệu cá nhân liên quan đến thông tin số điện thoại trên ứng dụng VNeID. Sau khi kiểm tra, rà soát trên Hệ thống cơ sở dữ liệu quốc gia về dân cư và Hệ thống định danh và xác thực điện tử, Cục Cảnh sát Quản lý hành chính về trật tự xã hội có ý kiến như sau:\nSố thuê bao 0937.670.808 đã được đăng ký là số điện thoại chính chủ của bà Nguyễn Thị Loan Anh theo thông tin trên Hệ thống cơ sở dữ liệu quốc gia về dân cư. Qua kiểm tra, xác định số điện thoại nêu trên đang được hiển thị trên ứng dụng VNeID của công dân Nguyễn Quốc Hân tại trường thông tin \"Số điện thoại di động - Khác\" trong mục \"Căn cước điện tử\". Đây là trường thông tin lưu số điện thoại khác được khai báo, không phải trường thông tin số điện thoại chính phủ của tài khoản VNeID.\nTrung tâm dữ liệu quốc gia về dân cư đã tiến hành cập nhật, gỡ bỏ số thuê bao 0937.670.808 khỏi trường thông tin \"Số điện thoại di động - Khác\" trong mục \"Căn cước điện tử\" thuộc tài khoản VNeID của ông Nguyễn Quốc Hân."
+    }
+  ],
+  "phieu_chuyen_don": []
+}

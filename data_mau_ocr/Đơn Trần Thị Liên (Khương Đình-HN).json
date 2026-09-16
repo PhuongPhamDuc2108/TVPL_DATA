@@ -1,0 +1,37 @@
+{
+  "file": "Đơn Trần Thị Liên (Khương Đình-HN).pdf",
+  "lang": "vie",
+  "engine": "gemini-vlm",
+  "pages": [
+    {
+      "page": 1,
+      "text": "",
+      "text_raw": "",
+      "text_gemini": "",
+      "gemini_loi": "HTTP 500: {\n  \"error\": {\n    \"code\": 500,\n    \"message\": \"Internal error encountered.\",\n    \"status\": \"INTERNAL\"\n  }\n}\n"
+    },
+    {
+      "page": 2,
+      "text": "",
+      "text_raw": "",
+      "text_gemini": "",
+      "gemini_loi": "HTTP 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    },
+    {
+      "page": 3,
+      "text": "",
+      "text_raw": "",
+      "text_gemini": "",
+      "gemini_loi": "HTTP 500: {\n  \"error\": {\n    \"code\": 500,\n    \"message\": \"Internal error encountered.\",\n    \"status\": \"INTERNAL\"\n  }\n}\n"
+    },
+    {
+      "page": 4,
+      "text": "",
+      "text_raw": "",
+      "text_gemini": "8\n                                            Mẫu số 13 ban hành kèm theo Thông tư số 01/2023/TT-BCA\n                                            Ngày 05/01/2023 của Bộ Công an\n\nBỘ CÔNG AN                                     CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\nCỤC CẢNH SÁT QLHC VỀ TTXH                      Độc lập - Tự do - Hạnh phúc\nSố: 9243 /TB-C06-TTDLDC                        Hà Nội, ngày 29 tháng 12 năm 2025\n\n                                    THÔNG BÁO\n                                Về việc chuyển đơn\n\n        Kính gửi: Bà Trần Thị Liên\n        Địa chỉ: Số nhà 2 ngõ 1 phố Bùi Xương Trạch, phường Khương\n        Đinh, thành phố Hà Nội\n\n        Cục Cảnh sát quản lý hành chính về trật tự xã hội nhận được đơn ghi tên bà\nđề năm 2025 (không đề ngày, tháng). Sau khi xem xét nội dung đơn, căn cứ quy\nđịnh của pháp luật, Cục Cảnh sát quản lý hành chính về trật tự xã hội đã chuyển\nđơn trên đến đồng chí Giám đốc Công an tỉnh Phú Thọ để xem xét, giải quyết.\n        Cục Cảnh sát quản lý hành chính về trật tự xã hội - Bộ Công an thông báo\nđể bà biết.\n        (Thông báo này chỉ thực hiện 01 lần)./.,\n\nNơi nhận:                                       KT. CỤC TRƯỞNG\n- Như trên;                                      PHÓ CỤC TRƯỞNG\n- Đ/c Cục trưởng (để báo cáo);\n\n- Lưu: VT, TTDLDC(T3).\n\n                                                Đại tá Ngô Như Cường",
+      "gemini_model": "gemma-4-31b-it"
+    }
+  ],
+  "gemini_model": "gemma-4-31b-it",
+  "gemini_cap_nhat": "2026-09-11T15:39:48"
+}

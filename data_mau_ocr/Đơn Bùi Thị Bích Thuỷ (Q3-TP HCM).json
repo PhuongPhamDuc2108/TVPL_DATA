@@ -1,0 +1,44 @@
+{
+  "file": "Đơn Bùi Thị Bích Thuỷ (Q3-TP HCM).pdf",
+  "lang": "vie",
+  "engine": "gemini-vlm",
+  "pages": [
+    {
+      "page": 1,
+      "text": "",
+      "text_raw": "",
+      "text_gemini": "",
+      "gemini_loi": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota ex"
+    },
+    {
+      "page": 2,
+      "text": "",
+      "text_raw": "",
+      "text_gemini": "",
+      "gemini_loi": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota ex"
+    },
+    {
+      "page": 3,
+      "text": "",
+      "text_raw": "",
+      "text_gemini": "",
+      "gemini_loi": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota ex"
+    },
+    {
+      "page": 4,
+      "text": "",
+      "text_raw": "",
+      "text_gemini": "",
+      "gemini_loi": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota ex"
+    },
+    {
+      "page": 5,
+      "text": "",
+      "text_raw": "",
+      "text_gemini": "",
+      "gemini_loi": "HTTP 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota ex"
+    }
+  ],
+  "gemini_model": "gemini-3.5-flash",
+  "gemini_cap_nhat": "2026-09-10T15:25:43"
+}

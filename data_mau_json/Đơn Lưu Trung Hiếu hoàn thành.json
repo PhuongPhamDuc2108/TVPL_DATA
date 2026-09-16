@@ -1,0 +1,31 @@
+{
+  "file": "Đơn Lưu Trung Hiếu hoàn thành.pdf",
+  "so_trang": 5,
+  "cap_nhat": "2026-09-14T09:34:01",
+  "ghi_chu": "",
+  "da_hoan_thanh": true,
+  "don_thu": [
+    {
+      "ho_ten": "Lưu Trung Hiếu",
+      "cccd": "036088013035",
+      "ngay_sinh": "",
+      "dia_chi": "Số nhà 31B thôn tiểu đoàn 8, xã Thanh Trì, Hà Nội",
+      "nguyen_nhan": "Các thông tin đã đúng nhưng không được duyệt thủ tục đăng ký người phụ thuộc cho con gái mới sinh trên VNeID",
+      "yeu_cau": "Trung tâm Dữ liệu quốc gia về dân cư trả lời vài câu hỏi sau:\n1. Bao giờ thì đăng ký của tôi được duyệt? Việc này ảnh hưởng tới việc quyết toán thuế năm 2025 của tôi.\n2. Tại sao khi làm giấy khai sinh, trên giấy khai sinh đã có thông tin bố và mẹ, sao không đồng nhất với phần mềm?\n3. Tại sao không đạt không ghi rõ nguyên nhân chi tiết mà lại trả lời chung chung là không đúng? Người duyệt đăng ký này có trình độ hiểu biết không?\n4. Tại sao ra ứng dụng VNeID mà xử lý chậm chạp lề mề? đưa ra tổng đài, Fanpage mà không có ai trả lời người dân? Phải chăng để bố trí chỗ ngồi rồi hưởng lương không làm gì?",
+      "cach_giai_quyet": "tu_giai_quyet"
+    }
+  ],
+  "phieu_de_xuat": [
+    {
+      "gui_cho_ai": "Đồng chí Thiếu tướng Vũ Văn Tấn - Cục trưởng",
+      "can_cu": "Căn cứ điểm a khoản 1 Điều 7 Thông tư số 19/2022/TT-BCA ngày 29/4/2022 của Bộ trưởng Bộ Công an quy định về việc tiếp nhận, phân loại, xử lý đơn khiếu nại, đơn kiến nghị, phản ánh trong Công an nhân dân",
+      "noi_dung": "Đơn của ông Hiếu không có chữ ký hoặc điểm chỉ nên không đủ điều kiện để xử lý. Căn cứ điểm a khoản 1 Điều 16 Thông tư số 19/2022/TT-BCA, đơn không đủ điều kiện xử lý thuộc trường hợp thu lưu đơn.\nTuy nhiên, để kịp thời giải quyết vướng mắc của công dân, góp phần hoàn thiện các ứng dụng trên VNeID phục vụ người dân, doanh nghiệp tốt hơn, Phòng 1 đề xuất đồng chí Cục trưởng giao Trung tâm DLQG về DC kiểm tra lại quy trình tiếp nhận, phê duyệt thủ tục đăng ký người phụ thuộc của ông Hiếu trên ứng dụng VNeID và tham mưu với lãnh đạo Cục trả lời công dân."
+    }
+  ],
+  "phieu_tra_loi": [
+    {
+      "noi_dung_tra_loi": "Cục Cảnh sát Quản lý hành chính về trật tự xã hội nhận được đơn (đề ngày 28/01/2026) của ông Lưu Trung Hiếu (38 tuổi; số nhà 31B, thôn tiểu đoàn 8, xã Thanh Trì, thành phố Hà Nội) về việc không tích hợp được thông tin người phụ thuộc lên trên App VNeID. Sau khi xem xét nội dung đề nghị, Cục Cảnh sát Quản lý hành chính về trật tự xã hội đã kiểm tra, xác định:\nHồ sơ ngày 12/09/2025 của ông khi thực hiện tích hợp người phụ thuộc không thành công vì thông tin: Họ tên cha, mẹ của công dân Lưu Bảo Hân (số ĐDCN: 001325018291) thiếu thông tin định danh cá nhân 12 số trên dữ liệu dân cư quốc gia.\nSau khi cơ quan Công an nơi ông thường trú thực hiện cập nhật thông tin số định danh cá nhân 12 số của cha, mẹ công dân Lưu Bảo Hân. Tời ngày 12/10/2025 khi ông thực hiện tích hợp người phụ thuộc là: Lưu Bảo Hân (số ĐDCN: 001325018291) đã trả kết thành công và hiển thị trên App VNeID ngày 03/12/2025.\nThông tin trên giấy khai sinh là dữ liệu hộ tịch gốc do cơ quan có thẩm quyền thuộc Bộ Tư pháp đăng ký, cấp theo quy định. Người đại diện hợp pháp có trách nhiệm xuất trình Giấy khai sinh của công dân tại cơ quan Công an để thực hiện cập nhật, bổ sung thông tin vào Cơ sở dữ liệu quốc gia về dân cư theo quy định. Đồng thời, thực hiện thủ tục đăng ký thường trú cho công dân vào hộ gia đình của cha, mẹ hoặc người đại diện hợp pháp đã có thông tin trong Cơ sở dữ liệu quốc gia về dân cư, bảo đảm đúng trình tự, thủ tục, và thẩm quyền."
+    }
+  ],
+  "phieu_chuyen_don": []
+}

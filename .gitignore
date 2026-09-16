@@ -29,13 +29,13 @@ secrets.json
 #  dung khiếu nại. Kể cả repo riêng tư cũng không nên đưa lên, vì đẩy rồi thì
 #  xoá khỏi lịch sử git rất phiền.
 # ============================================================================
-data_mau/
-data_mau_json/
-data_mau_ocr/
-data_mau_pdf_text/
-data_khieunai/
-data_khieunai.zip
-data/
+#data_mau/
+#data_mau_json/
+#data_mau_ocr/
+#data_mau_pdf_text/
+#data_khieunai/
+#data_khieunai.zip
+#data/
 
 # ------------------------------------------------- Mô hình & dữ liệu nặng
 # Tải lại được từ nguồn gốc, tổng ~170 MB, không nên nằm trong git.
